@@ -93,8 +93,27 @@ $ git config user.email "agustin.tech@proton.me"
 $ git config user.name "Agustin Garcia"
 ```
 
-## git 
+## git commit -m message
+
+Consolidates the changes in local repository.
 
 ```sh
+$ git commit -m "add bash and git docs"
+```
 
+## git push
+
+Pushes the changes from local to remote repository (origin).
+
+```sh
+$ git push
+info: please complete authentication in your browser...
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 6 threads
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (9/9), 1.93 KiB | 658.00 KiB/s, done.
+Total 9 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/AgustinTech/neoland-202510
+   c0018b0..6d05f65  main -> main
 ```
