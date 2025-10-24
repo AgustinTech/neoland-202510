@@ -117,3 +117,22 @@ Total 9 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
 To https://github.com/AgustinTech/neoland-202510
    c0018b0..6d05f65  main -> main
 ```
+
+## git log 
+
+Shows commits history ordered descending by time.
+
+```sh
+git log
+commit 36d12541b797a5b5ebb582eabafa0a1dee55ef69 (HEAD -> main, origin/main, origin/HEAD)
+Author: Agustin Garcia <agustin.tech@proton.me>
+Date:   Thu Oct 23 22:05:08 2025 +0200
+
+    add git commit and git push commands to git docs
+
+commit 6d05f65a1551410c2d09db74f3a8569e7ae8dd6a
+Author: Agustin Garcia <agustin.tech@proton.me>
+Date:   Thu Oct 23 21:52:03 2025 +0200
+
+    add bash and git docs
+```
