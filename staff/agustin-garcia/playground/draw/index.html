@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dibujo</title>
+
+    <style>
+        body {
+            background-color: black;
+        }
+
+            /* Perro */
+        #face {
+            width: 100px;
+            height: 100px;
+            background-color: rgb(255, 255, 255);
+            /* border-radius: 50px; */
+            position: absolute;
+            left: 100px;
+            top: 100px;
+        }
+
+        #left-eye {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            position: absolute;
+            left: 5px;
+            top: 10px;
+        }
+        #left-pupil {
+            width: 20px;
+            height: 20px;
+            background-color: black;
+            position: absolute;
+            left:10px ;
+        }
+        #right-eye {
+            width: 40px;
+            height: 40px;
+            background-color: rgb(255, 255, 255);
+            position: absolute;
+            right: 5px;
+            top: 10px;
+        }
+        #right-pupil {
+            width: 20px;
+            height: 20px;
+            background-color: rgb(0, 0, 0);
+            position: absolute;
+            right:10px ;
+        }
+
+        #nose{
+            width: 50px;
+            height: 30px;
+            background-color: rgb(0, 0, 0);
+            position: absolute;
+            left: 25px;
+            top: 50px;
+        }
+        
+        #left-hole {
+            width: 10px;
+            height: 10px;
+            background-color:rgb(107, 107, 107);
+            position: absolute;
+            left: 10px;
+            top: 10px;
+        }
+        #right-hole {
+            width: 10px;
+            height: 10px;
+            background-color: rgb(107, 107, 107);
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        #mouth{
+            width: 30px;
+            height: 10px;
+            background-color: black;
+            position: absolute;
+            left: 35px;
+            bottom: 5px;
+        }
+
+        #left-ear {
+            width: 10px;
+            height: 40px;
+            background-color: white;
+            position: absolute;
+            left: -10px;
+        }
+        #right-ear {
+            width: 10px;
+            height: 40px;
+            background-color: white;
+            position: absolute;
+            right: -10px;
+        }
+
+        /* casa  */
+
+        #casa {
+
+            width: 600px;
+            height: 300px;
+            background-color: rgb(62, 80, 106);
+            position: absolute;
+            top: 500px;
+        }
+
+        #puerta {
+            width: 150px;
+            height: 150px;
+            background-color: rgb(183, 182, 182);
+            position: absolute;
+            top: 150px;
+            left: 250px;
+        }
+
+        #manilla-izq {
+            width: 10px;
+            height: 10px;
+            background-color: rgb(0, 0, 0);
+            position: absolute;
+            border-radius: 40px;
+            top: 80px;
+            left: 50px;
+        }
+        #manilla-der {
+            width: 10px;
+            height: 10px;
+            background-color: rgb(0, 0, 0);
+            position: absolute;
+            border-radius: 40px;
+            top: 80px;
+            right: 50px;
+        }
+
+    #ventana-sup-izq{
+        width: 60px;
+        height: 90px;
+        background-color: rgb(183, 182, 182);
+        position: absolute;;
+        top: 30px;
+        left: 20px;
+    }
+    #ventana-sup-der{
+        width: 60px;
+        height: 90px;
+        background-color: rgb(183, 182, 182);
+        position: absolute;
+        top: 30px;
+        right: 20px;
+    }
+    #ventana-inf-izq{
+        width: 60px;
+        height: 90px;
+        background-color: rgb(183, 182, 182);
+        position: absolute;
+        top: 180px;
+        left: 20px;
+    }
+     #ventana-inf-der{
+        width: 60px;
+        height: 90px;
+        background-color: rgb(183, 182, 182);
+        position: absolute;
+        top: 180px;
+        right: 20px;
+    }
+    #chimenea{
+        width: 60px;
+        height: 90px;
+        background-color: rgb(120, 117, 117);
+        position: absolute;
+        top: -90px;
+        right: 20px;
+    }
+    #llama {
+        width: 60px;
+        height: 90px;
+        background-color: rgb(218, 22, 22);
+        position: absolute;
+        top: -180px;
+        right: 20px;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+    }
+    #fuego {
+        width: 30px;
+        height: 90px;
+        background-color: rgb(242, 126, 126);
+        position: absolute;
+        top: -180px;
+        right: 35px;
+        border-start-end-radius: 80px;
+    }
+    #lasvegas {
+        width: 10%;
+        top: -30px;
+        left: 230px;
+        position: absolute;
+    }
+    #luz1{
+        width: 15px;
+        height: 300px;
+        background-color: rgb(0, 113, 251);
+        position: absolute;
+        border-radius: 10px;
+        left: 120px;
+    }
+    #luz2{
+        width: 15px;
+        height: 300px;
+        background-color: rgb(255, 145, 0);
+        position: absolute;
+        border-radius: 10px;
+        left: 180px;
+    }
+    </style>
+</head>
+<body>
+    <div id="face">
+        <div id="left-eye">
+            <div id="left-pupil"></div>
+        </div>
+            <div id="right-eye">
+                <div id="right-pupil"></div>
+            </div>
+            <div id="nose">
+            <div id="left-hole"></div>
+            <div id="right-hole"></div>
+            </div>
+            <div id="mouth"></div>
+            <div id="left-ear"></div>
+            <div id="right-ear"></div>
+    </div>
+
+    <div id="casa">
+        <div id="puerta">
+            <div id="manilla-izq"></div>
+            <div id="manilla-der"></div>
+        </div>
+        <div id="lasvegas"><img src="https://freepngimg.com/thumb/las_vegas/8-2-las-vegas-free-png-image-thumb.png" alt=""></div>
+        <div id="ventana-sup-izq"></div>
+        <div id="ventana-sup-der"></div>
+        <div id="ventana-inf-izq"></div>
+        <div id="ventana-inf-der"></div>
+        <div id="chimenea"></div>
+        <div id="llama"></div>
+        <div id="fuego"></div>
+        <div id="luz1"></div>
+        <div id="luz2"></div>
+    </div>
+</body>
+</html>
