@@ -1,186 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dibujo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dibujo</title>
 
-    <style>
-        body {
-            background-color: black;
-        }
-
-            /* Perro */
-        #face {
-            width: 100px;
-            height: 100px;
-            background-color: rgb(255, 255, 255);
-            /* border-radius: 50px; */
-            position: absolute;
-            left: 100px;
-            top: 100px;
-        }
-
-        #left-eye {
-            width: 40px;
-            height: 40px;
-            background-color: white;
-            position: absolute;
-            left: 5px;
-            top: 10px;
-        }
-        #left-pupil {
-            width: 20px;
-            height: 20px;
-            background-color: black;
-            position: absolute;
-            left:10px ;
-        }
-        #right-eye {
-            width: 40px;
-            height: 40px;
-            background-color: rgb(255, 255, 255);
-            position: absolute;
-            right: 5px;
-            top: 10px;
-        }
-        #right-pupil {
-            width: 20px;
-            height: 20px;
-            background-color: rgb(0, 0, 0);
-            position: absolute;
-            right:10px ;
-        }
-
-        #nose{
-            width: 50px;
-            height: 30px;
-            background-color: rgb(0, 0, 0);
-            position: absolute;
-            left: 25px;
-            top: 50px;
-        }
-        
-        #left-hole {
-            width: 10px;
-            height: 10px;
-            background-color:rgb(107, 107, 107);
-            position: absolute;
-            left: 10px;
-            top: 10px;
-        }
-        #right-hole {
-            width: 10px;
-            height: 10px;
-            background-color: rgb(107, 107, 107);
-            position: absolute;
-            right: 10px;
-            top: 10px;
-        }
-        #mouth{
-            width: 30px;
-            height: 10px;
-            background-color: black;
-            position: absolute;
-            left: 35px;
-            bottom: 5px;
-        }
-
-        #left-ear {
-            width: 10px;
-            height: 40px;
-            background-color: white;
-            position: absolute;
-            left: -10px;
-        }
-        #right-ear {
-            width: 10px;
-            height: 40px;
-            background-color: white;
-            position: absolute;
-            right: -10px;
-        }
-
-        /* casa  */
-
-        #casa {
-
-            width: 600px;
-            height: 300px;
-            background-color: rgb(62, 80, 106);
-            position: absolute;
-            top: 500px;
-        }
-
-        #puerta {
-            width: 150px;
-            height: 150px;
-            background-color: rgb(183, 182, 182);
-            position: absolute;
-            top: 150px;
-            left: 250px;
-        }
-
-        #manilla-izq {
-            width: 10px;
-            height: 10px;
-            background-color: rgb(0, 0, 0);
-            position: absolute;
-            border-radius: 40px;
-            top: 80px;
-            left: 50px;
-        }
-        #manilla-der {
-            width: 10px;
-            height: 10px;
-            background-color: rgb(0, 0, 0);
-            position: absolute;
-            border-radius: 40px;
-            top: 80px;
-            right: 50px;
-        }
-
-    #ventana-sup-izq{
-        width: 60px;
-        height: 90px;
-        background-color: rgb(183, 182, 182);
-        position: absolute;;
-        top: 30px;
-        left: 20px;
+  <style>
+    body {
+      background-color: black;
     }
-    #ventana-sup-der{
+
+    /* Perro */
+    .perro {
+      width: 100px;
+      height: 100px;
+      background-color: rgb(255, 255, 255);
+      position: absolute;
+      left: 100px;
+      top: 100px;
+
+      & .eye {
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        position: absolute;
+        top: 5px;
+      }
+
+      & .eye-left {
+        left: 5px;
+      }
+
+      & .eye-right {
+        right: 5px;
+      }
+
+      & .pupil {
+        width: 20px;
+        height: 20px;
+        background-color: black;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+      }
+
+      & .nose {
+        width: 50px;
+        height: 30px;
+        background-color: rgb(0, 0, 0);
+        position: absolute;
+        left: 25px;
+        top: 50px;
+      }
+
+      & .hole {
+        width: 10px;
+        height: 10px;
+        background-color: rgb(128, 126, 126);
+        position: absolute;
+        top: 10px;
+      }
+
+      & .hole-left {
+        left: 10px;
+      }
+
+      & .hole-right {
+        right: 10px;
+      }
+
+      & .mouth {
+        width: 30px;
+        height: 10px;
+        background-color: black;
+        position: absolute;
+        left: 35px;
+        bottom: 5px;
+      }
+
+      & .ear {
+        width: 10px;
+        height: 40px;
+        background-color: rgb(128, 126, 126);
+        position: absolute;
+      }
+
+      & .ear-left {
+        left: -10px;
+      }
+
+      & .ear-right {
+        right: -10px;
+      }
+    }
+
+    /* casa  */
+
+    .casa {
+
+      width: 600px;
+      height: 300px;
+      background-color: rgb(62, 80, 106);
+      position: absolute;
+      top: 500px;
+
+      & .puerta {
+        width: 150px;
+        height: 150px;
+        background-color: rgb(183, 182, 182);
+        position: absolute;
+        top: 150px;
+        left: 250px;
+      }
+
+      & .manilla {
+        width: 10px;
+        height: 10px;
+        background-color: rgb(0, 0, 0);
+        position: absolute;
+        border-radius: 40px;
+        top: 80px;
+      }
+
+      & .manilla-izq {
+        left: 50px;
+      }
+
+      & .manilla-der {
+        right: 50px;
+      }
+
+
+      & .ventana-sup {
         width: 60px;
         height: 90px;
         background-color: rgb(183, 182, 182);
         position: absolute;
+        ;
         top: 30px;
+      }
+
+      & .ventana-sup-izq {
+        left: 20px;
+      }
+
+      & .ventana-sup-der {
         right: 20px;
-    }
-    #ventana-inf-izq{
+      }
+
+      & .ventana-inf {
         width: 60px;
         height: 90px;
         background-color: rgb(183, 182, 182);
         position: absolute;
         top: 180px;
+      }
+
+      & .ventana-inf-izq {
         left: 20px;
-    }
-     #ventana-inf-der{
-        width: 60px;
-        height: 90px;
-        background-color: rgb(183, 182, 182);
-        position: absolute;
-        top: 180px;
+      }
+
+      & .ventana-inf-der {
         right: 20px;
-    }
-    #chimenea{
+      }
+
+      & .chimenea {
         width: 60px;
         height: 90px;
         background-color: rgb(120, 117, 117);
         position: absolute;
         top: -90px;
         right: 20px;
-    }
-    #llama {
+      }
+
+      & .llama {
         width: 60px;
         height: 90px;
         background-color: rgb(218, 22, 22);
@@ -189,8 +183,9 @@
         right: 20px;
         border-top-right-radius: 10px;
         border-top-left-radius: 10px;
-    }
-    #fuego {
+      }
+
+      & .fuego {
         width: 30px;
         height: 90px;
         background-color: rgb(242, 126, 126);
@@ -198,246 +193,244 @@
         top: -180px;
         right: 35px;
         border-start-end-radius: 80px;
-    }
-    #lasvegas {
+      }
+
+      & .lasvegas {
         width: 10%;
         top: -30px;
         left: 230px;
         position: absolute;
-    }
-    #luz1{
+      }
+
+      & .luz1 {
         width: 15px;
         height: 300px;
         background-color: rgb(0, 113, 251);
         position: absolute;
         border-radius: 10px;
         left: 120px;
-    }
-    #luz2{
+      }
+
+      & .luz2 {
         width: 15px;
         height: 300px;
         background-color: rgb(255, 145, 0);
         position: absolute;
         border-radius: 10px;
         left: 180px;
+      }
     }
 
     /* Taza café */
-  #taza {
-    width: 100px;
-    height: 70px;
-    background-color: white;
-    border-radius: 0 0 20px 20px;
-    position: relative;
-    left: 500px;
-    top: 100px;
-  }
-
-  
-  #asa {
-    width: 30px;
-    height: 40px;
-    border: 5px solid white;
-    border-radius: 50%;
-    position: absolute;
-    right: -25px;
-    top: 15px;
-  }
-
-  
-  #cafe {
-    width: 80px;
-    height: 10px;
-    background-color: #5c2e00;
-    position: absolute;
-    top: 0;
-    left: 10px;
-    border-radius: 10px 10px 0 0;
-  }
-
-  /* Arbol */
-  #tronco {
-    width: 30px;
-    height: 100px;
-    background-color: #8b4513;
-    position: relative;
-    top: 50px;
-    left: 350px;
-  }
-  #copa {
-    width: 100px;
-    height: 100px;
-    background-color: #228b22;
-    border-radius: 50%;
-    position: absolute;
-    top: -60px;
-    left: -35px;
-  }
-
-  /* Robot */
+    .taza {
+      width: 100px;
+      height: 70px;
+      background-color: white;
+      border-radius: 0 0 20px 20px;
+      position: relative;
+      left: 500px;
+      top: 100px;
 
 
-  #robot {
-    position: relative;
-    width: 140px;
-    height: 230px; 
-    left: 700px;
 
-  }
+      & .asa {
+        width: 30px;
+        height: 40px;
+        border: 5px solid white;
+        border-radius: 50%;
+        position: absolute;
+        right: -25px;
+        top: 15px;
+      }
 
-  #cabeza {
-    width: 100px;
-    height: 80px;
-    background-color: #c0c0c0;
-    border-radius: 10px;
-    position: relative;
-    top: 0%;
-    left: 10px;
-  }
 
-  
-  #ojo-izq {
-    width: 20px;
-    height: 20px;
-    background-color: black;
-    border-radius: 50%;
-    position: absolute;
-    top: 25px;
-    left: 20px;
-  }
+      & .cafe {
+        width: 80px;
+        height: 10px;
+        background-color: #5c2e00;
+        position: absolute;
+        top: 0;
+        left: 10px;
+        border-radius: 10px 10px 0 0;
+      }
+    }
 
-  #ojo-der {
-    width: 20px;
-    height: 20px;
-    background-color: black;
-    border-radius: 50%;
-    position: absolute;
-    top: 25px;
-    right: 20px;
-  }
+    /* Arbol */
+    .tronco {
+      width: 30px;
+      height: 100px;
+      background-color: #8b4513;
+      position: relative;
+      top: 50px;
+      left: 350px;
+    }
 
-  
-  #antena {
-    width: 6px;
-    height: 25px;
-    background-color: #999;
-    position: absolute;
-    top: -25px;
-    left: 47px;
-  }
+    .copa {
+      width: 100px;
+      height: 100px;
+      background-color: #228b22;
+      border-radius: 50%;
+      position: absolute;
+      top: -60px;
+      left: -35px;
+    }
 
-  #luz {
-    width: 12px;
-    height: 12px;
-    background-color: red;
-    border-radius: 50%;
-    position: absolute;
-    top: -35px;
-    left: 43px;
-  }
+    /* Robot */
 
-  
-  #cuerpo {
-    width: 120px;
-    height: 130px;
-    background-color: #999;
-    border-radius: 10px;
-    position: relative;
-  }
 
-  
-  #brazo-izq {
-    width: 25px;
-    height: 70px;
-    background-color: #777;
-    position: absolute;
-    top: 20px;
-    left: -25px;
-  }
+    .robot {
+      position: relative;
+      width: 140px;
+      height: 230px;
+      left: 700px;
 
-  #brazo-der {
-    width: 25px;
-    height: 70px;
-    background-color: #777;
-    position: absolute;
-    top: 20px;
-    right: -25px;
-  }
 
- 
-  #pierna-izq {
-    width: 25px;
-    height: 60px;
-    background-color: #666;
-    position: absolute;
-    bottom: -60px;
-    left: 25px;
-  }
 
-  #pierna-der {
-    width: 25px;
-    height: 60px;
-    background-color: #666;
-    position: absolute;
-    bottom: -60px;
-    right: 25px;
-  }
-    </style>
+      & .cabeza {
+        width: 100px;
+        height: 80px;
+        background-color: #c0c0c0;
+        border-radius: 10px;
+        position: relative;
+        top: 0%;
+        left: 10px;
+      }
+
+      & .ojo {
+        width: 20px;
+        height: 20px;
+        background-color: black;
+        border-radius: 50%;
+        position: absolute;
+        top: 25px;
+      }
+
+      & .ojo-izq {
+        left: 20px;
+      }
+
+      & .ojo-der {
+        right: 20px;
+      }
+
+
+      & .antena {
+        width: 6px;
+        height: 25px;
+        background-color: #999;
+        position: absolute;
+        top: -25px;
+        left: 47px;
+      }
+
+      & .luz {
+        width: 12px;
+        height: 12px;
+        background-color: red;
+        border-radius: 50%;
+        position: absolute;
+        top: -35px;
+        left: 43px;
+      }
+
+
+      & .cuerpo {
+        width: 120px;
+        height: 130px;
+        background-color: #999;
+        border-radius: 10px;
+        position: relative;
+      }
+
+      & .brazo {
+        width: 25px;
+        height: 70px;
+        background-color: #777;
+        position: absolute;
+        top: 20px;
+      }
+
+      & .brazo-izq {
+        left: -25px;
+      }
+
+      & .brazo-der {
+        right: -25px;
+      }
+
+      & .pierna {
+        width: 25px;
+        height: 60px;
+        background-color: #666;
+        position: absolute;
+        bottom: -60px;
+      }
+
+      & .pierna-izq {
+        left: 25px;
+      }
+
+      & .pierna-der {
+        right: 25px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div id="face">
-        <div id="left-eye">
-            <div id="left-pupil"></div>
-        </div>
-            <div id="right-eye">
-                <div id="right-pupil"></div>
-            </div>
-            <div id="nose">
-            <div id="left-hole"></div>
-            <div id="right-hole"></div>
-            </div>
-            <div id="mouth"></div>
-            <div id="left-ear"></div>
-            <div id="right-ear"></div>
+  <div class="perro">
+    <div class="eye eye-left">
+      <div class="pupil left-pupil"></div>
     </div>
-
-    <div id="casa">
-        <div id="puerta">
-            <div id="manilla-izq"></div>
-            <div id="manilla-der"></div>
-        </div>
-        <div id="lasvegas"><img src="https://freepngimg.com/thumb/las_vegas/8-2-las-vegas-free-png-image-thumb.png" alt=""></div>
-        <div id="ventana-sup-izq"></div>
-        <div id="ventana-sup-der"></div>
-        <div id="ventana-inf-izq"></div>
-        <div id="ventana-inf-der"></div>
-        <div id="chimenea"></div>
-        <div id="llama"></div>
-        <div id="fuego"></div>
-        <div id="luz1"></div>
-        <div id="luz2"></div>
+    <div class="eye eye-right">
+      <div class="pupil right-pupil"></div>
     </div>
-    <div id="taza">
-    <div id="cafe"></div>
-    <div id="asa"></div>
+    <div class="nose">
+      <div class="hole hole-left"></div>
+      <div class="hole hole-right"></div>
+    </div>
+    <div class="mouth"></div>
+    <div class="ear ear-left"></div>
+    <div class="ear ear-right"></div>
   </div>
-<div id="tronco">
-<div id="copa"></div>
+  <div class="casa">
+    <div class="puerta">
+      <div class=" manilla manilla-izq"></div>
+      <div class="manilla manilla-der"></div>
+    </div>
+    <div class="lasvegas"><img src="https://freepngimg.com/thumb/las_vegas/8-2-las-vegas-free-png-image-thumb.png">
+    </div>
+    <div class="ventana-sup ventana-sup-izq"></div>
+    <div class="ventana-sup ventana-sup-der"></div>
+    <div class="ventana-inf ventana-inf-izq"></div>
+    <div class="ventana-inf ventana-inf-der"></div>
+    <div class="chimenea"></div>
+    <div class="llama"></div>
+    <div class="fuego"></div>
+    <div class="luz1"></div>
+    <div class="luz2"></div>
+  </div>
+  <div class="taza">
+    <div class="cafe"></div>
+    <div class="asa"></div>
+  </div>
+  <div class="tronco">
+    <div class="copa"></div>
   </div>
 
-  <div id="robot">
-    <div id="antena"></div>
-    <div id="luz"></div>
-    <div id="cabeza">
-      <div id="ojo-izq"></div>
-      <div id="ojo-der"></div>
+  <div class="robot">
+    <div class="antena"></div>
+    <div class="luz"></div>
+    <div class="cabeza">
+      <div class="ojo ojo-izq"></div>
+      <div class=" ojo ojo-der"></div>
     </div>
-    <div id="cuerpo">
-      <div id="brazo-izq"></div>
-      <div id="brazo-der"></div>
-      <div id="pierna-izq"></div>
-      <div id="pierna-der"></div>
+    <div class="cuerpo">
+      <div class="brazo brazo-izq"></div>
+      <div class="brazo brazo-der"></div>
+      <div class="pierna pierna-izq"></div>
+      <div class="pierna pierna-der"></div>
     </div>
-
 </body>
+
 </html>
