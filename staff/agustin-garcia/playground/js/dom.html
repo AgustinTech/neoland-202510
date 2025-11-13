@@ -1,11 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dom tree</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>DOM</title>
+	<!--
+	<style>
+		.mi-clase{
+			border-style: solid;
+			background-color: pink;
+		}
+	</style>
+	-->
 </head>
+
 <body>
-    
+	<h1>Hello, DOM!</h1>
+
+	<div>
+		<p>A ver, que le ponemos?</p>
+	</div>
+
+	<script>
+		// document.childNodes[1].childNodes[2].childNodes[1].style.backgroundColor = 'green';
+		// document.childNodes[1].childNodes[2].childNodes[1].style.color = 'orange';
+		// document.childNodes[1].childNodes[2].childNodes[1].style.paddingLeft = '.5rem';
+		// document.childNodes[1].childNodes[2].childNodes[3].childNodes[1].style.color = 'red';
+
+		const div = document.createElement('div');
+		div.textContent = 'Descubriendo DOM';
+		//div.className = 'mi-clase'
+		div.style.borderStyle = 'solid';
+		div.style.backgroundColor = 'rgb(126, 126, 126)';
+		document.body.appendChild(div);
+
+		const box = document.createElement('div')
+		box.style.width = '100px'
+		box.style.height = '100px'
+		box.style.backgroundColor = 'red'
+		box.style.position = 'absolute'
+		box.style.top = '200px'
+		box.style.left = '150px'
+		document.body.appendChild(box)
+
+		const minibox = document.createElement('div')
+		minibox.style.width = '50px'
+		minibox.style.height = '50px'
+		minibox.style.backgroundColor = 'blue'
+		minibox.style.position = 'absolute'
+		minibox.style.top = '25px'
+		minibox.style.right = '25px'
+		minibox.style.borderRadius = '50%'
+		box.appendChild(minibox)
+
+		const robot = document.createElement('div')
+		robot.style.width = '200px'
+		robot.style.height = '200px'
+		robot.style.backgroundColor = 'grey'
+		robot.style.position = 'absolute'
+		robot.style.top = '400px'
+		robot.style.left = '100px'
+		document.body.appendChild(robot)
+
+		const eyeL = document.createElement('div')
+		eyeL.style.width = '40px'
+		eyeL.style.height = '40px'
+		eyeL.style.backgroundColor = 'silver'
+		eyeL.style.position = 'absolute'
+		eyeL.style.top = '50px'
+		eyeL.style.left = '35px'
+		robot.appendChild(eyeL)
+
+		const eyeR = document.createElement('div')
+		eyeR.style.width = '40px'
+		eyeR.style.height = '40px'
+		eyeR.style.backgroundColor = 'silver'
+		eyeR.style.position = 'absolute'
+		eyeR.style.top = '50px'
+		eyeR.style.right = '35px'
+		robot.appendChild(eyeR)
+
+		const mouth = document.createElement('div')
+		mouth.style.width = '80px'
+		mouth.style.height = '40px'
+		mouth.style.backgroundColor = 'silver'
+		mouth.style.position = 'absolute'
+		mouth.style.top = '130px'
+		mouth.style.right = '60px'
+		robot.appendChild(mouth)
+
+		const cono1 = document.createElement('div')
+		cono1.style.width = '30px'
+		cono1.style.height = '80px'
+		cono1.style.backgroundColor = 'lightgrey'
+		cono1.style.position = 'absolute'
+		cono1.style.top = '320px'
+		cono1.style.left = '590px'
+		cono1.style.borderBottomLeftRadius = '50%'
+		cono1.style.borderBottomRightRadius = '50%'
+		cono1.style.borderTopRightRadius = '80%'
+		cono1.style.borderTopLeftRadius = '80%'
+		document.body.appendChild(cono1)
+
+
+		const conosup1 = document.createElement('div')
+		conosup1.style.width = '15px'
+		conosup1.style.height = '40px'
+		conosup1.style.backgroundColor = 'lightgrey'
+		conosup1.style.position = 'absolute'
+		conosup1.style.top = '293px'
+		conosup1.style.left = '597px'
+		conosup1.style.borderBottomLeftRadius = '90%'
+		conosup1.style.borderBottomRightRadius = '90%'
+		conosup1.style.borderTopLeftRadius = '90px'
+		conosup1.style.borderTopRightRadius = '90px'
+		document.body.appendChild(conosup1)
+
+		const cono2 = document.createElement('div')
+		cono2.style.width = '30px'
+		cono2.style.height = '80px'
+		cono2.style.backgroundColor = 'lightgrey'
+		cono2.style.position = 'absolute'
+		cono2.style.top = '320px'
+		cono2.style.left = '620px'
+		cono2.style.borderBottomLeftRadius = '50%'
+		cono2.style.borderBottomRightRadius = '50%'
+		cono2.style.borderTopRightRadius = '80%'
+		cono2.style.borderTopLeftRadius = '80%'
+		document.body.appendChild(cono2)
+
+		const conosup2 = document.createElement('div')
+		conosup2.style.width = '15px'
+		conosup2.style.height = '40px'
+		conosup2.style.backgroundColor = 'lightgrey'
+		conosup2.style.position = 'absolute'
+		conosup2.style.top = '293px'
+		conosup2.style.left = '627px'
+		conosup2.style.borderBottomLeftRadius = '90%'
+		conosup2.style.borderBottomRightRadius = '90%'
+		conosup2.style.borderTopLeftRadius = '90px'
+		conosup2.style.borderTopRightRadius = '90px'
+		document.body.appendChild(conosup2)
+
+		const bolo = document.createElement('div')
+		bolo.style.width = '100px'
+		bolo.style.height = '100px'
+		bolo.style.backgroundColor = 'black'
+		bolo.style.position = 'absolute'
+		bolo.style.borderRadius = '60%'
+		bolo.style.top = '300px'
+		bolo.style.left = "500px"
+		document.body.appendChild(bolo)
+
+		const hueco1 = document.createElement('div')
+		hueco1.style.width = '15px'
+		hueco1.style.height = '15px'
+		hueco1.style.backgroundColor = 'grey'
+		hueco1.style.position = 'absolute'
+		hueco1.style.top = '20px'
+		hueco1.style.left = "20px"
+		hueco1.style.borderRadius = '60px'
+		bolo.appendChild(hueco1)
+
+		const hueco2 = document.createElement('div')
+		hueco2.style.width = '15px'
+		hueco2.style.height = '15px'
+		hueco2.style.backgroundColor = 'grey'
+		hueco2.style.position = 'absolute'
+		hueco2.style.top = '50px'
+		hueco2.style.left = "25px"
+		hueco2.style.borderRadius = '60px'
+		bolo.appendChild(hueco2)
+
+		const hueco3 = document.createElement('div')
+		hueco3.style.width = '15px'
+		hueco3.style.height = '15px'
+		hueco3.style.backgroundColor = 'grey'
+		hueco3.style.position = 'absolute'
+		hueco3.style.top = '30px'
+		hueco3.style.left = "45px"
+		hueco3.style.borderRadius = '60px'
+		bolo.appendChild(hueco3)
+
+		const cookie = document.createElement('div')
+		cookie.style.width = '120px'
+		cookie.style.height = '120px'
+		cookie.style.backgroundColor = 'Bisque'
+		cookie.style.position = 'absolute'
+		cookie.style.top = '450px'
+		cookie.style.left = "550px"
+		cookie.style.borderRadius = '60px'
+		cookie.style.borderStyle = 'solid'
+		cookie.style.borderColor = 'brown'
+		document.body.appendChild(cookie)
+
+		const pepita1 = document.createElement('div')
+		pepita1.style.width = '30px'
+		pepita1.style.height = '30px'
+		pepita1.style.backgroundColor = 'Maroon'
+		pepita1.style.position = 'absolute'
+		pepita1.style.top = '20px'
+		pepita1.style.left = "20px"
+		pepita1.style.borderRadius = '10px'
+		cookie.appendChild(pepita1)
+
+		const pepita2 = document.createElement('div')
+		pepita2.style.width = '30px'
+		pepita2.style.height = '30px'
+		pepita2.style.backgroundColor = 'Maroon'
+		pepita2.style.position = 'absolute'
+		pepita2.style.top = '50px'
+		pepita2.style.left = "60px"
+		pepita2.style.borderRadius = '10px'
+		cookie.appendChild(pepita2)
+
+
+		const pepita3 = document.createElement('div')
+		pepita3.style.width = '20px'
+		pepita3.style.height = '20px'
+		pepita3.style.backgroundColor = 'Maroon'
+		pepita3.style.position = 'absolute'
+		pepita3.style.top = '70px'
+		pepita3.style.left = "30px"
+		pepita3.style.borderRadius = '5px'
+		cookie.appendChild(pepita3)
+
+	</script>
 </body>
+
 </html>
