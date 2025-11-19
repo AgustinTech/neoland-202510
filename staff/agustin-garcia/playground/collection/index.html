@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection</title>
+</head>
+
+<body style="background-color: black;">
+    <script>
+        function Collection() {
+            this.count = 0
+        }
+
+        Collection.prototype.add = function (item) {
+            this[this.count] = item
+            this.count++
+        }
+
+        Collection.prototype.remove = function (item) {
+            for (var i = 0; i < this.count; i++)
+                if (this[i] === item)
+                    delete this[i]
+        }
+
+        Collection.prototype.removeFirst = function (item) {
+            for (var i = 0; i < this.count; i++)
+                if (this[i] === item) {
+                    delete this[i]
+
+                    return
+                }
+        }
+
+        Collection.prototype.update = function (target, replacement) {
+            for (var i = 0; i < this.count; i++)
+                if (this[i] === target)
+                    this[i] = replacement
+        }
+
+        Collection.prototype.updateFirst = function (target, replacement) {
+            for (var i = 0; i < this.count; i++)
+                if (this[i] === target) {
+                    this[i] = replacement
+
+                    return
+                }
+        }
+
+        Collection.prototype.push = function (item) {
+            this[this.count] = item
+            this.count++
+
+            return this.count
+        }
+
+        Collection.prototype.pop = function () {
+            const lastItem = this[this.count - 1]
+            delete this[this.count - 1]
+            this.count--
+
+            return lastItem
+        }
+
+        // TODO implement Collection.prototype.includes
+        Collection.prototype.includes = function (target) {
+            for (let i = 0; i < this.count; i++) {
+                if (this[i] === target) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        // TODO implement Collection.prototype.indexOf
+        Collection.prototype.indexOf = function (target) {
+            for (let i = 0; i < this.count; i++) {
+                if (this[i] === target) return i
+            }
+            return 'No se encontro indice🤷🏻‍♂️'
+        }
+
+        // TODO implement Collection.prototype.reverse
+        Collection.prototype.reverse = function () {
+            let elementos = [];
+            while (this.count > 0) {
+                elementos.push(this.pop());
+            }
+            for (let i = 0; i < elementos.length; i++) {
+                this.push(elementos[i]);
+            }
+        };
+
+
+        // TODO jodlin: Collection.prototype.sort
+        // TODO sergio: Collection.prototype.shift
+
+        // test
+
+        const names = new Collection()
+        names.add('Juan')
+        names.add('Jorge')
+        names.add('Agus')
+        names.add('Albert')
+        names.add('Sergio')
+
+        const colors = new Collection()
+        colors.add('red')
+        colors.add('green')
+        colors.add('blue')
+
+        const nums = new Collection()
+        nums.add(3.141516) // PI
+        nums.add(73) // (..)
+        nums.add(10101)
+
+    </script>
+</body>
+
+</html>
