@@ -22,16 +22,18 @@ function Owner(passport, name, surname, address, phone, email) {
 }
 
 
-function Pet(id, userId, chip, name, gender, birthdate, species, race, colors) {
+    function Pet(id, userId, /* chip, */ name, /* gender, */ birthdate, weight, image, /* species, */ /*  race, */ /* colors */) {
     this.id = id
     this.userId = userId
-    this.chip = chip
+    // this.chip = chip
     this.name = name
-    this.gender = gender
+    // this.gender = gender
     this.birthdate = birthdate
-    this.species = species
-    this.race = race
-    this.colors = colors
+    this.weight = weight
+    this.image = image
+    // this.species = species
+    // this.race = race
+    // this.colors = colors
 }
 
 function Vaccine(id, name, description) {
@@ -51,7 +53,7 @@ function Data() {
     this.pets = []
     this.petsCount = 0
     this.vaccines = []
-    this.loggerInUserId = null
+    this.loggedInUserId = null
 }
 
 // users
@@ -116,12 +118,12 @@ Data.prototype.insertPet = function (pet) {
     this.petsCount++
 }
 
-Data.prototype.setLoggedInUserId = function(userId){
-    this.loggerInUserId = userId
+Data.prototype.setLoggedInUserId = function (userId) {
+    this.loggedInUserId = userId
 }
 
-Data.prototype.getLoggedInUserId = function(){
-    return this.loggerInUserId
+Data.prototype.getLoggedInUserId = function () {
+    return this.loggedInUserId
 }
 
 Data.prototype.findPetsByOwnerPassport = function (passport) {

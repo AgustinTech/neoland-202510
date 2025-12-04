@@ -48,7 +48,7 @@ Logic.prototype.loginUser = function (username, password) {
 
     if (user === null) throw new Error('user does not exists')
 
-    if (user.password !== password) throw new Error('invalid password')
+    if (user.password !== password) throw new Error('incorrect password')
 
     data.setLoggedInUserId(user.id)
 
@@ -59,8 +59,26 @@ Logic.prototype.logoutUser = function () {
 }
 
 
-Logic.prototype.addPet = function (name, birthdate, weight, image) {
+Logic.prototype.addPetUser = function (name, birthdate, weight, image) {
 
+    if (typeof name !== 'string') throw new Error('invalid name type')
+    if (name.length < 1) throw new Error('invalid name length')
+
+    if (typeof birthdate !== 'string') throw new Error('invalid birthdate type')
+
+    const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/
+    if (!isoDateRegex.test(birthdate)) throw new Error('invalid birthdate format')
+
+    if (typeof weight !== 'number' || isNaN(weight)) throw new Error('invalid weight type')
+
+    if (typeof image !== 'string') throw new Error('invalid image type')
+
+    const urlRegex = /http(s)?:\/\/(www.)?[a-zA-Z]+(\.[a-zA-Z]+)+(\/(\w|[-_%.#?=&+])+)+/g
+    if (!urlRegex.test(image)) throw new Error('invalid image format')
+
+    const pet = new Pet('pet-' + data.petsCount, data.getLoggedInUserId(), name, birthdate, weight, image)
+
+    data.insertPet(pet)
 }
 
 
