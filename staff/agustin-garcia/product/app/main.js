@@ -5,16 +5,15 @@ document.body.className = 'px-6'
 
 // landing
 const landingView = document.createElement('div')
-landingView.className = 'bg-[grey]'
-
+landingView.style.display = 'none'
 const landingTitle = document.createElement('h1')
 landingTitle.textContent = 'MyPet'
-landingTitle.className = 'text-white text-3xl font-bold'
+landingTitle.className = 'text-3xl font-bold'
 landingView.appendChild(landingTitle)
 
 const landingWelcome = document.createElement('p')
 landingWelcome.textContent = 'Welcome!'
-landingWelcome.className = 'text-white text-3xl'
+landingWelcome.className = 'text-3xl'
 landingView.appendChild(landingWelcome)
 
 
@@ -22,14 +21,14 @@ const landingAccess = document.createElement('p')
 const landingLoginLink = document.createElement('a')
 landingLoginLink.textContent = 'Login'
 landingLoginLink.href = ''
-landingLoginLink.className = 'border-yellow-500 border-2 rounded-xl bg-[dodgerblue] underline   '
+landingLoginLink.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2'
 landingAccess.appendChild(landingLoginLink)
 const landingOrText = document.createTextNode(' or ')
 landingAccess.appendChild(landingOrText)
 const landingRegisterLink = document.createElement('a')
 landingRegisterLink.textContent = 'Register'
 landingRegisterLink.href = ''
-landingRegisterLink.className = 'border-yellow-500 border-2 rounded-xl bg-[dodgerblue] underline'
+landingRegisterLink.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2'
 landingAccess.appendChild(landingRegisterLink)
 landingView.appendChild(landingAccess)
 
@@ -59,48 +58,52 @@ registerView.style.display = 'none'
 
 const registerTitle = document.createElement('h1')
 registerTitle.textContent = 'MyPet'
-registerTitle.className = 'text-white text-3xl bg-[grey] font-bold'
+registerTitle.className = 'text-3xl font-bold'
 registerView.appendChild(registerTitle)
 const registerSubtitle = document.createElement('h2')
 registerSubtitle.textContent = 'Register'
 registerSubtitle.className = 'font-bold'
 registerView.appendChild(registerSubtitle)
 const registerForm = document.createElement('form')
-registerForm.className = 'border-2 border-[black]'
+registerForm.className = 'flex flex-col'
 const registerNameLabel = document.createElement('label')
-registerNameLabel.textContent = 'Name: '
+registerNameLabel.textContent = 'Name '
 registerNameLabel.htmlFor = 'name'
 registerForm.appendChild(registerNameLabel)
 const registerNameInput = document.createElement('input')
 registerNameInput.id = 'name'
 registerNameInput.type = 'text'
-registerNameInput.placeholder = 'Pepito'
+registerNameInput.placeholder = 'Nombre'
+registerNameInput.className = 'border px-1 rounded-xl'
 registerForm.appendChild(registerNameInput)
 const registerEmailLabel = document.createElement('label')
-registerEmailLabel.textContent = 'Email: '
+registerEmailLabel.textContent = 'Email '
 registerForm.appendChild(registerEmailLabel)
 const registerEmailInput = document.createElement('input')
 registerEmailInput.id = 'email'
 registerEmailInput.htmlFor = 'email'
 registerEmailInput.type = 'email'
-registerEmailInput.placeholder = 'pepito@grillo.com'
+registerEmailInput.placeholder = 'Email'
+registerEmailInput.className = 'border px-1 rounded-xl'
 registerForm.appendChild(registerEmailInput)
 const registerUsernameLabel = document.createElement('label')
 registerUsernameLabel.htmlFor = 'username'
-registerUsernameLabel.textContent = 'Username:'
+registerUsernameLabel.textContent = 'Username'
 registerForm.appendChild(registerUsernameLabel)
 const registerUsernameInput = document.createElement('input')
 registerUsernameInput.id = 'username'
 registerUsernameInput.type = 'text'
-registerUsernameInput.placeholder = 'PepitoGrillo33'
+registerUsernameInput.placeholder = 'Username'
+registerUsernameInput.className = 'border px-1 rounded-xl'
 registerForm.appendChild(registerUsernameInput)
 const registerPasswordLabel = document.createElement('label')
 registerPasswordLabel.htmlFor = 'password'
-registerPasswordLabel.textContent = 'Password:'
+registerPasswordLabel.textContent = 'Password'
 registerForm.appendChild(registerPasswordLabel)
 const registerPasswordInput = document.createElement('input')
 registerPasswordInput.id = 'password'
 registerPasswordInput.type = 'password'
+registerPasswordInput.className = 'border px-1 rounded-xl'
 registerForm.appendChild(registerPasswordInput)
 const registerShowPasswordButton = document.createElement('button')
 
@@ -110,27 +113,31 @@ registerShowPasswordButton.addEventListener('click', function (event) {
     if (registerPasswordInput.type === 'password') {
         registerPasswordInput.type = 'text'
         registerShowPasswordButton.textContent = 'Hide'
+        registerPasswordInput.className = 'border px-1 bg-[gold]'
     } else {
         registerPasswordInput.type = 'password'
         registerShowPasswordButton.textContent = 'Show'
+        registerPasswordInput.className = 'border px-1 '
     }
 })
+
 registerShowPasswordButton.textContent = 'Show'
 registerShowPasswordButton.type = 'button'
-registerShowPasswordButton.className = 'border-yellow-500 border-2 rounded-xl bg-[grey]'
+registerShowPasswordButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-end'
 registerForm.appendChild(registerShowPasswordButton)
 const registerPasswordRepeatLabel = document.createElement('label')
 registerPasswordRepeatLabel.htmlFor = 'passwordrepeat'
-registerPasswordRepeatLabel.textContent = 'Repeat Password:'
+registerPasswordRepeatLabel.textContent = 'Repeat Password'
 registerForm.appendChild(registerPasswordRepeatLabel)
 const registerPasswordRepeatInput = document.createElement('input')
 registerPasswordRepeatInput.id = 'passwordrepeat'
 registerPasswordRepeatInput.type = 'password'
+registerPasswordRepeatInput.className = 'border px-1 rounded-xl'
 registerForm.appendChild(registerPasswordRepeatInput)
 const registerShowPasswordRepeatButton = document.createElement('button')
 registerShowPasswordRepeatButton.textContent = 'Show'
 registerShowPasswordRepeatButton.type = 'button'
-registerShowPasswordRepeatButton.className = 'border-yellow-500 border-2 rounded-xl bg-[grey]'
+registerShowPasswordRepeatButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-end'
 registerForm.appendChild(registerShowPasswordRepeatButton)
 
 registerShowPasswordRepeatButton.addEventListener('click', function (event) {
@@ -139,9 +146,11 @@ registerShowPasswordRepeatButton.addEventListener('click', function (event) {
     if (registerPasswordRepeatInput.type === 'password') {
         registerPasswordRepeatInput.type = 'text'
         registerShowPasswordRepeatButton.textContent = 'Hide'
+        registerPasswordRepeatInput.className = 'border px-1 bg-[gold]'
     } else {
         registerPasswordRepeatInput.type = 'password'
         registerShowPasswordRepeatButton.textContent = 'Show'
+        registerPasswordRepeatInput.className = 'border px-1'
     }
 })
 
@@ -149,7 +158,7 @@ registerShowPasswordRepeatButton.addEventListener('click', function (event) {
 const registerSubmitButton = document.createElement('button')
 registerSubmitButton.textContent = 'Register'
 registerSubmitButton.type = 'submit'
-registerSubmitButton.className = 'border-yellow-500 border-2 rounded-xl bg-[dodgerblue]'
+registerSubmitButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-center px-1'
 registerForm.appendChild(registerSubmitButton)
 registerView.appendChild(registerForm)
 
@@ -178,7 +187,7 @@ registerForm.addEventListener('submit', function (event) {
 const registerLoginLink = document.createElement('a')
 registerLoginLink.textContent = 'Login'
 registerLoginLink.href = ''
-registerLoginLink.className = 'border-yellow-500 border-2 rounded-xl bg-[dodgerblue]'
+registerLoginLink.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2'
 registerView.appendChild(registerLoginLink)
 
 registerLoginLink.addEventListener('click', function (event) {
@@ -204,31 +213,39 @@ loginView.style.display = 'none'
 
 const loginTitle = document.createElement('h1')
 loginTitle.textContent = 'MyPet'
-loginTitle.className = 'text-white text-3xl bg-[grey]'
+loginTitle.className = 'text-3xl font-bold'
 loginView.appendChild(loginTitle)
 
 const loginSubtitle = document.createElement('h2')
 loginSubtitle.textContent = 'Login '
+loginSubtitle.className = 'font-bold'
 loginView.appendChild(loginSubtitle)
 
 const loginForm = document.createElement('form')
-loginForm.className = 'border-2 border-black'
+loginForm.className = 'flex flex-col'
 const loginUsernameLabel = document.createElement('label')
 loginUsernameLabel.htmlFor = 'username'
-loginUsernameLabel.textContent = 'Username:'
+loginUsernameLabel.textContent = 'Username'
 loginForm.appendChild(loginUsernameLabel)
 const loginUsernameInput = document.createElement('input')
 loginUsernameInput.type = 'text'
 loginUsernameInput.id = 'username'
+loginUsernameInput.className = 'border px-1 rounded-xl'
 loginForm.appendChild(loginUsernameInput)
 const loginPasswordLabel = document.createElement('label')
 loginPasswordLabel.htmlFor = 'password'
-loginPasswordLabel.textContent = 'Password:'
+loginPasswordLabel.textContent = 'Password'
 loginForm.appendChild(loginPasswordLabel)
 const loginPasswordInput = document.createElement('input')
 loginPasswordInput.id = 'password'
 loginPasswordInput.type = 'password'
-
+loginPasswordInput.className = 'border px-1 rounded-xl'
+loginForm.appendChild(loginPasswordInput)
+const loginSubmitButton = document.createElement('button')
+loginSubmitButton.type = 'submit'
+loginSubmitButton.textContent = 'Login'
+loginSubmitButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-center px-1'
+loginForm.appendChild(loginSubmitButton)
 const loginShowPasswordButton = document.createElement('button')
 
 loginShowPasswordButton.addEventListener('click', function (event) {
@@ -237,29 +254,25 @@ loginShowPasswordButton.addEventListener('click', function (event) {
     if (loginPasswordInput.type === 'password') {
         loginPasswordInput.type = 'text'
         loginShowPasswordButton.textContent = 'Hide'
+        loginPasswordInput.className = 'border px-1 bg-[gold]'
     } else {
         loginPasswordInput.type = 'password'
         loginShowPasswordButton.textContent = 'Show'
+        loginPasswordInput.className = 'border px-1'
     }
 })
 loginShowPasswordButton.textContent = 'Show'
 loginShowPasswordButton.type = 'button'
-loginShowPasswordButton.className = 'border-yellow-500 border-2 rounded-xl bg-[grey]'
+loginShowPasswordButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-end'
 loginForm.appendChild(loginShowPasswordButton)
 
-loginForm.appendChild(loginPasswordInput)
-const loginSubmitButton = document.createElement('button')
-loginSubmitButton.type = 'submit'
-loginSubmitButton.textContent = 'Login'
-loginSubmitButton.className = 'border-yellow-500 border-2 rounded-xl bg-[dodgerblue]'
 
-loginForm.appendChild(loginSubmitButton)
 loginView.appendChild(loginForm)
 
 const loginRegisterLink = document.createElement('a')
 loginRegisterLink.textContent = 'Register'
 loginRegisterLink.href = ''
-loginRegisterLink.className = 'border-yellow-500 border-2 rounded-xl bg-[dodgerblue]'
+loginRegisterLink.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue]  px-2'
 loginView.appendChild(loginRegisterLink)
 
 loginRegisterLink.addEventListener('click', function (event) {
@@ -301,21 +314,34 @@ document.body.appendChild(loginView)
 
 const homeView = document.createElement('div')
 homeView.style.display = 'none'
-homeView.className = 'bg-[grey]'
 
 const homeTitle = document.createElement('h1')
 homeTitle.textContent = 'MyPet'
-homeTitle.className = 'text-white text-3xl font-bold'
+homeTitle.className = 'text-3xl font-bold'
 homeView.appendChild(homeTitle)
 
 const homeSubtitle = document.createElement('h2')
 homeSubtitle.textContent = 'Welcome Home'
-homeSubtitle.className = 'text-white text-2xl font-bold'
 homeView.appendChild(homeSubtitle)
+
+
+const homeAddPetButton = document.createElement('button')
+homeAddPetButton.type = 'button'
+homeAddPetButton.textContent = '+Pet'
+homeAddPetButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-1'
+homeView.appendChild(homeAddPetButton)
+
+homeAddPetButton.addEventListener('click', function(event){
+    event.preventDefault()
+
+    homeView.style.display = 'none'
+    addPetView.style.display = ''
+
+})
 
 const logoutButton = document.createElement('button')
 logoutButton.textContent = 'Logout'
-logoutButton.className = 'border-yellow-500 border-2 rounded-xl bg-[dodgerblue]'
+logoutButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] flex justify-self-end'
 homeView.appendChild(logoutButton)
 
 logoutButton.addEventListener('click', function (event) {
@@ -327,4 +353,95 @@ logoutButton.addEventListener('click', function (event) {
 })
 
 
+
 document.body.appendChild(homeView)
+
+// add pet
+
+const addPetView = document.createElement('div')
+addPetView.style.display = ''
+
+const addPetTitle = document.createElement('h1')
+addPetTitle.textContent = 'MyPet'
+addPetTitle.className = 'text-3xl font-bold'
+addPetView.appendChild(addPetTitle)
+
+const addPetTopPanel = document.createElement('div')
+addPetTopPanel.className = 'flex justify-between'
+addPetView.appendChild(addPetTopPanel)
+
+const addPetSubtitle = document.createElement('h2')
+addPetSubtitle.textContent = 'Add Pet'
+addPetSubtitle.className = 'text-2xl font-bold'
+addPetView.appendChild(addPetSubtitle)
+
+const addPetBackLink = document.createElement('a')
+addPetBackLink.textContent = '< Back'
+addPetBackLink.href = ''
+addPetBackLink.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue]  px-2 underline'
+addPetView.appendChild(addPetBackLink)
+
+addPetBackLink.addEventListener('click', function (event) {
+    event.preventDefault()
+
+    addPetView.style.display = 'none'
+    homeView.style.display = ''
+})
+
+const addPetForm = document.createElement('form')
+addPetForm.className = 'flex flex-col'
+const addPetNameLabel = document.createElement('label')
+addPetNameLabel.htmlFor = 'name'
+addPetNameLabel.textContent = 'Name'
+addPetForm.appendChild(addPetNameLabel)
+const addPetNameInput = document.createElement('input')
+addPetNameInput.type = 'text'
+addPetNameInput.id = 'Name'
+addPetNameInput.className = 'border px-1 rounded-xl'
+addPetForm.appendChild(addPetNameInput)
+const addBirthdateLabel = document.createElement('label')
+addBirthdateLabel.htmlFor = 'date'
+addBirthdateLabel.textContent = 'Date of Birth'
+addPetForm.appendChild(addBirthdateLabel)
+const addBirthdateInput = document.createElement('input')
+addBirthdateInput.id = 'date'
+addBirthdateInput.type = 'date'
+addBirthdateInput.className = 'border px-1 rounded-xl'
+addPetForm.appendChild(addBirthdateInput)
+const addPetWeightLabel = document.createElement('label')
+addPetWeightLabel.htmlFor = 'weight'
+addPetWeightLabel.textContent = 'Weight (kg)'
+addPetForm.appendChild(addPetWeightLabel)
+const addPetWeightInput = document.createElement('input')
+addPetWeightInput.id = 'weight'
+addPetWeightInput.type = 'number'
+addPetWeightInput.className = 'border px-1 rounded-xl'
+addPetForm.appendChild(addPetWeightInput)
+const addpetImageLabel = document.createElement('label')
+addpetImageLabel.id = 'image'
+addpetImageLabel.textContent = 'image'
+addPetForm.appendChild(addpetImageLabel)
+const addPetImageInput = document.createElement('input')
+addPetImageInput.id = 'image'
+addPetImageInput.type = 'url'
+addPetImageInput.className = 'border px-1 rounded-xl'
+addPetForm.appendChild(addPetImageInput)
+const addPetSubmitButton = document.createElement('button')
+addPetSubmitButton.type = 'submit'
+addPetSubmitButton.textContent = 'Add Pet'
+addPetSubmitButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-center px-1 self-center mt-4'
+addPetForm.appendChild(addPetSubmitButton)
+addPetView.appendChild(addPetForm)
+
+addPetForm.addEventListener('submit', function(event) {
+    event.preventDefault()
+
+    const name = addPetNameInput.value
+    const birthdate = addBirthdateInput.value
+    const weight = addPetWeightInput.value
+    const image = addPetImageInput.value
+
+    console.log(name, birthdate, weight, image)
+})
+
+document.body.appendChild(addPetView)

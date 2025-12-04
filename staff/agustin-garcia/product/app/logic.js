@@ -50,7 +50,13 @@ Logic.prototype.loginUser = function (username, password) {
 
     if (user.password !== password) throw new Error('invalid password')
 
+    data.setLoggedInUserId(user.id)
+
 }
+
+    Logic.prototype.addPet = function(name, birthdate, weight, image){
+        
+    }
 
 
 Logic.prototype.registerOwner = function (passport, name, surname, address, phone, email) {

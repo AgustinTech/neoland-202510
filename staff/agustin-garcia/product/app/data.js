@@ -51,6 +51,7 @@ function Data() {
     this.pets = []
     this.petsCount = 0
     this.vaccines = []
+    this.loggerInUserId = null
 }
 
 // users
@@ -113,6 +114,14 @@ Data.prototype.findOwnerByPassport = function (ownerPassport) {
 Data.prototype.insertPet = function (pet) {
     this.pets.push(pet)
     this.petsCount++
+}
+
+Data.prototype.setLoggedInUserId = function(userId){
+    this.loggerInUserId = userId
+}
+
+Data.prototype.getLoggedInUserId = function(){
+    return this.loggerInUserId
 }
 
 Data.prototype.findPetsByOwnerPassport = function (passport) {
