@@ -187,7 +187,7 @@ registerForm.addEventListener('submit', function (event) {
 const registerLoginLink = document.createElement('a')
 registerLoginLink.textContent = 'Login'
 registerLoginLink.href = ''
-registerLoginLink.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2'
+registerLoginLink.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2 mt-4'
 registerView.appendChild(registerLoginLink)
 
 registerLoginLink.addEventListener('click', function (event) {
@@ -244,7 +244,7 @@ loginForm.appendChild(loginPasswordInput)
 const loginSubmitButton = document.createElement('button')
 loginSubmitButton.type = 'submit'
 loginSubmitButton.textContent = 'Login'
-loginSubmitButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-center px-1'
+loginSubmitButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-center px-2 mt-4'
 loginForm.appendChild(loginSubmitButton)
 const loginShowPasswordButton = document.createElement('button')
 
@@ -338,12 +338,12 @@ homeAddPetButton.addEventListener('click', function (event) {
     addPetView.style.display = ''
 })
 
-const logoutButton = document.createElement('button')
-logoutButton.textContent = 'Logout'
-logoutButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] '
-homeView.appendChild(logoutButton)
+const homeLogoutButton = document.createElement('button')
+homeLogoutButton.textContent = 'Logout'
+homeLogoutButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] '
+homeView.appendChild(homeLogoutButton)
 
-logoutButton.addEventListener('click', function (event) {
+homeLogoutButton.addEventListener('click', function (event) {
     event.preventDefault()
 
     logic.logoutUser()
