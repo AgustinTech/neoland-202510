@@ -45,7 +45,7 @@ function Vaccine(id, name, description) {
 
 function Data() {
     this.users = []
-    this.userCount = 0
+    this.usersCount = 0
     this.owners = []
     this.ownersCount = 0
     this.pets = []
@@ -57,7 +57,7 @@ function Data() {
 // users
 Data.prototype.insertUser = function (user) {
     this.users.push(user)
-    this.userCount++
+    this.usersCount++
 }
 
 Data.prototype.findUserByEmail = function (email) {

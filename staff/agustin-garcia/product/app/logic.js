@@ -54,9 +54,14 @@ Logic.prototype.loginUser = function (username, password) {
 
 }
 
-    Logic.prototype.addPet = function(name, birthdate, weight, image){
-        
-    }
+Logic.prototype.logoutUser = function () {
+    data.setLoggedInUserId(null)
+}
+
+
+Logic.prototype.addPet = function (name, birthdate, weight, image) {
+
+}
 
 
 Logic.prototype.registerOwner = function (passport, name, surname, address, phone, email) {

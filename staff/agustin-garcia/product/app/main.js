@@ -5,7 +5,7 @@ document.body.className = 'px-6'
 
 // landing
 const landingView = document.createElement('div')
-landingView.style.display = 'none'
+// landingView.style.display = ''
 const landingTitle = document.createElement('h1')
 landingTitle.textContent = 'MyPet'
 landingTitle.className = 'text-3xl font-bold'
@@ -331,25 +331,25 @@ homeAddPetButton.textContent = '+Pet'
 homeAddPetButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-1'
 homeView.appendChild(homeAddPetButton)
 
-homeAddPetButton.addEventListener('click', function(event){
+homeAddPetButton.addEventListener('click', function (event) {
     event.preventDefault()
 
     homeView.style.display = 'none'
     addPetView.style.display = ''
-
 })
 
 const logoutButton = document.createElement('button')
 logoutButton.textContent = 'Logout'
-logoutButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] flex justify-self-end'
+logoutButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] '
 homeView.appendChild(logoutButton)
 
 logoutButton.addEventListener('click', function (event) {
     event.preventDefault()
 
+    logic.logoutUser()
+
     homeView.style.display = 'none'
     loginView.style.display = ''
-
 })
 
 
@@ -359,7 +359,7 @@ document.body.appendChild(homeView)
 // add pet
 
 const addPetView = document.createElement('div')
-addPetView.style.display = ''
+addPetView.style.display = 'none'
 
 const addPetTitle = document.createElement('h1')
 addPetTitle.textContent = 'MyPet'
@@ -419,7 +419,7 @@ addPetWeightInput.className = 'border px-1 rounded-xl'
 addPetForm.appendChild(addPetWeightInput)
 const addpetImageLabel = document.createElement('label')
 addpetImageLabel.id = 'image'
-addpetImageLabel.textContent = 'image'
+addpetImageLabel.textContent = 'Image'
 addPetForm.appendChild(addpetImageLabel)
 const addPetImageInput = document.createElement('input')
 addPetImageInput.id = 'image'
@@ -433,7 +433,7 @@ addPetSubmitButton.className = 'text-white border-yellow-500 border-2 rounded-xl
 addPetForm.appendChild(addPetSubmitButton)
 addPetView.appendChild(addPetForm)
 
-addPetForm.addEventListener('submit', function(event) {
+addPetForm.addEventListener('submit', function (event) {
     event.preventDefault()
 
     const name = addPetNameInput.value
