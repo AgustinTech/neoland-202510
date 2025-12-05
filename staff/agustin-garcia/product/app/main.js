@@ -5,7 +5,7 @@ document.body.className = 'px-6'
 
 // landing
 const landingView = document.createElement('div')
-// landingView.style.display = ''
+landingView.style.display = 'none'
 const landingTitle = document.createElement('h1')
 landingTitle.textContent = 'MyPet'
 landingTitle.className = 'text-3xl font-bold'
@@ -313,7 +313,7 @@ document.body.appendChild(loginView)
 // Home View
 
 const homeView = document.createElement('div')
-homeView.style.display = 'none'
+homeView.style.display = ''
 
 const homeTitle = document.createElement('h1')
 homeTitle.textContent = 'MyPet'
@@ -324,12 +324,15 @@ const homeSubtitle = document.createElement('h2')
 homeSubtitle.textContent = 'Welcome Home'
 homeView.appendChild(homeSubtitle)
 
+const homePetTopPanel = document.createElement('div')
+homePetTopPanel.className = 'flex justify-between'
+homeView.appendChild(homePetTopPanel)
 
 const homeAddPetButton = document.createElement('button')
 homeAddPetButton.type = 'button'
 homeAddPetButton.textContent = '+Pet'
 homeAddPetButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-1'
-homeView.appendChild(homeAddPetButton)
+homePetTopPanel.appendChild(homeAddPetButton)
 
 homeAddPetButton.addEventListener('click', function (event) {
     event.preventDefault()
@@ -341,7 +344,7 @@ homeAddPetButton.addEventListener('click', function (event) {
 const homeLogoutButton = document.createElement('button')
 homeLogoutButton.textContent = 'Logout'
 homeLogoutButton.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] '
-homeView.appendChild(homeLogoutButton)
+homePetTopPanel.appendChild(homeLogoutButton)
 
 homeLogoutButton.addEventListener('click', function (event) {
     event.preventDefault()
