@@ -150,6 +150,10 @@ Logic.prototype.registerPet = function (id, userId, chip, name, gender, birthdat
 
     data.insertPet(pet)
 }
+
+Logic.prototype.getPets = function(){
+    
+}
 // instance
 
 const logic = new Logic()

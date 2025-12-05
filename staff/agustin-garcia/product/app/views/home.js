@@ -1,5 +1,3 @@
-// Home View
-
 const homeView = document.createElement('div')
 homeView.style.display = ''
 
