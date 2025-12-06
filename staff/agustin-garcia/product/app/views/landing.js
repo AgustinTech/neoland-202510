@@ -1,5 +1,5 @@
 const landingView = document.createElement('div')
-landingView.style.display = 'none'
+landingView.style.display = ''
 const landingTitle = document.createElement('h1')
 landingTitle.textContent = 'MyPet'
 landingTitle.className = 'text-3xl font-bold'

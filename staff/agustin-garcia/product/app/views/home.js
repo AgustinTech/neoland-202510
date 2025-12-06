@@ -1,5 +1,5 @@
 const homeView = document.createElement('div')
-homeView.style.display = ''
+homeView.style.display = 'none'
 
 const homeTitle = document.createElement('h1')
 homeTitle.textContent = 'MyPet'
@@ -37,10 +37,18 @@ homeLogoutButton.addEventListener('click', function (event) {
 
     logic.logoutUser()
 
+    for (let i = homePetList.children.length - 1; i >= 0; i--) {
+        const child = homePetList.children[i]
+
+        homePetList.remove(child)
+        // child.remove()
+    }
+
     homeView.style.display = 'none'
     loginView.style.display = ''
 })
 
-
+const homePetList = document.createElement('ul')
+homeView.appendChild(homePetList)
 
 document.body.appendChild(homeView)

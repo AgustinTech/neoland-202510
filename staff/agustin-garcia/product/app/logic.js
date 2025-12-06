@@ -59,7 +59,12 @@ Logic.prototype.logoutUser = function () {
 }
 
 
-Logic.prototype.addPetUser = function (name, birthdate, weight, image) {
+Logic.prototype.addPet = function (name, birthdate, weight, image) {
+    if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
+
+    const user = data.findUserById(data.getLoggedInUserId())
+    if (user === null) throw new Error('user does not exists')
+
 
     if (typeof name !== 'string') throw new Error('invalid name type')
     if (name.length < 1) throw new Error('invalid name length')
@@ -151,8 +156,16 @@ Logic.prototype.registerPet = function (id, userId, chip, name, gender, birthdat
     data.insertPet(pet)
 }
 
-Logic.prototype.getPets = function(){
-    
+Logic.prototype.getPets = function () {
+    if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
+
+    const user = data.findUserById(data.getLoggedInUserId())
+    if (user === null) throw new Error('user does not exists')
+
+
+    const pets = data.findPetByUserId(data.getLoggedInUserId())
+
+    return pets
 }
 // instance
 

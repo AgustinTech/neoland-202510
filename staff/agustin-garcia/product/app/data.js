@@ -22,7 +22,7 @@ function Owner(passport, name, surname, address, phone, email) {
 }
 
 
-    function Pet(id, userId, /* chip, */ name, /* gender, */ birthdate, weight, image, /* species, */ /*  race, */ /* colors */) {
+function Pet(id, userId, /* chip, */ name, /* gender, */ birthdate, weight, image, /* species, */ /*  race, */ /* colors */) {
     this.id = id
     this.userId = userId
     // this.chip = chip
@@ -66,8 +66,7 @@ Data.prototype.findUserByEmail = function (email) {
     for (let i = 0; i < this.users.length; i++) {
         const user = this.users[i]
 
-        if (user.email === email)
-            return email
+        if (user.email === email) return user
     }
 
     return null
@@ -76,8 +75,17 @@ Data.prototype.findUserByUsername = function (username) {
     for (let i = 0; i < this.users.length; i++) {
         const user = this.users[i]
 
-        if (user.username === username)
-            return user
+        if (user.username === username) return user
+    }
+
+    return null
+}
+
+Data.prototype.findUserById = function (id) {
+    for (let i = 0; i < this.users.length; i++) {
+        const user = this.users[i]
+
+        if (user.id === id) return user
     }
 
     return null
@@ -149,6 +157,19 @@ Data.prototype.findPetById = function (petId) {
     }
 
     return null
+}
+
+
+Data.prototype.findPetByUserId = function (userId) {
+    const foundPets = []
+    for (let i = 0; i < this.pets.length; i++) {
+        const pet = this.pets[i]
+
+        if (pet.userId === userId)
+            foundPets.push(pet)
+    }
+
+    return foundPets
 }
 
 Data.prototype.findPetByPassport = function (passport) {

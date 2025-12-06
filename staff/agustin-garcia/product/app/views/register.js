@@ -58,11 +58,11 @@ registerShowPasswordButton.addEventListener('click', function (event) {
     if (registerPasswordInput.type === 'password') {
         registerPasswordInput.type = 'text'
         registerShowPasswordButton.textContent = 'Hide'
-        registerPasswordInput.className = 'border px-1 bg-[gold]'
+        registerPasswordInput.className = 'border px-1 bg-[gold] rounded-xl'
     } else {
         registerPasswordInput.type = 'password'
         registerShowPasswordButton.textContent = 'Show'
-        registerPasswordInput.className = 'border px-1 '
+        registerPasswordInput.className = 'border px-1 rounded-xl'
     }
 })
 
@@ -91,11 +91,11 @@ registerShowPasswordRepeatButton.addEventListener('click', function (event) {
     if (registerPasswordRepeatInput.type === 'password') {
         registerPasswordRepeatInput.type = 'text'
         registerShowPasswordRepeatButton.textContent = 'Hide'
-        registerPasswordRepeatInput.className = 'border px-1 bg-[gold]'
+        registerPasswordRepeatInput.className = 'border px-1 bg-[gold] rounded-xl'
     } else {
         registerPasswordRepeatInput.type = 'password'
         registerShowPasswordRepeatButton.textContent = 'Show'
-        registerPasswordRepeatInput.className = 'border px-1'
+        registerPasswordRepeatInput.className = 'border px-1 rounded-xl'
     }
 })
 
