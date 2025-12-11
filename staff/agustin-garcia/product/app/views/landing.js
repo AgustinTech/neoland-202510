@@ -1,46 +1,45 @@
-const landingView = document.createElement('div')
-landingView.style.display = ''
-const landingTitle = document.createElement('h1')
-landingTitle.textContent = 'MyPet'
-landingTitle.className = 'text-3xl font-bold'
-landingView.appendChild(landingTitle)
+const landingView = createView()
 
-const landingWelcome = document.createElement('p')
-landingWelcome.textContent = 'Welcome!'
-landingWelcome.className = 'text-3xl'
-landingView.appendChild(landingWelcome)
+const landingTitle = createTitle()
+setTextContent(landingTitle, 'MyPet')
+setClass(landingTitle, 'text-3xl font-bold')
+addChild(landingView, landingTitle)
+
+const landingWelcome = createParagraph()
+setTextContent(landingWelcome, 'Welcome!')
+setClass(landingWelcome, 'text-3xl')
+addChild(landingView, landingWelcome)
 
 
-const landingAccess = document.createElement('p')
-const landingLoginLink = document.createElement('a')
-landingLoginLink.textContent = 'Login'
-landingLoginLink.href = ''
-landingLoginLink.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2'
-landingAccess.appendChild(landingLoginLink)
-const landingOrText = document.createTextNode(' or ')
-landingAccess.appendChild(landingOrText)
-const landingRegisterLink = document.createElement('a')
-landingRegisterLink.textContent = 'Register'
-landingRegisterLink.href = ''
-landingRegisterLink.className = 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2'
-landingAccess.appendChild(landingRegisterLink)
-landingView.appendChild(landingAccess)
+const landingNavigation = createNavigation()
+
+const landingLoginLink = createLink()
+setTextContent(landingLoginLink, 'Login')
+setClass(landingLoginLink, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2')
+addChild(landingNavigation, landingLoginLink)
+
+const landingOrText = createTextNode(' or ')
+addChild(landingNavigation, landingOrText)
+
+const landingRegisterLink = createLink()
+setTextContent(landingRegisterLink, 'Register')
+setClass(landingRegisterLink, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2')
+addChild(landingNavigation, landingRegisterLink)
+
+addChild(landingView, landingNavigation)
 
 landingLoginLink.addEventListener('click', function (event) {
     event.preventDefault()
 
-    landingView.style.display = 'none'
-    loginFeedback.textContent = ''
-    loginView.style.display = ''
+    hideView(landingView)
+    showView(loginView)
 })
 
 landingRegisterLink.addEventListener('click', function (event) {
     event.preventDefault()
 
-    landingView.style.display = 'none'
-    registerFeedback.textContent = ''
-    registerForm.reset()
-    registerView.style.display = ''
+    hideView(landingView)
+    showView(registerView)
 })
 
-document.body.appendChild(landingView)
+addChild(document.body, landingView)

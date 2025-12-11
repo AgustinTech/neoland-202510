@@ -59,6 +59,19 @@ Logic.prototype.logoutUser = function () {
 }
 
 
+
+Logic.prototype.getUsername = function () {
+    for (let i = 0; i < data.users.length; i++) {
+        const user = data.users[i]
+
+        if (data.getLoggedInUserId() === user.id) {
+            return user.name
+        }
+    }
+
+    throw new Error('user not found')
+}
+
 Logic.prototype.addPet = function (name, birthdate, weight, image) {
     if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
 
