@@ -100,6 +100,28 @@ Logic.prototype.addPet = function (name, birthdate, weight, image) {
 }
 
 
+Logic.prototype.deletePet = function (petId) {
+    if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
+
+    const user = data.findUserById(data.getLoggedInUserId())
+    if (user === null) throw new Error('user does not exists')
+
+    if (typeof petId !== 'string') throw new Error("invalid pet-id type")
+
+    const petIdRegex = /^\pet-[0-9]+$/
+    if (!petIdRegex.test(petId)) throw new Error('invalid pet-id format')
+
+    const pet = data.findPetById(petId)
+
+    if (pet === null) throw new Error('pet not found')
+
+    if (pet.userId !== data.getLoggedInUserId()) throw new Error('user not owner of pet')
+
+    const petIndex = data.pets.indexOf(pet)
+
+    data.pets.splice(petIndex, 1)
+}
+
 Logic.prototype.registerOwner = function (passport, name, surname, address, phone, email) {
     if (typeof passport !== 'string') throw new Error('invalid passport type')
     if (passport.length < 6) throw new Error('invalid passport lenght')

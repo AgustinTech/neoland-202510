@@ -92,6 +92,8 @@ Data.prototype.findUserById = function (id) {
 }
 
 
+
+
 // owner 
 
 Data.prototype.insertOwner = function (owner) {
@@ -145,6 +147,17 @@ Data.prototype.findPetsByOwnerPassport = function (passport) {
     }
 
     return foundPets
+}
+
+
+Data.prototype.findPetUserById = function (petId) {
+    for (let i = 0; i < this.pets.length; i++) {
+        const pet = this.pets[i]
+
+        if (pet.id === id) return pet
+    }
+
+    return null
 }
 
 

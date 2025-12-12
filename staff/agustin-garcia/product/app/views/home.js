@@ -38,6 +38,7 @@ homeLogoutButton.addEventListener('click', function (event) {
     logic.logoutUser()
 
     clearHomePetList()
+    setTextContent(homeFeedback, '')
 
     hideView(homeView)
     showView(loginView)
@@ -55,7 +56,7 @@ setClass(homeDeletePanel, 'w-full h-full fixed top-0 left-0 bg-black/75 flex jus
 addChild(homeView, homeDeletePanel)
 
 const homeDeleteConfirmPanel = createPanel()
-setClass(homeDeleteConfirmPanel,'bg-white border-black border-2 p-2')
+setClass(homeDeleteConfirmPanel, 'bg-white border-black border-2 p-2')
 
 const homeDeletePanelParagraph = createParagraph()
 setClass(homeDeletePanelParagraph, 'text-center')
@@ -67,6 +68,7 @@ setClass(homeDeleteButtonsPanel, 'flex justify-center gap-2')
 
 const homeDeleteCancelButton = createButton()
 setTextContent(homeDeleteCancelButton, '❌')
+setClass(homeDeleteCancelButton, 'cursor-pointer')
 addChild(homeDeleteButtonsPanel, homeDeleteCancelButton)
 
 homeDeleteCancelButton.addEventListener('click', function (event) {
@@ -78,14 +80,34 @@ homeDeleteCancelButton.addEventListener('click', function (event) {
 const homeDeleteConfirmButton = createButton()
 setTextContent(homeDeleteConfirmButton, '✅')
 addChild(homeDeleteButtonsPanel, homeDeleteConfirmButton)
+setClass(homeDeleteConfirmButton, 'cursor-pointer')
+
+homeDeleteConfirmButton.addEventListener('click', function (event) {
+    event.preventDefault()
+
+    try {
+        logic.deletePet(selectedPetId)
+
+        clearHomePetList()
+        setTextContent(homeFeedback, '')
+        renderHomePetList()
+
+        hideView(homeDeletePanel)
+    } catch (error) {
+        setTextContent(homeFeedback, error.message)
+
+        hideView(homeDeletePanel)
+    }
+})
 
 addChild(homeDeleteConfirmPanel, homeDeleteButtonsPanel)
 
 addChild(homeDeletePanel, homeDeleteConfirmPanel)
 
+let selectedPetId = null
+
 function renderHomePetList() {
     const pets = logic.getPets()
-
     for (let i = 0; i < pets.length; i++) {
         const pet = pets[i]
 
@@ -93,8 +115,8 @@ function renderHomePetList() {
         setClass(panel, 'flex items-center gap-4')
 
         const petItem = createListItem()
-        setClass(petItem, 'flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 m-6 rounded-md max-w-sm w-full ')
 
+        setClass(petItem, 'flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full ')
         const image = createImage()
         setSource(image, pet.image)
         setClass(image, 'rounded-full w-20 h-20 object-cover')
@@ -108,6 +130,7 @@ function renderHomePetList() {
         addChild(petItem, panel)
 
         const deleteButton = createButton()
+
         setTextContent(deleteButton, '🗑️')
         addClass(deleteButton, 'justify-self-end')
         addChild(petItem, deleteButton)
@@ -115,12 +138,16 @@ function renderHomePetList() {
         deleteButton.addEventListener('click', function (event) {
             event.preventDefault()
 
+            selectedPetId = pet.id
             showView(homeDeletePanel)
         })
 
         addChild(homePetList, petItem)
     }
 }
+
+const homeFeedback = createParagraph()
+addChild(homeView, homeFeedback)
 
 function clearHomePetList() {
     for (let i = homePetList.children.length - 1; i >= 0; i--) {
