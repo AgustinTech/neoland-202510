@@ -18,7 +18,7 @@ addChild(addPetView, addPetSubtitle)
 const addPetBackLink = createLink()
 setTextContent(addPetBackLink, '< Back')
 addPetBackLink.href = ''
-setClass(addPetBackLink, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue]  px-2 underline')
+setClass(addPetBackLink, 'text-white rounded-xl bg-[black]  px-2 underline')
 addChild(addPetView, addPetBackLink)
 
 addPetBackLink.addEventListener('click', function (event) {
@@ -78,7 +78,7 @@ addChild(addPetForm, addPetImageInput)
 const addPetSubmitButton = createButton()
 setType(addPetSubmitButton, 'submit')
 setTextContent(addPetSubmitButton, 'Add Pet')
-setClass(addPetSubmitButton, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-center px-1 self-center mt-4')
+setClass(addPetSubmitButton, 'text-white rounded-xl bg-[black] self-center px-1 self-center mt-4')
 addChild(addPetForm, addPetSubmitButton)
 addChild(addPetView, addPetForm)
 

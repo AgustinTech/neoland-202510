@@ -15,7 +15,7 @@ const landingNavigation = createNavigation()
 
 const landingLoginLink = createLink()
 setTextContent(landingLoginLink, 'Login')
-setClass(landingLoginLink, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2')
+setClass(landingLoginLink, 'text-white rounded-xl bg-[black] px-2')
 addChild(landingNavigation, landingLoginLink)
 
 const landingOrText = createTextNode(' or ')
@@ -23,7 +23,7 @@ addChild(landingNavigation, landingOrText)
 
 const landingRegisterLink = createLink()
 setTextContent(landingRegisterLink, 'Register')
-setClass(landingRegisterLink, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2')
+setClass(landingRegisterLink, 'text-white rounded-xl bg-[black] px-2')
 addChild(landingNavigation, landingRegisterLink)
 
 addChild(landingView, landingNavigation)

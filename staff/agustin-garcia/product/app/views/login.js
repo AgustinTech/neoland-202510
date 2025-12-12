@@ -39,7 +39,7 @@ addChild(loginForm, loginPasswordInput)
 const loginShowPasswordButton = createButton()
 setTextContent(loginShowPasswordButton, 'Show')
 setType(loginShowPasswordButton, 'button')
-setClass(loginShowPasswordButton, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-end')
+setClass(loginShowPasswordButton, 'text-white rounded-xl bg-[black] self-end')
 addChild(loginForm, loginShowPasswordButton)
 
 const PwdCapsFlag = createSpan()
@@ -73,7 +73,7 @@ loginPasswordInput.addEventListener('keydown', function (event) {
 const loginSubmitButton = createButton()
 setType(loginSubmitButton, 'submit')
 setTextContent(loginSubmitButton, 'Login')
-setClass(loginSubmitButton, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-center px-2 mt-4')
+setClass(loginSubmitButton, 'text-white rounded-xl bg-[black] self-center px-2 mt-4')
 addChild(loginForm, loginSubmitButton)
 addChild(loginView, loginForm)
 
@@ -101,7 +101,7 @@ loginForm.addEventListener('submit', function (event) {
 
 const loginRegisterLink = createLink()
 setTextContent(loginRegisterLink, 'Register')
-setClass(loginRegisterLink, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue]  px-2')
+setClass(loginRegisterLink, 'text-white rounded-xl bg-[black]  px-2')
 addChild(loginView, loginRegisterLink)
 
 loginRegisterLink.addEventListener('click', function (event) {

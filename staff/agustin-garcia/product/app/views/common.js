@@ -20,8 +20,12 @@ function removeChild(element, childElement) {
     element.removeChild(childElement)
 }
 
-function setClass(element, clazz) {
-    element.className = clazz
+function setClass(element, value) {
+    element.className = value
+}
+
+function addClass(element, value) {
+    element.classList.add(value)
 }
 
 function createTextNode(text) {
@@ -67,7 +71,10 @@ function setStep(element, value) {
 // interface
 
 function createView() {
-    return createElement('div')
+    const view = createElement('div')
+    setClass(view, 'p-4')
+
+    return view
 }
 
 function showView(view) {

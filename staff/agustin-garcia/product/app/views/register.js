@@ -64,7 +64,7 @@ addChild(registerForm, registerPasswordInput)
 const registerShowPasswordButton = createButton()
 setTextContent(registerShowPasswordButton, 'Show')
 setType(registerShowPasswordButton, 'button')
-setClass(registerShowPasswordButton, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-end')
+setClass(registerShowPasswordButton, 'text-white  rounded-xl bg-[black] self-end')
 addChild(registerForm, registerShowPasswordButton)
 
 
@@ -111,7 +111,7 @@ addChild(registerForm, registerPasswordRepeatInput)
 const registerShowPasswordRepeatButton = createButton()
 setTextContent(registerShowPasswordRepeatButton, 'Show')
 setType(registerShowPasswordRepeatButton, 'button')
-setClass(registerShowPasswordRepeatButton, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-end')
+setClass(registerShowPasswordRepeatButton, 'text-white  rounded-xl bg-[black] self-end')
 addChild(registerForm, registerShowPasswordRepeatButton)
 
 registerShowPasswordRepeatButton.addEventListener('click', function (event) {
@@ -145,7 +145,7 @@ registerPasswordRepeatInput.addEventListener('keydown', function (event) {
 const registerSubmitButton = createButton()
 setTextContent(registerSubmitButton, 'Register')
 setType(registerSubmitButton, 'submit')
-setClass(registerSubmitButton, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] self-center px-1')
+setClass(registerSubmitButton, 'text-white  rounded-xl bg-[black] self-center px-1')
 addChild(registerForm, registerSubmitButton)
 addChild(registerView, registerForm)
 
@@ -173,7 +173,7 @@ registerForm.addEventListener('submit', function (event) {
 
 const registerLoginLink = createLink()
 setTextContent(registerLoginLink, 'Login')
-setClass(registerLoginLink, 'text-white border-yellow-500 border-2 rounded-xl bg-[dodgerblue] px-2 mt-4')
+setClass(registerLoginLink, 'text-white  rounded-xl bg-[black] px-2 mt-4')
 addChild(registerView, registerLoginLink)
 
 registerLoginLink.addEventListener('click', function (event) {
