@@ -1,207 +1,213 @@
 // models
-
-function User(id, name, email, username, password, role) {
-    this.id = id
-    this.name = name
-    this.email = email
-    this.username = username
-    this.password = password
-    this.role = role
+class User {
+    constructor(id, name, email, username, password, role) {
+        this.id = id
+        this.name = name
+        this.email = email
+        this.username = username
+        this.password = password
+        this.role = role
+    }
 }
 
+class Owner {
 
-function Owner(passport, name, surname, address, phone, email) {
-    this.id = id
-    this.passport = passport
-    this.name = name
-    this.surname = surname
-    this.address = address
-    this.phone = phone
-    this.email = email
-    this.active = true
+    constructor(passport, name, surname, address, phone, email) {
+        this.id = id
+        this.passport = passport
+        this.name = name
+        this.surname = surname
+        this.address = address
+        this.phone = phone
+        this.email = email
+        this.active = true
+    }
 }
 
-
-function Pet(id, userId, /* chip, */ name, /* gender, */ birthdate, weight, image, /* species, */ /*  race, */ /* colors */) {
-    this.id = id
-    this.userId = userId
-    // this.chip = chip
-    this.name = name
-    // this.gender = gender
-    this.birthdate = birthdate
-    this.weight = weight
-    this.image = image
-    // this.species = species
-    // this.race = race
-    // this.colors = colors
+class Pet {
+    constructor(id, userId, /* chip, */ name, /* gender, */ birthdate, weight, image, /* species, */ /*  race, */ /* colors */) {
+        this.id = id
+        this.userId = userId
+        // this.chip = chip
+        this.name = name
+        // this.gender = gender
+        this.birthdate = birthdate
+        this.weight = weight
+        this.image = image
+        // this.species = species
+        // this.race = race
+        // this.colors = colors
+    }
 }
-
-function Vaccine(id, name, description) {
-    this.id = id
-    this.name = name
-    this.description = description
+class Vaccine {
+    constructor(id, name, description) {
+        this.id = id
+        this.name = name
+        this.description = description
+    }
 }
 
 
 // manager
-
-function Data() {
-    this.users = []
-    this.usersCount = 0
-    this.owners = []
-    this.ownersCount = 0
-    this.pets = []
-    this.petsCount = 0
-    this.vaccines = []
-    this.loggedInUserId = null
-}
-
-// users
-Data.prototype.insertUser = function (user) {
-    this.users.push(user)
-    this.usersCount++
-}
-
-Data.prototype.findUserByEmail = function (email) {
-    for (let i = 0; i < this.users.length; i++) {
-        const user = this.users[i]
-
-        if (user.email === email) return user
+class Data {
+    constructor() {
+        this.users = []
+        this.usersCount = 0
+        this.owners = []
+        this.ownersCount = 0
+        this.pets = []
+        this.petsCount = 0
+        this.vaccines = []
+        this.loggedInUserId = null
     }
 
-    return null
-}
-Data.prototype.findUserByUsername = function (username) {
-    for (let i = 0; i < this.users.length; i++) {
-        const user = this.users[i]
 
-        if (user.username === username) return user
+    // users
+    insertUser(user) {
+        this.users.push(user)
+        this.usersCount++
     }
 
-    return null
-}
+    findUserByEmail(email) {
+        for (let i = 0; i < this.users.length; i++) {
+            const user = this.users[i]
 
-Data.prototype.findUserById = function (id) {
-    for (let i = 0; i < this.users.length; i++) {
-        const user = this.users[i]
+            if (user.email === email) return user
+        }
 
-        if (user.id === id) return user
+        return null
+    }
+    findUserByUsername(username) {
+        for (let i = 0; i < this.users.length; i++) {
+            const user = this.users[i]
+
+            if (user.username === username) return user
+        }
+
+        return null
     }
 
-    return null
-}
+    findUserById(id) {
+        for (let i = 0; i < this.users.length; i++) {
+            const user = this.users[i]
 
+            if (user.id === id) return user
+        }
 
-
-
-// owner 
-
-Data.prototype.insertOwner = function (owner) {
-    this.owners.push(owner)
-    this.ownersCount++
-}
-
-Data.prototype.findOwnerById = function (ownerId) {
-    for (let i = 0; i < this.owners.length; i++) {
-        const owner = this.owners[i]
-
-        if (owner.id === ownerId)
-            return owner
+        return null
     }
 
-    return null
-}
 
-Data.prototype.findOwnerByPassport = function (ownerPassport) {
-    for (let i = 0; i < this.owners.length; i++) {
-        const owner = this.owners[i]
 
-        if (owner.passport === ownerPassport)
-            return owner
+
+    // owner 
+
+    insertOwner(owner) {
+        this.owners.push(owner)
+        this.ownersCount++
     }
 
-    return null
-}
-// pets
-Data.prototype.insertPet = function (pet) {
-    this.pets.push(pet)
-    this.petsCount++
-}
+    findOwnerById(ownerId) {
+        for (let i = 0; i < this.owners.length; i++) {
+            const owner = this.owners[i]
 
-Data.prototype.setLoggedInUserId = function (userId) {
-    this.loggedInUserId = userId
-}
+            if (owner.id === ownerId)
+                return owner
+        }
 
-Data.prototype.getLoggedInUserId = function () {
-    return this.loggedInUserId
-}
-
-Data.prototype.findPetsByOwnerPassport = function (passport) {
-    const foundPets = []
-
-    for (let i = 0; i < this.pets.length; i++) {
-        const pet = this.pets[i]
-
-        if (pet.ownerId === passport)
-            foundPets.push(pet)
+        return null
     }
 
-    return foundPets
-}
+    findOwnerByPassport(ownerPassport) {
+        for (let i = 0; i < this.owners.length; i++) {
+            const owner = this.owners[i]
 
+            if (owner.passport === ownerPassport)
+                return owner
+        }
 
-Data.prototype.findPetUserById = function (petId) {
-    for (let i = 0; i < this.pets.length; i++) {
-        const pet = this.pets[i]
-
-        if (pet.id === id) return pet
+        return null
+    }
+    // pets
+    insertPet(pet) {
+        this.pets.push(pet)
+        this.petsCount++
     }
 
-    return null
-}
-
-
-Data.prototype.findPetById = function (petId) {
-    for (let i = 0; i < this.pets.length; i++) {
-        const pet = this.pets[i]
-
-        if (pet.id === petId)
-            return pet
+    setLoggedInUserId(userId) {
+        this.loggedInUserId = userId
     }
 
-    return null
-}
-
-
-Data.prototype.findPetByUserId = function (userId) {
-    const foundPets = []
-    for (let i = 0; i < this.pets.length; i++) {
-        const pet = this.pets[i]
-
-        if (pet.userId === userId)
-            foundPets.push(pet)
+    getLoggedInUserId() {
+        return this.loggedInUserId
     }
 
-    return foundPets
-}
+    findPetsByOwnerPassport(passport) {
+        const foundPets = []
 
-Data.prototype.findPetByPassport = function (passport) {
-    for (let i = 0; i < this.pets.length; i++) {
-        const pet = this.pets[i]
+        for (let i = 0; i < this.pets.length; i++) {
+            const pet = this.pets[i]
 
-        if (pet.passport === passport)
-            return pet
+            if (pet.ownerId === passport)
+                foundPets.push(pet)
+        }
+
+        return foundPets
     }
 
-    return null
+
+    findPetUserById(petId) {
+        for (let i = 0; i < this.pets.length; i++) {
+            const pet = this.pets[i]
+
+            if (pet.id === id) return pet
+        }
+
+        return null
+    }
+
+
+    findPetById(petId) {
+        for (let i = 0; i < this.pets.length; i++) {
+            const pet = this.pets[i]
+
+            if (pet.id === petId)
+                return pet
+        }
+
+        return null
+    }
+
+
+    findPetByUserId(userId) {
+        const foundPets = []
+        for (let i = 0; i < this.pets.length; i++) {
+            const pet = this.pets[i]
+
+            if (pet.userId === userId)
+                foundPets.push(pet)
+        }
+
+        return foundPets
+    }
+
+    findPetByPassport(passport) {
+        for (let i = 0; i < this.pets.length; i++) {
+            const pet = this.pets[i]
+
+            if (pet.passport === passport)
+                return pet
+        }
+
+        return null
+    }
+
+    // vaccine 
+    insertVaccine(vaccine) {
+        this.vaccines.push(vaccine)
+    }
+
 }
-
-// vaccine 
-Data.prototype.insertVaccine = function (vaccine) {
-    this.vaccines.push(vaccine)
-}
-
-
 
 function Logic() {
 
