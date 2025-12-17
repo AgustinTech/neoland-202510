@@ -1,0 +1,113 @@
+[33mcommit 3453fe56a4d639ffbf40e0f94bfeb1279ba12308[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/playground[m[33m)[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Tue Dec 16 20:41:03 2025 +0100
+
+    convert drawings to react jsx functions
+
+[33mcommit 946cf512c26077f2aa938aa2716e55cde22de180[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Mon Dec 15 20:49:48 2025 +0100
+
+    add react demo code
+
+[33mcommit 3f6b68547e4b368afff6f09fc02ea6cfb3855bd2[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Tue Dec 2 19:43:46 2025 +0100
+
+    add fleboxcode with old and new school (plain css and tailwind)
+
+[33mcommit bdd269a5a59a4b23185fbf03e87a83b529d9928f[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Tue Nov 25 20:38:17 2025 +0100
+
+    add business logic abstraction to veterinary(implement registre-user logic)
+
+[33mcommit 8b2a95c4d63f91df37f7a46be4dbe9ed2961fe74[m
+Author: Agustin <agustin.tech@proton.me>
+Date:   Wed Nov 19 16:43:57 2025 +0100
+
+    add method includes,indexOf,reverse
+
+[33mcommit 032926ba5a4e22b49721d40a808b16571586cfca[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Fri Nov 14 20:20:34 2025 +0100
+
+    add extension to files js; add abstraction js
+
+[33mcommit f86195c774bbf64a3ed8ed0b45b9138aecdd43a0[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Thu Nov 13 20:35:09 2025 +0100
+
+    add updateFirst method
+
+[33mcommit 8ca7943493764cd22b93ed4358e4bbf72587f5f2[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Thu Nov 13 19:45:51 2025 +0100
+
+    add drawings with script js
+
+[33mcommit 5095e7bf9370c9799d87d79456094cb0deb73545[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Wed Nov 12 17:59:57 2025 +0100
+
+    add file dom;add update method js
+
+[33mcommit 4877053328ed0eba799b481663a4159681e87e78[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Mon Nov 3 16:31:41 2025 +0100
+
+    include previous draw versions; apply TailwindCSS for styling
+
+[33mcommit 3a1e36e2c8f5c0be425d723b84a48c2563964622[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Fri Oct 31 16:26:17 2025 +0100
+
+    refactor component styles into shared utility classes,rename title and rounded holes in the nose and eyes of the dog
+
+[33mcommit d80bda68d8190664a6a512565c332e4b89e9f75e[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Thu Oct 30 17:48:11 2025 +0100
+
+    optimize css code naming and structure
+
+[33mcommit bcf9e43d0c15765bcc35fe23e4aab64b21c48588[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Wed Oct 29 11:45:49 2025 +0100
+
+    updating painting with robot,cup of coffe and tree
+
+[33mcommit 0de3993884ac56f4f9033fce21e11cb1e9ac3996[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Tue Oct 28 21:51:15 2025 +0100
+
+    add painting with css
+
+[33mcommit 22ad0c81c2fdbcedf9a36c3928917459fd06d919[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Mon Oct 27 22:05:05 2025 +0100
+
+    add bruce wayne cv with styles
+
+[33mcommit 87ae1dbc2339c317364e21d8cffa509f65bbc936[m
+Author: Agustin.dev <Agustin.tech@proton.me>
+Date:   Fri Oct 24 19:51:27 2025 +0200
+
+    add git log and comamnd to doc
+
+[33mcommit 36d12541b797a5b5ebb582eabafa0a1dee55ef69[m
+Author: Agustin Garcia <agustin.tech@proton.me>
+Date:   Thu Oct 23 22:05:08 2025 +0200
+
+    add git commit and git push commands to git docs
+
+[33mcommit 6d05f65a1551410c2d09db74f3a8569e7ae8dd6a[m
+Author: Agustin Garcia <agustin.tech@proton.me>
+Date:   Thu Oct 23 21:52:03 2025 +0200
+
+    add bash and git docs
+
+[33mcommit c0018b0a7fcd2974422226e792bbc4c080df6e91[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m, [m[1;32mdevelop[m[33m)[m
+Author: manuelbarzi <manuelbarzi@gmail.com>
+Date:   Thu Oct 23 20:10:57 2025 +0200
+
+    Initial commit
