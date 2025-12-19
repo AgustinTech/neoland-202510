@@ -114,6 +114,31 @@ function App() {
         setDisplayValue(String(result))
     }
 
+    const handleCommaClicked = () => {
+        const lastCharacter = displayValue.at(-1)
+
+        if (lastCharacter === ',') return
+
+        const lastIndexOfDivide = displayValue.lastIndexOf('÷')
+        const lastIndexOfMultiply = displayValue.lastIndexOf('×')
+        const lastIndexOfSubtract = displayValue.lastIndexOf('-')
+        const lastIndexOfAdd = displayValue.lastIndexOf('+')
+
+        const lastIndexOfOperation = Math.max(lastIndexOfDivide, lastIndexOfMultiply, lastIndexOfSubtract, lastIndexOfAdd)
+
+        const lastIndex = displayValue.length - 1
+
+        let newValue
+
+        if (lastIndexOfOperation === lastIndex)
+            newValue = displayValue + '0,'
+        else
+            newValue = displayValue + ','
+
+        setDisplayValue(newValue)
+    }
+
+
     return <div className='border-2 m-2 p-2 rounded-2xl bg-gray-800 text-white'>
         <div className='flex justify-end px-4 text-3xl'>{displayValue}</div>
 
@@ -157,7 +182,7 @@ function App() {
                 <div className="flex justify-between">
                     <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer">+/-</div>
                     <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleZeroClicked}>0</div>
-                    <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer">,</div>
+                    <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer"onClick={handleCommaClicked}>,</div>
                     <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={resultButton}>=</div>
                 </div>
             </div>
