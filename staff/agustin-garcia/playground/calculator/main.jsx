@@ -82,36 +82,29 @@ function App() {
             setDisplayValue(displayValue + '9')
     }
 
-    const handleAcClicked = () => {
-        setDisplayValue('0')
-    }
 
-    const handleDeleteClicked = () => {
-        setDisplayValue(displayValue.slice(0, -1) || '0')
-    }
+    const handleAllClearClicked = () => setDisplayValue('0')
 
-    const handleDivideClicked = () => {
-        setDisplayValue(displayValue + '÷')
-    }
+    const handleDivideClicked = () => setDisplayValue(displayValue + '÷')
 
-    const handleMultiplyClicked = () => {
-        setDisplayValue(displayValue + 'x')
-    }
+    const handleMultiplyClicked = () => setDisplayValue(displayValue + '×')
 
-    const handleSumClicked = () => {
-        setDisplayValue(displayValue + '+')
-    }
+    const handleSubtractClicked = () => setDisplayValue(displayValue + '-')
 
-    const handleResClicked = () => {
-        setDisplayValue(displayValue + '-')
-    }
+    const handleAddClicked = () => setDisplayValue(displayValue + '+')
 
-    const resultButton = () => {
-        const operation = displayValue.replaceAll('÷', '/').replaceAll('x', '*')
+    const handleDeleteClicked = () => setDisplayValue(displayValue.slice(0, -1) || '0')
+
+
+
+    const handleResultClicked = () => {
+        const operation = displayValue.replaceAll('÷', '/').replaceAll('×', '*')
 
         const result = eval(operation)
 
-        setDisplayValue(String(result))
+        const newValue = String(result)
+
+        setDisplayValue(newValue)
     }
 
     const handleCommaClicked = () => {
@@ -132,12 +125,73 @@ function App() {
 
         if (lastIndexOfOperation === lastIndex)
             newValue = displayValue + '0,'
-        else
+        else if (lastIndexOfOperation === -1) {
+            if (displayValue.includes(',')) return
+
             newValue = displayValue + ','
+        } else {
+            const lastOperand = displayValue.slice(lastIndexOfOperation + 1)
+
+            if (lastOperand.includes(',')) return
+
+            newValue = displayValue + ','
+        }
 
         setDisplayValue(newValue)
     }
 
+    const handleChangeSignClicked = () => {
+        const operands = []
+        const operators = []
+
+        let operand = ''
+
+        for (let i = 0; i < displayValue.length; i++) {
+            const char = displayValue[i]
+            const prevChar = displayValue[i - 1]
+
+            if (char === '-' && prevChar !== '(' || char === '+' || char === '÷' || char === '×') {
+                operands.push(operand)
+                operators.push(char)
+                operand = ''
+            } else {
+                operand += char
+
+                if (i === displayValue.length - 1)
+                    operands.push(operand)
+            }
+        }
+
+        if (operands.length === operators.length) return
+
+        let lastOperand = operands.at(-1)
+
+        if (lastOperand === '0') return
+
+        if (lastOperand.includes('('))
+            lastOperand = lastOperand.slice(2, -1)
+        else
+            lastOperand = '(-' + lastOperand + ')'
+
+        operands[operands.length - 1] = lastOperand
+
+        let newValue = ''
+
+        for (let i = 0; i < operands.length; i++) {
+            const operand = operands[i]
+
+            newValue += operand
+
+            const operator = operators[i]
+
+            if (operator)
+                newValue += operator
+        }
+
+        setDisplayValue(newValue)
+    }
+
+    console.log('App -> render')
 
     return <div className='border-2 m-2 p-2 rounded-2xl bg-gray-800 text-white'>
         <div className='flex justify-end px-4 text-3xl'>{displayValue}</div>
@@ -147,7 +201,7 @@ function App() {
             <div>
                 <div className="flex justify-between">
                     <div className="bg-gray-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleDeleteClicked}>⌫</div>
-                    <div className="bg-gray-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleAcClicked}>AC</div>
+                    <div className="bg-gray-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleAllClearClicked}>AC</div>
                     <div className="bg-gray-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer">%</div>
                     <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleDivideClicked}>÷</div>
                 </div>
@@ -166,7 +220,7 @@ function App() {
                     <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleFourClicked}>4</div>
                     <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleFiveClicked}>5</div>
                     <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleSixClicked}>6</div>
-                    <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleResClicked}>-</div>
+                    <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleSubtractClicked}>-</div>
                 </div>
             </div>
 
@@ -175,21 +229,20 @@ function App() {
                     <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleOneClicked}>1</div>
                     <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleTwoClicked}>2</div>
                     <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleThreeClicked}>3</div>
-                    <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleSumClicked}>+</div>
+                    <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleAddClicked}>+</div>
                 </div>
             </div>
             <div>
                 <div className="flex justify-between">
-                    <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer">+/-</div>
+                    <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleChangeSignClicked}>+/-</div>
                     <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleZeroClicked}>0</div>
-                    <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer"onClick={handleCommaClicked}>,</div>
-                    <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={resultButton}>=</div>
+                    <div className="bg-gray-600 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleCommaClicked}>,</div>
+                    <div className="bg-orange-400 p-2 rounded-full w-10 h-10 flex justify-center items-center cursor-pointer" onClick={handleResultClicked}>=</div>
                 </div>
             </div>
         </div>
     </div>
 }
-
 
 
 root.render(<App />)
