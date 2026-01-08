@@ -12,6 +12,14 @@ class Data {
     getIssues() {
         return this.issues
     }
+
+    findIssueById(issueId) {
+        for (const issue of this.issues) 
+            if (issue.id === issueId)
+                return issue
+
+        return null
+    }
 }
 
 // instance

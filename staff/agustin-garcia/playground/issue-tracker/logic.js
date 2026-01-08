@@ -17,6 +17,14 @@ class Logic {
         data.insertIssue(issue)
     }
 
+    closeIssue(issueId){
+        const issue = data.findIssueById(issueId)
+
+        if (!issue) throw new Error('issue not found')
+
+        issue.status = 'closed'
+    }
+
     getAllIssues() {
         return data.getIssues()
     }

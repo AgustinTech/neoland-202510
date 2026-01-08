@@ -5,9 +5,11 @@ root.render(<App />)
 const useState = React.useState
 
 function App() {
-    const issuesState = useState([])
-    const issues = issuesState[0]
-    const setIssues = issuesState[1]
+    // const issuesState = useState([])
+    // const issues = issuesState[0]
+    // const setIssues = issuesState[1]
+
+    const [issues, setIssues] = useState([])
 
     const handleIssueSubmit = event => {
         event.preventDefault()
@@ -35,18 +37,41 @@ function App() {
         }
     }
 
+    const handleCloseClicked = event => {
+        event.preventDefault()
+
+        const button = event.target
+        const issueId = button.id
+
+        try{
+            logic.closeIssue(issueId)
+
+            const issues = logic.getAllIssues()
+
+            const newIssues = []
+
+            for (const issue of issues)
+                newIssues.push(issue)
+
+            setIssues(newIssues)
+        }catch (error){
+
+        }
+    }
+
     const listItems = []
 
     for (const issue of issues) {
-        listItems.push(<li className="border">
+        listItems.push(<li className="border p-2 flex flex-col items-start">
             <h3 className="text-sm font-bold">{issue.subject} ({issue.status})</h3>
-            <p>{issue.body}</p>
+            <p className="text-xs">{issue.body}</p>
             <time className="text-xs" dateTime="">{issue.date}</time>
+            {issue.status === 'open' && <button id={issue.id} className="border border-black bg-black text-white self-end cursor-pointer" onClick={handleCloseClicked}>Close</button>}
         </li>)
     }
 
     return <div className="p-2">
-        <h1 className="font-bold text-lg">Issue Tracker 🗒️</h1>
+        <h1 className="font-bold text-lg ">Issue Tracker 🗒️</h1>
 
         <div>
             <h2>Create Issue 📝</h2>
@@ -62,7 +87,7 @@ function App() {
                     <input className="border" id="body"></input>
                 </div>
 
-                <button className="border border-black bg-black text-white text-sm" type="submit">Create
+                <button className="border border-black bg-black text-white text-sm cursor-pointer" type="submit">Create
                 </button>
             </form>
         </div>
