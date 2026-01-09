@@ -66,7 +66,7 @@ function App() {
             <h3 className="text-sm font-bold">{issue.subject} ({issue.status})</h3>
             <p className="text-xs">{issue.body}</p>
             <time className="text-xs" dateTime="">{issue.date}</time>
-            {issue.status === 'open' && <button id={issue.id} className="border border-black bg-black text-white self-end cursor-pointer" onClick={handleCloseClicked}>Close</button>}
+            {issue.status === 'open' && <button id={issue.id} className="border border-black bg-black text-white self-end cursor-pointer"  onClick={handleCloseClicked}>Close</button>}
         </li>)
     }
 
