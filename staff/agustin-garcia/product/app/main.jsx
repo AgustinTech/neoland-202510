@@ -5,7 +5,7 @@ root.render(<App />)
 const useState = React.useState
 
 function App() {
-    const [view, setView] = useState('add-pet')
+    const [view, setView] = useState('home')
 
     const handleLoginClick = event => {
         event.preventDefault()
@@ -19,21 +19,36 @@ function App() {
         setView('register')
     }
 
+    const handleHomeClick = event => {
+        event.preventDefault()
+        setView('home')
+    }
+
+    const handleAddPetClick = event => {
+        event.preventDefault()
+        setView('add-pet')
+    }
+
+    const handleLandingClick = event => {
+        event.preventDefault()
+        setView('landing')
+    }
+
     // landing
     if (view === 'landing')
         return <div className="p-4">
-            <h1 className="text-3xl font-bold">MyPet</h1>
+            <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
             <p className="text-3xl">Welcome!</p>
 
             <nav>
-                <a className="text-white rounded-xl bg-[black] px-2 underline" onClick={handleLoginClick}>Login</a> or <a className="text-white rounded-xl bg-[black] px-2 underline" onClick={handleRegisterClick}>Register</a>git 
+                <a className="text-white rounded-xl bg-[black] px-2 underline" onClick={handleLoginClick}>Login</a> or <a className="text-white rounded-xl bg-[black] px-2 underline" onClick={handleRegisterClick}>Register</a>
             </nav>
         </div>
 
     // login
     if (view === 'login')
         return <div className="p-4">
-            <h1 className="text-3xl font-bold">MyPet</h1>
+            <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
 
             <h2 className="font-bold">Login </h2>
 
@@ -44,14 +59,14 @@ function App() {
                 <label htmlFor="password">Password</label>
                 <input id="password" type="password" className="border px-1 rounded-xl" />
 
-                <button type="button" className="text-white rounded-xl bg-[black] self-end">Show
+                <button type="button" className="text-white rounded-xl bg-[black] self-end cursor-pointer">Show
                 </button>
                 <span className="self-end" style={{ display: 'none' }}>⬆</span>
-                <button type="submit" className="text-white rounded-xl bg-[black] self-center px-2 mt-4">Login</button>
+                <button type="submit" className="text-white rounded-xl bg-[black] self-center px-2 mt-4 cursor-pointer">Login</button>
 
             </form>
 
-            <a className="text-white rounded-xl bg-[black]  px-2 underline">Register</a>
+            <a className="text-white rounded-xl bg-[black]  px-2 underline" onClick={handleRegisterClick}>Register</a>
 
             <p></p>
         </div>
@@ -59,7 +74,7 @@ function App() {
     // register
     if (view === 'register')
         return <div className="p-4">
-            <h1 className="text-3xl font-bold">MyPet</h1>
+            <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
             <h2 className="font-bold">Register</h2>
             <form className="flex flex-col">
                 <label htmlFor="name">Name </label>
@@ -74,29 +89,29 @@ function App() {
                 <label htmlFor="password">Password</label>
                 <input id="password" type="password" className="border px-1 rounded-xl" />
 
-                <button type="button" className="text-white  rounded-xl bg-[black] self-end">Show</button>
+                <button type="button" className="text-white  rounded-xl bg-[black] self-end cursor-pointer">Show</button>
                 <span className="self-end" style={{ display: 'none' }}>⬆</span>
                 <label htmlFor="passwordrepeat">Repeat Password</label>
                 <input id="passwordrepeat" type="password" className="border px-1 rounded-xl" />
 
-                <button type="button" className="text-white  rounded-xl bg-[black] self-end">Show</button>
+                <button type="button" className="text-white  rounded-xl bg-[black] self-end cursor-pointer">Show</button>
                 <span className="self-end" style={{ display: 'none' }}>⬆</span>
-                <button type="submit" className="text-white  rounded-xl bg-[black] self-center px-1">Register</button>
+                <button type="submit" className="text-white  rounded-xl bg-[black] self-center px-1 cursor-pointer">Register</button>
             </form>
-            <a className="text-white  rounded-xl bg-[black] px-2 mt-4 underline">Login</a>
+            <a className="text-white  rounded-xl bg-[black] px-2 mt-4 underline" onClick={handleLoginClick}>Login</a>
             <p></p>
         </div>
 
     // home
     if (view === 'home')
         return <div className="p-4">
-            <h1 className="text-3xl font-bold">MyPet</h1>
+            <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
 
             <h2>Welcome Home</h2>
 
             <div className="flex justify-between">
-                <button type="button" className="text-white rounded-xl bg-[black] px-1">+ Pet</button>
-                <button type="button" className="text-white rounded-xl bg-[black] px-1">Logout</button>
+                <button type="button" className="text-white rounded-xl bg-[black] px-1 cursor-pointer" onClick={handleAddPetClick}>+ Pet</button>
+                <button type="button" className="text-white rounded-xl bg-[black] px-1 cursor-pointer" onClick={handleLandingClick}>Logout</button>
             </div>
             <ul className="flex flex-col gap-2 mt-2">
                 <li className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full ">
@@ -107,7 +122,7 @@ function App() {
                         <p className="font-bold">Leo</p>
                     </div>
 
-                    <button className="justify-self-end">🗑️</button>
+                    <button className="justify-self-end cursor-pointer">🗑️</button>
                 </li>
                 <li className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full ">
                     <div className="flex items-center gap-4">
@@ -115,16 +130,16 @@ function App() {
 
                         <p className="font-bold">Rocky</p>
                     </div>
-                    <button className="justify-self-end">🗑️</button>
+                    <button className="justify-self-end cursor-pointer">🗑️</button>
                 </li>
             </ul>
-            <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center" style="display: none;">
+            <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center" style={{ display: 'none' }}>
                 <div className="bg-white border-black border-2 p-2">
                     <p className="text-center">Delete Pet?</p>
 
                     <div className="flex justify-center gap-2">
-                        <button className="cursor-pointer">❌</button>
-                        <button className="cursor-pointer">✅</button>
+                        <button className="cursor-pointer cursor-pointer">❌</button>
+                        <button className="cursor-pointer cursor-pointer">✅</button>
                     </div>
                 </div>
             </div>
@@ -135,12 +150,12 @@ function App() {
     // add pet
     if (view === 'add-pet')
         return <div className="p-4">
-            <h1 className="text-3xl font-bold">MyPet</h1>
+            <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
 
             <div className="flex justify-between">
                 <h2 className="text-2xl font-bold">Add Pet</h2>
 
-                <a href="" className="text-white rounded-xl bg-[black]  px-2 underline">&lt; Back</a>
+                <a href="" className="text-white rounded-xl bg-[black]  px-2 underline" onClick={handleHomeClick}>&lt; Back</a>
             </div>
 
             <form className="flex flex-col">
@@ -156,7 +171,7 @@ function App() {
                 <label id="image">Image</label>
                 <input id="image" type="url" className="border px-1 rounded-xl" />
 
-                <button type="submit" className="text-white rounded-xl bg-[black] self-center px-1 self-center mt-4">Add Pet</button>
+                <button type="submit" className="text-white rounded-xl bg-[black] self-center px-1 self-center mt-4 cursor-pointer">Add Pet</button>
             </form>
 
             <p></p>
