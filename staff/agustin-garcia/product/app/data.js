@@ -208,9 +208,5 @@ class Data {
     }
 
 }
-
-function Logic() {
-
-}
 // instance
 const data = new Data()
