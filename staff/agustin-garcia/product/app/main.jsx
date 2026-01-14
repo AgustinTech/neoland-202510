@@ -13,7 +13,7 @@ function App() {
     const [passwordRepeatType, setPasswordRepeatType] = useState('password')
     const [pets, setPets] = useState([])
     const [showPanel, setShowPanel] = useState(false)
-    const [petId, setPetIdToDelete] = useState(null)
+    const [petId, setPetId] = useState(null)
 
     const loginFormRef = useRef()
     const registerFormRef = useRef()
@@ -84,18 +84,11 @@ function App() {
 
             const pets = logic.getPets()
 
-            const newPets = []
-
-            for (const pet of pets) {
-                newPets.push(pet)
-            }
-
-
             setView('home')
             setMessage('')
             setPasswordType('password')
             setPasswordRepeatType('password')
-            setPets(newPets)
+            setPets(pets)
         } catch (error) {
             setMessage(error.message)
         }
@@ -160,17 +153,17 @@ function App() {
         const pet = event.target
         const petId = pet.id
 
-        setPetIdToDelete(petId)
+        setPetId(petId)
         setShowPanel(true)
     }
 
-    const handleCancelDelete = event => {
+    const handleCancelDeleteClick = event => {
         event.preventDefault()
         setShowPanel(false)
-        setPetIdToDelete(null)
+        setPetId(null)
     }
 
-    const handleConfirmDelete = event => {
+    const handleConfirmDeleteClick = event => {
         event.preventDefault()
 
         try {
@@ -180,12 +173,12 @@ function App() {
             setPets(pets)
 
             setShowPanel(false)
-            setPetIdToDelete(null)
+            setPetId(null)
             setMessage('')
         } catch (error) {
             setMessage(error.message)
             setShowPanel(false)
-            setPetIdToDelete(null)
+            setPetId(null)
         }
     }
 
@@ -311,47 +304,48 @@ function App() {
                 {petItems}
             </ul>
 
-            <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center" style={{ display: showPanel ? 'flex' : 'none' }}>
-                <div className="bg-white border-black border-2 p-2 rounded-lg">
-                    <p className="text-center mb-4 font-bold">Delete Pet?</p>
+            {showPanel  && < div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center panel">
+            <div className="bg-white border-black border-2 p-2 rounded-lg">
+                <p className="text-center mb-4 font-bold">Delete Pet?</p>
 
-                    <div className="flex justify-center gap-4">
-                        <button className="cursor-pointer text-2xl" onClick={handleCancelDelete}>❌</button>
-                        <button className="cursor-pointer text-2xl" onClick={handleConfirmDelete}>✅</button>
-                    </div>
+                <div className="flex justify-center gap-4">
+                    <button className="cursor-pointer text-2xl" onClick={handleCancelDeleteClick}>❌</button>
+                    <button className="cursor-pointer text-2xl" onClick={handleConfirmDeleteClick}>✅</button>
                 </div>
             </div>
-
-            <p>{message}</p>
         </div>
     }
-    // add pet
-    if (view === 'add-pet')
-        return <div className="p-4">
-            <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
 
-            <div className="flex justify-between">
-                <h2 className="text-2xl font-bold">Add Pet</h2>
+    <p>{message}</p>
+        </div >
+    }
+// add pet
+if (view === 'add-pet')
+    return <div className="p-4">
+        <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
 
-                <a href="" className="text-white rounded-xl bg-[black]  px-2 underline" onClick={handleBackHomeClick}>&lt; Back</a>
-            </div>
+        <div className="flex justify-between">
+            <h2 className="text-2xl font-bold">Add Pet</h2>
 
-            <form className="flex flex-col" onSubmit={handleAddPetSubmit}>
-                <label htmlFor="name">Name</label>
-                <input type="text" name="name" id="Name" className="border px-1 rounded-xl" />
-
-                <label htmlFor="date">Date of Birth</label>
-                <input id="birthdate" name="birthdate" type="date" className="border px-1 rounded-xl" />
-
-                <label htmlFor="weight">Weight (kg)</label>
-                <input id="weight" name="weight" type="number" step="0.01" className="border px-1 rounded-xl" />
-
-                <label htmlFor="image">Image</label>
-                <input id="image" name="image" type="url" className="border px-1 rounded-xl" />
-
-                <button type="submit" className="text-white rounded-xl bg-[black] self-center px-1 self-center mt-4 cursor-pointer">Add Pet</button>
-            </form>
-
-            <p>{message}</p>
+            <a href="" className="text-white rounded-xl bg-[black]  px-2 underline" onClick={handleBackHomeClick}>&lt; Back</a>
         </div>
+
+        <form className="flex flex-col" onSubmit={handleAddPetSubmit}>
+            <label htmlFor="name">Name</label>
+            <input type="text" name="name" id="Name" className="border px-1 rounded-xl" />
+
+            <label htmlFor="date">Date of Birth</label>
+            <input id="birthdate" name="birthdate" type="date" className="border px-1 rounded-xl" />
+
+            <label htmlFor="weight">Weight (kg)</label>
+            <input id="weight" name="weight" type="number" step="0.01" className="border px-1 rounded-xl" />
+
+            <label htmlFor="image">Image</label>
+            <input id="image" name="image" type="url" className="border px-1 rounded-xl" />
+
+            <button type="submit" className="text-white rounded-xl bg-[black] self-center px-1 self-center mt-4 cursor-pointer">Add Pet</button>
+        </form>
+
+        <p>{message}</p>
+    </div>
 }
