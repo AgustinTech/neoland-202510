@@ -12,6 +12,8 @@ function App() {
     const [passwordType, setPasswordType] = useState('password')
     const [passwordRepeatType, setPasswordRepeatType] = useState('password')
     const [pets, setPets] = useState([])
+    const [showPanel, setShowPanel] = useState(false)
+    const [petId, setPetIdToDelete] = useState(null)
 
     const loginFormRef = useRef()
     const registerFormRef = useRef()
@@ -113,7 +115,6 @@ function App() {
 
         try {
             logic.registerUser(name, email, username, password, passwordRepeat)
-            event.preventDefault()
 
             form.reset()
 
@@ -143,7 +144,7 @@ function App() {
             form.reset()
 
             const pets = logic.getPets()
-            
+
             setView('home')
             setPets(pets)
             setMessage('')
@@ -151,6 +152,41 @@ function App() {
             setMessage(error.message)
         }
 
+    }
+
+    const handleDeletePetClick = event => {
+        event.preventDefault()
+
+        const pet = event.target
+        const petId = pet.id
+
+        setPetIdToDelete(petId)
+        setShowPanel(true)
+    }
+
+    const handleCancelDelete = event => {
+        event.preventDefault()
+        setShowPanel(false)
+        setPetIdToDelete(null)
+    }
+
+    const handleConfirmDelete = event => {
+        event.preventDefault()
+
+        try {
+            logic.deletePet(petId)
+
+            const pets = logic.getPets()
+            setPets(pets)
+
+            setShowPanel(false)
+            setPetIdToDelete(null)
+            setMessage('')
+        } catch (error) {
+            setMessage(error.message)
+            setShowPanel(false)
+            setPetIdToDelete(null)
+        }
     }
 
 
@@ -193,7 +229,7 @@ function App() {
                 <input type="text" name="username" id="username" autoComplete="username" className="border px-1 rounded-xl" />
 
                 <label htmlFor="password">Password</label>
-                <input id="password" name="password" autoComplete="new-password" type={passwordType} className={passwordType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
+                <input id="password" name="password" autoComplete="current-password" type={passwordType} className={passwordType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
 
                 <button type="button" className="text-white rounded-xl bg-[black] self-end cursor-pointer" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
                 <span className="self-end" style={{ display: 'none' }}>⬆</span>
@@ -221,15 +257,15 @@ function App() {
                 <input id="email" name="email" type="email" autoComplete="email" placeholder="Email" className="border px-1 rounded-xl" />
 
                 <label htmlFor="username">Username</label>
-                <input id="username" name="email" type="text" autoComplete="username" placeholder="Username" className="border px-1 rounded-xl" />
+                <input id="username" name="username" type="text" autoComplete="username" placeholder="Username" className="border px-1 rounded-xl" />
 
                 <label htmlFor="password">Password</label>
-                <input id="password" name="password" type={passwordType} autoComplete="new-password" className={passwordType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
+                <input id="password" name="password" type={passwordType} autoComplete="current-password" className={passwordType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
 
                 <button type="button" className="text-white  rounded-xl bg-[black] self-end cursor-pointer" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
                 <span className="self-end" style={{ display: 'none' }}>⬆</span>
                 <label htmlFor="passwordRepeat">Repeat Password</label>
-                <input id="passwordRepeat" name="passwordRepeat" type={passwordRepeatType} autoComplete="new-password" className={passwordRepeatType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
+                <input id="passwordRepeat" name="passwordRepeat" type={passwordRepeatType} autoComplete="current-password" className={passwordRepeatType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
 
                 <button type="button" className="text-white  rounded-xl bg-[black] self-end cursor-pointer" onClick={handleTogglePasswordRepeatClick}>{passwordRepeatType === 'password' ? 'Show' : 'Hide'}</button>
                 <span className="self-end" style={{ display: 'none' }}>⬆</span>
@@ -247,7 +283,7 @@ function App() {
         const petItems = []
 
         for (const pet of pets) {
-            const petItem = <li className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full ">
+            const petItem = <li key={pet.id} className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full ">
 
                 <div className="flex items-center gap-4">
                     <img src={pet.image} className="rounded-full w-20 h-20 object-cover" />
@@ -255,7 +291,7 @@ function App() {
                     <p className="font-bold">{pet.name}</p>
                 </div>
 
-                <button className="justify-self-end cursor-pointer">🗑️</button>
+                <button className="justify-self-end cursor-pointer" id={pet.id} onClick={handleDeletePetClick}>🗑️</button>
             </li>
 
             petItems.push(petItem)
@@ -274,13 +310,14 @@ function App() {
             <ul className="flex flex-col gap-2 mt-2">
                 {petItems}
             </ul>
-            <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center" style={{ display: 'none' }}>
-                <div className="bg-white border-black border-2 p-2">
-                    <p className="text-center">Delete Pet?</p>
 
-                    <div className="flex justify-center gap-2">
-                        <button className="cursor-pointer cursor-pointer">❌</button>
-                        <button className="cursor-pointer cursor-pointer">✅</button>
+            <div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center" style={{ display: showPanel ? 'flex' : 'none' }}>
+                <div className="bg-white border-black border-2 p-2 rounded-lg">
+                    <p className="text-center mb-4 font-bold">Delete Pet?</p>
+
+                    <div className="flex justify-center gap-4">
+                        <button className="cursor-pointer text-2xl" onClick={handleCancelDelete}>❌</button>
+                        <button className="cursor-pointer text-2xl" onClick={handleConfirmDelete}>✅</button>
                     </div>
                 </div>
             </div>
@@ -309,7 +346,7 @@ function App() {
                 <label htmlFor="weight">Weight (kg)</label>
                 <input id="weight" name="weight" type="number" step="0.01" className="border px-1 rounded-xl" />
 
-                <label id="image">Image</label>
+                <label htmlFor="image">Image</label>
                 <input id="image" name="image" type="url" className="border px-1 rounded-xl" />
 
                 <button type="submit" className="text-white rounded-xl bg-[black] self-center px-1 self-center mt-4 cursor-pointer">Add Pet</button>
