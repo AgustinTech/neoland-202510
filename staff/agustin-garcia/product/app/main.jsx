@@ -15,21 +15,19 @@ function App() {
     const [showPanel, setShowPanel] = useState(false)
     const [petId, setPetId] = useState(null)
 
-    const loginFormRef = useRef()
     const registerFormRef = useRef()
 
-    const handleLoginClick = event => {
-        event.preventDefault()
+    const handleLoginClick = () => {
+        if (registerFormRef.current)
+            registerFormRef.current.reset()
         setView('login')
-        if (loginFormRef.current)
-            loginFormRef.current.reset()
+        setMessage('')
         setPasswordType('password')
         setPasswordRepeatType('password')
-        setMessage('')
+
     }
 
-    const handleRegisterClick = event => {
-        event.preventDefault()
+    const handleRegisterClick = () => {
         setView('register')
         if (registerFormRef.current)
             registerFormRef.current.reset()
@@ -50,16 +48,12 @@ function App() {
         setMessage('')
     }
 
-    const handleLandingClick = event => {
-        event.preventDefault()
-        setView('landing')
-    }
-
     const handleLogoutClick = event => {
         event.preventDefault()
         logic.logoutUser()
 
         setView('login')
+        setPets([])
         try {
 
         } catch (error) {
@@ -67,19 +61,10 @@ function App() {
         }
     }
 
-    const handleLoginSubmit = event => {
+    const handleLogin = (event) => {
         event.preventDefault()
 
-        const form = event.target
-
-        const username = form.username.value
-        const password = form.password.value
-
-
         try {
-            logic.loginUser(username, password)
-
-
             form.reset()
 
             const pets = logic.getPets()
@@ -112,6 +97,8 @@ function App() {
             form.reset()
 
             setView('login')
+            setPasswordType('password')
+            setPasswordRepeatType('password')
             setMessage('')
         } catch (error) {
             setMessage(error.message)
@@ -201,44 +188,16 @@ function App() {
 
     // landing
     if (view === 'landing')
-        return <div className="p-4">
-            <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
-            <p className="text-3xl">Welcome!</p>
-
-            <nav>
-                <a className="text-white rounded-xl bg-[black] px-2 underline" onClick={handleLoginClick}>Login</a> or <a className="text-white rounded-xl bg-[black] px-2 underline" onClick={handleRegisterClick}>Register</a>
-            </nav>
-        </div>
+        return <Landing onLoginClick={handleLoginClick} onRegisterClick={handleLoginClick} />
 
     // login
     if (view === 'login')
-        return <div className="p-4">
-            <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
-
-            <h2 className="font-bold">Login </h2>
-
-            <form className="flex flex-col" onSubmit={handleLoginSubmit} ref={loginFormRef}>
-                <label htmlFor="username">Username</label>
-                <input type="text" name="username" id="username" autoComplete="username" className="border px-1 rounded-xl" />
-
-                <label htmlFor="password">Password</label>
-                <input id="password" name="password" autoComplete="current-password" type={passwordType} className={passwordType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
-
-                <button type="button" className="text-white rounded-xl bg-[black] self-end cursor-pointer" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
-                <span className="self-end" style={{ display: 'none' }}>⬆</span>
-                <button type="submit" className="text-white rounded-xl bg-[black] self-center px-2 mt-4 cursor-pointer">Login</button>
-
-            </form>
-
-            <a className="text-white rounded-xl bg-[black]  px-2 underline" onClick={handleRegisterClick}>Register</a>
-
-            <p>{message}</p>
-        </div>
+        return <Login onLogin={handleLogin} onRegisterClick={handleRegisterClick} />
 
     // register
     if (view === 'register')
         return <div className="p-4">
-            <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
+            <h1 className="text-3xl font-bold cursor-pointer">MyPet</h1>
 
             <h2 className="font-bold">Register</h2>
 
@@ -292,7 +251,7 @@ function App() {
 
 
         return <div className="p-4">
-            <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
+            <h1 className="text-3xl font-bold cursor-pointer">MyPet</h1>
 
             <h2>Welcome Home</h2>
 
@@ -304,48 +263,48 @@ function App() {
                 {petItems}
             </ul>
 
-            {showPanel  && < div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center panel">
-            <div className="bg-white border-black border-2 p-2 rounded-lg">
-                <p className="text-center mb-4 font-bold">Delete Pet?</p>
+            {showPanel && < div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center panel">
+                <div className="bg-white border-black border-2 p-2 rounded-lg">
+                    <p className="text-center mb-4 font-bold">Delete Pet?</p>
 
-                <div className="flex justify-center gap-4">
-                    <button className="cursor-pointer text-2xl" onClick={handleCancelDeleteClick}>❌</button>
-                    <button className="cursor-pointer text-2xl" onClick={handleConfirmDeleteClick}>✅</button>
+                    <div className="flex justify-center gap-4">
+                        <button className="cursor-pointer text-2xl" onClick={handleCancelDeleteClick}>❌</button>
+                        <button className="cursor-pointer text-2xl" onClick={handleConfirmDeleteClick}>✅</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+            }
 
-    <p>{message}</p>
+            <p>{message}</p>
         </div >
     }
-// add pet
-if (view === 'add-pet')
-    return <div className="p-4">
-        <h1 className="text-3xl font-bold cursor-pointer" onClick={handleLandingClick}>MyPet</h1>
+    // add pet
+    if (view === 'add-pet')
+        return <div className="p-4">
+            <h1 className="text-3xl font-bold cursor-pointer">MyPet</h1>
 
-        <div className="flex justify-between">
-            <h2 className="text-2xl font-bold">Add Pet</h2>
+            <div className="flex justify-between">
+                <h2 className="text-2xl font-bold">Add Pet</h2>
 
-            <a href="" className="text-white rounded-xl bg-[black]  px-2 underline" onClick={handleBackHomeClick}>&lt; Back</a>
+                <a href="" className="text-white rounded-xl bg-[black]  px-2 underline" onClick={handleBackHomeClick}>&lt; Back</a>
+            </div>
+
+            <form className="flex flex-col" onSubmit={handleAddPetSubmit}>
+                <label htmlFor="name">Name</label>
+                <input type="text" name="name" id="Name" className="border px-1 rounded-xl" />
+
+                <label htmlFor="date">Date of Birth</label>
+                <input id="birthdate" name="birthdate" type="date" className="border px-1 rounded-xl" />
+
+                <label htmlFor="weight">Weight (kg)</label>
+                <input id="weight" name="weight" type="number" step="0.01" className="border px-1 rounded-xl" />
+
+                <label htmlFor="image">Image</label>
+                <input id="image" name="image" type="url" className="border px-1 rounded-xl" />
+
+                <button type="submit" className="text-white rounded-xl bg-[black] self-center px-1 self-center mt-4 cursor-pointer">Add Pet</button>
+            </form>
+
+            <p>{message}</p>
         </div>
-
-        <form className="flex flex-col" onSubmit={handleAddPetSubmit}>
-            <label htmlFor="name">Name</label>
-            <input type="text" name="name" id="Name" className="border px-1 rounded-xl" />
-
-            <label htmlFor="date">Date of Birth</label>
-            <input id="birthdate" name="birthdate" type="date" className="border px-1 rounded-xl" />
-
-            <label htmlFor="weight">Weight (kg)</label>
-            <input id="weight" name="weight" type="number" step="0.01" className="border px-1 rounded-xl" />
-
-            <label htmlFor="image">Image</label>
-            <input id="image" name="image" type="url" className="border px-1 rounded-xl" />
-
-            <button type="submit" className="text-white rounded-xl bg-[black] self-center px-1 self-center mt-4 cursor-pointer">Add Pet</button>
-        </form>
-
-        <p>{message}</p>
-    </div>
 }
