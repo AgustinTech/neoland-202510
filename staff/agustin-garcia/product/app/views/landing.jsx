@@ -1,18 +1,16 @@
-const { useState } = React
-
-function Landing({onLoginClick, onRegisterClick}) {
+function Landing({ onGoToLogin, onGoToRegister }) {
     console.log('Landing -> call')
 
     const handleLoginClick = event => {
         event.preventDefault()
 
-        onLoginClick()
+        onGoToLogin()
     }
 
     const handleRegisterClick = event => {
         event.preventDefault()
 
-        onRegisterClick()
+        onGoToRegister()
     }
 
     console.log('Landing - render')

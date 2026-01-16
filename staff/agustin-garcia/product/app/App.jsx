@@ -5,55 +5,30 @@ function App() {
 
     const [view, setView] = useState('landing')
 
-    const handleLoginClick = () => {
-        setView('login')
-    }
+    const handleGoToLogin = () => { setView('login') }
 
-    const handleLogout = () => {
-        setView('login')
-    }
+    const handleGoToHome = () => { setView('home') }
 
-    const handleBackHomeClick = event => {
-        setView('home')
-    }
+    const handleGoToRegister = () => { setView('register') }
 
-    const handleRegisterClick = () => {
-        setView('register')
-    }
+    const handleLogin = () => { setView('home') }
 
-    const handleLogin = () => {
-        setView('home')
-    }
-
-    const handleRegister = () => {
-        setView('login')
-    }
-
-    const handleAddPetClick = () => {
-        setView('add-pet')
-    }
-
-    const handleAddPet = () => {
-        setView('home')
-    }
+    const handleGoToAddPet = () => { setView('add-pet') }
 
     console.log('App -> render')
 
     if (view === 'landing')
-        return <Landing onLoginClick={handleLoginClick} onRegisterClick={handleRegisterClick} />
-
+        return <Landing onGoToLogin={handleGoToLogin} onGoToRegister={handleGoToRegister} />
 
     if (view === 'login')
-        return <Login onLogin={handleLogin} onRegisterClick={handleRegisterClick} />
-
+        return <Login onGoToHome={handleLogin} onGoToRegister={handleGoToRegister} />
 
     if (view === 'register')
-        return <Register onRegister={handleRegister} onLoginClick={handleLoginClick} />
+        return <Register onGoToLogin={handleGoToLogin} />
 
-    if (view === 'home') {
-        return <Home onAddPetClick={handleAddPetClick} onLogout={handleLogout} />
-    }
+    if (view === 'home')
+        return <Home onGoToAddPet={handleGoToAddPet} onGoToLogin={handleGoToLogin} />
 
     if (view === 'add-pet')
-        return <AddPet onBackHome={handleBackHomeClick} onAddPet={handleAddPet} />
+        return <AddPet onGoToHome={handleGoToHome} />
 }
