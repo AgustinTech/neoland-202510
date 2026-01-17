@@ -20,7 +20,7 @@ function Landing({ onGoToLogin, onGoToRegister }) {
         <p className="text-3xl">Welcome!</p>
 
         <nav>
-            <a className="text-white rounded-xl bg-[black] px-2 underline" onClick={handleLoginClick}>Login</a> or <a className="text-white rounded-xl bg-[black] px-2 underline" onClick={handleRegisterClick}>Register</a>
+            <Links onClick={handleLoginClick}>Login</Links> or <Links onClick={handleRegisterClick}>Register</Links>
         </nav>
     </div>
 }

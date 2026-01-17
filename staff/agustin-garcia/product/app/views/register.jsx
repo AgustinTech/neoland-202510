@@ -28,7 +28,7 @@ function Register({ onGoToLogin }) {
             setPasswordType('password')
             setPasswordRepeatType('password')
 
-            onRegister()
+            onGoToLogin()
         } catch (error) {
             setMessage(error.message)
         }
@@ -63,30 +63,34 @@ function Register({ onGoToLogin }) {
 
         <form className="flex flex-col" onSubmit={handleRegisterSubmit}>
             <label htmlFor="name">Name </label>
-            <input id="name" name="name" type="text" autoComplete="name" placeholder="Nombre" className="border px-1 rounded-xl" />
+
+            <Input id="name" name="name" type="text" autoComplete="name" placeholder="Nombre" ></Input>
 
             <label>Email</label>
-            <input id="email" name="email" type="email" autoComplete="email" placeholder="Email" className="border px-1 rounded-xl" />
+
+            <Input id="email" name="email" type="email" autoComplete="email" placeholder="Email" ></Input>
 
             <label htmlFor="username">Username</label>
-            <input id="username" name="username" type="text" autoComplete="username" placeholder="Username" className="border px-1 rounded-xl" />
+
+            <Input id="username" name="username" type="text" autoComplete="username" placeholder="Username"></Input>
 
             <label htmlFor="password">Password</label>
             <input id="password" name="password" type={passwordType} autoComplete="current-password" className={passwordType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
 
-            <button type="button" className="text-white  rounded-xl bg-[black] self-end cursor-pointer" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
-            <span className="self-end" style={{ display: 'none' }}>⬆</span>
+            <Button type="button" className="self-end" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</Button>
+
             <label htmlFor="passwordRepeat">Repeat Password</label>
             <input id="passwordRepeat" name="passwordRepeat" type={passwordRepeatType} autoComplete="current-password" className={passwordRepeatType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
 
-            <button type="button" className="text-white  rounded-xl bg-[black] self-end cursor-pointer" onClick={handleTogglePasswordRepeatClick}>{passwordRepeatType === 'password' ? 'Show' : 'Hide'}</button>
-            <span className="self-end" style={{ display: 'none' }}>⬆</span>
-            <button type="submit" className="text-white  rounded-xl bg-[black] self-center px-1 cursor-pointer">Register</button>
+            <Button type="button" className="self-end" onClick={handleTogglePasswordRepeatClick}>{passwordRepeatType === 'password' ? 'Show' : 'Hide'}</Button>
+
+            <Button className="self-center px-2 mt-4" type="submit">Register</Button>
+
         </form>
 
-        <a className="text-white  rounded-xl bg-[black] px-2 mt-4 underline" onClick={handleLoginClick}>Login</a>
+        <Links onClick={handleLoginClick}>Login</Links>
 
         <p>{message}</p>
-    </div>
+    </div >
 
 }

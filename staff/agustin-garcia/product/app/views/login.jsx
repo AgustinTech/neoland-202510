@@ -52,18 +52,20 @@ function Login({ onGoToHome, onGoToRegister }) {
 
         <form className="flex flex-col" onSubmit={handleLoginSubmit}>
             <label htmlFor="username">Username</label>
-            <input type="text" name="username" id="username" autoComplete="username" className="border px-1 rounded-xl" />
+
+            <Input type="text" name="username" id="username" autoComplete="username" />
 
             <label htmlFor="password">Password</label>
-            <input id="password" name="password" autoComplete="current-password" type={passwordType} className={passwordType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
 
-            <button type="button" className="text-white rounded-xl bg-[black] self-end cursor-pointer" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</button>
-            <span className="self-end" style={{ display: 'none' }}>⬆</span>
-            <button type="submit" className="text-white rounded-xl bg-[black] self-center px-2 mt-4 cursor-pointer">Login</button>
+            <Input id="password" name="password" autoComplete="current-password" type={passwordType} className="text-lg" />
+
+            <Button type='button' onClick={handleTogglePasswordClick} className="self-end" >{passwordType === 'password' ? 'Show' : 'Hide'}</Button>
+
+            <Button className="self-center px-2 mt-4" type="submit">Login</Button>
 
         </form>
 
-        <a className="text-white rounded-xl bg-[black]  px-2 underline" onClick={handleRegisterClick}>Register</a>
+        <Links onClick={handleRegisterClick}>Register</Links>
 
         <p>{message}</p>
     </div>
