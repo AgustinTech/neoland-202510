@@ -4,8 +4,6 @@ function Register({ onGoToLogin }) {
     console.log('Register -> call')
 
     const [message, setMessage] = useState('')
-    const [passwordType, setPasswordType] = useState('password')
-    const [passwordRepeatType, setPasswordRepeatType] = useState('password')
 
 
     const handleRegisterSubmit = event => {
@@ -25,8 +23,6 @@ function Register({ onGoToLogin }) {
             form.reset()
 
             setMessage('')
-            setPasswordType('password')
-            setPasswordRepeatType('password')
 
             onGoToLogin()
         } catch (error) {
@@ -41,19 +37,6 @@ function Register({ onGoToLogin }) {
         onGoToLogin()
     }
 
-
-    const handleTogglePasswordClick = event => {
-        event.preventDefault()
-
-        setPasswordType(passwordType === 'password' ? 'text' : 'password')
-    }
-
-    const handleTogglePasswordRepeatClick = event => {
-        event.preventDefault()
-
-        setPasswordRepeatType(passwordRepeatType === 'password' ? 'text' : 'password')
-    }
-
     console.log('Register -> render')
 
     return <div className="p-4">
@@ -61,32 +44,19 @@ function Register({ onGoToLogin }) {
 
         <h2 className="font-bold">Register</h2>
 
-        <form className="flex flex-col" onSubmit={handleRegisterSubmit}>
-            <label htmlFor="name">Name </label>
+        <Form  onSubmit={handleRegisterSubmit}>
+            <Field alias="name" type="text">Name</Field>
 
-            <Input id="name" name="name" type="text" autoComplete="name" placeholder="Nombre" ></Input>
+                <Field alias="email" type="email">E-mail</Field>
 
-            <label>Email</label>
+                <Field alias="username" type="text">Username</Field>
 
-            <Input id="email" name="email" type="email" autoComplete="email" placeholder="Email" ></Input>
+                <PasswordField alias="password">Password</PasswordField>
 
-            <label htmlFor="username">Username</label>
+                <PasswordField alias="passwordRepeat">Repeat Password</PasswordField>
 
-            <Input id="username" name="username" type="text" autoComplete="username" placeholder="Username"></Input>
-
-            <label htmlFor="password">Password</label>
-            <input id="password" name="password" type={passwordType} autoComplete="current-password" className={passwordType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
-
-            <Button type="button" className="self-end" onClick={handleTogglePasswordClick}>{passwordType === 'password' ? 'Show' : 'Hide'}</Button>
-
-            <label htmlFor="passwordRepeat">Repeat Password</label>
-            <input id="passwordRepeat" name="passwordRepeat" type={passwordRepeatType} autoComplete="current-password" className={passwordRepeatType === 'password' ? 'border px-1 rounded-xl' : 'border px-1 rounded-xl bg-[gold]'} />
-
-            <Button type="button" className="self-end" onClick={handleTogglePasswordRepeatClick}>{passwordRepeatType === 'password' ? 'Show' : 'Hide'}</Button>
-
-            <Button className="self-center px-2 mt-4" type="submit">Register</Button>
-
-        </form>
+                <Button className="self-center px-2 mt-4" type="submit">Register</Button>
+        </Form>
 
         <Links onClick={handleLoginClick}>Login</Links>
 

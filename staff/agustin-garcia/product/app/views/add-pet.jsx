@@ -44,25 +44,17 @@ function AddPet({ onGoToHome }) {
             <Links href="" onClick={handleBackHomeClick}>&lt; Back</Links>
         </div>
 
-        <form className="flex flex-col" onSubmit={handleAddPetSubmit}>
-            <label htmlFor="name">Name</label>
+        <Form onSubmit={handleAddPetSubmit}>
+                <Field alias="name" type="text">Name</Field>
 
-            <Input type="text" name="name" id="Name"></Input>
+                <Field alias="birthdate" type="date">Birthdate</Field>
 
-            <label htmlFor="date">Date of Birth</label>
+                <Field alias="weight" type="number">Weight (kg)</Field>
 
-            <Input id="birthdate" name="birthdate" type="date"></Input>
+                <Field alias="image" type="url">Image</Field>
 
-            <label htmlFor="weight">Weight (kg)</label>
-
-            <Input id="weight" name="weight" type="number" step="0.01"></Input>
-
-            <label htmlFor="image">Image</label>
-
-            <Input id="image" name="image" type="url" ></Input>
-
-            <Button className="self-center px-2 mt-4" type="submit">AddPet</Button>
-        </form>
+                <Button className="self-center px-2 mt-4" type="submit">Add Pet</Button>
+            </Form>
 
         <p>{message}</p>
     </div>
