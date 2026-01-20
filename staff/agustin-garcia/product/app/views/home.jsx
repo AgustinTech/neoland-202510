@@ -1,6 +1,6 @@
 const { useState, useEffect } = React
 
-function Home({ onGoToAddPet, onGoToLogin }) {
+function Home({ onGoToAddPet, onGoToLogin, onGoToProfile }) {
     console.log('Home -> call')
 
     const [message, setMessage] = useState('')
@@ -9,6 +9,12 @@ function Home({ onGoToAddPet, onGoToLogin }) {
         event.preventDefault()
 
         onGoToAddPet()
+    }
+
+    const handleProfileClick = event => {
+        event.preventDefault()
+
+        onGoToProfile()
     }
 
     const handleLogoutClick = event => {
@@ -32,9 +38,10 @@ function Home({ onGoToAddPet, onGoToLogin }) {
 
         <h2>Welcome Home</h2>
 
-        <div className="flex justify-between">
-            <Button type="button" onClick={handleAddPetClick}>+ Pet</Button>
-            <Button type="button" onClick={handleLogoutClick}>Logout</Button>
+        <div className="flex">
+            <Links onClick={handleAddPetClick}>+ Pet</Links>
+            <Links onClick={handleProfileClick}>Profile</Links>
+            <Button type="button" className='ml-auto ' onClick={handleLogoutClick}>Logout</Button>
         </div>
 
         <PetList />

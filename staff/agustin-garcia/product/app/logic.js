@@ -50,13 +50,51 @@ class Logic {
         if (user.password !== password) throw new Error('incorrect password')
 
         data.setLoggedInUserId(user.id)
-
     }
+
+    changePassword(password, newPassword, newPasswordRepeat) {
+
+        if (typeof password !== 'string') throw new Error('invalid current password type')
+
+        if (typeof newPassword !== 'string') throw new Error('invalid newPassword type')
+
+        if (newPassword.length < 8) throw new Error('invalid newPassword length')
+
+        if (newPassword !== newPasswordRepeat) throw new Error('newPasswordRepeat do not match')
+
+        const user = data.findUserById(data.getLoggedInUserId())
+
+        if (user.password !== password)
+            throw new Error('current password is incorrect')
+
+        user.password = newPassword
+    }
+
+
+    changeEmail(email, newEmail, newEmailRepeat) {
+        if (typeof email !== 'string') throw new Error('invalid current email type')
+
+        if (email.length < 6) throw new Error('invalid email length')
+
+        if (typeof newEmail !== 'string') throw new Error('invalid newEmail type')
+
+        if (newEmail.length < 6) throw new Error('invalid newEmail length')
+
+        if (newEmail !== newEmailRepeat) throw new Error('newEmailRepeat do not match')
+
+        const user = data.findUserById(data.getLoggedInUserId())
+
+        if (user.email !== email)
+            throw new Error('old email does not match')
+
+        user.email = newEmail
+    }
+
+
 
     logoutUser() {
         data.setLoggedInUserId(null)
     }
-
 
 
     getUsername() {
@@ -70,6 +108,7 @@ class Logic {
 
         throw new Error('user not found')
     }
+
 
     addPet(name, birthdate, weight, image) {
         if (data.getLoggedInUserId() === null) throw new Error('user not logged in')

@@ -87,6 +87,15 @@ class Data {
         return null
     }
 
+
+    setLoggedInUserId(userId) {
+        this.loggedInUserId = userId
+    }
+
+    getLoggedInUserId() {
+        return this.loggedInUserId
+    }
+
     findUserById(id) {
         for (let i = 0; i < this.users.length; i++) {
             const user = this.users[i]
@@ -96,9 +105,6 @@ class Data {
 
         return null
     }
-
-
-
 
     // owner 
 
@@ -132,14 +138,6 @@ class Data {
     insertPet(pet) {
         this.pets.push(pet)
         this.petsCount++
-    }
-
-    setLoggedInUserId(userId) {
-        this.loggedInUserId = userId
-    }
-
-    getLoggedInUserId() {
-        return this.loggedInUserId
     }
 
     findPetsByOwnerPassport(passport) {

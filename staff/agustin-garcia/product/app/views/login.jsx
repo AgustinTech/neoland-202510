@@ -32,12 +32,6 @@ function Login({ onGoToHome, onGoToRegister }) {
 
     }
 
-    const handleTogglePasswordClick = event => {
-        event.preventDefault()
-
-        setPasswordType(passwordType === 'password' ? 'text' : 'password')
-    }
-
     const handleRegisterClick = event => {
         event.preventDefault()
 
@@ -49,7 +43,7 @@ function Login({ onGoToHome, onGoToRegister }) {
 
         <h2 className="font-bold">Login </h2>
 
-       <Form onSubmit={handleLoginSubmit}>
+        <Form onSubmit={handleLoginSubmit}>
             <Field alias="username" type="text">Username</Field>
 
             <PasswordField alias="password">Password</PasswordField>
