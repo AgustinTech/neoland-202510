@@ -74,12 +74,12 @@ class Collection {
     }
 
     reverse() {
-        const elementos = []
+        const elements = []
         while (this.count > 0) {
-            elementos.push(this.pop())
+            elements.push(this.pop())
         }
-        for (let i = 0; i < elementos.length; i++) {
-            this.push(elementos[i])
+        for (let i = 0; i < elements.length; i++) {
+            this.push(elements[i])
         }
     }
 
@@ -104,4 +104,34 @@ class Collection {
 
         return mapped
     }
+
+    filter(callback) {
+        const filtered = new Collection()
+
+        for (let i = 0; i < this.count; i++) {
+            const element = this[i]
+
+            const matches = callback(element)
+
+            if (matches) {
+                filtered[filtered.count] = element
+                filtered.count++
+            }
+        }
+        return filtered
+    }
+
+
+    find(callback) {
+        for (let i = 0; i < this.count; i++) {
+            const element = this[i]
+
+            const matches = callback(element)
+
+            if (matches) {
+                return element
+            }
+        }
+    }
+
 }
