@@ -1,6 +1,13 @@
-const { useState } = React
+import { useState } from 'react'
 
-function ChangeEmail() {
+import { Form } from './commons/Form'
+import { Field } from './commons/Field'
+import { Button } from './commons/Button'
+
+import { logic } from '../../logic'
+
+
+export function ChangeEmail() {
     console.log('ChangeEmail -> call')
 
     const [message, setMessage] = useState('')

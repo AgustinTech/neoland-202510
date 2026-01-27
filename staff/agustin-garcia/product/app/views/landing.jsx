@@ -1,4 +1,6 @@
-function Landing({ onGoToLogin, onGoToRegister }) {
+import { Links } from "./components/commons/Links"
+
+export function Landing({ onGoToLogin, onGoToRegister }) {
     console.log('Landing -> call')
 
     const handleLoginClick = event => {

@@ -1,6 +1,13 @@
-const { useState } = React
+import { useState } from 'react'
 
-function AddPet({ onGoToHome }) {
+import { Links } from './components/commons/Links'
+import { Form } from './components/commons/Form'
+import { Field } from './components/commons/Field'
+import { Button } from './components/commons/Button'
+import { logic } from '../logic'
+
+
+export function AddPet({ onGoToHome }) {
     console.log('AddPet -> call')
 
     const [message, setMessage] = useState('')
@@ -45,16 +52,16 @@ function AddPet({ onGoToHome }) {
         </div>
 
         <Form onSubmit={handleAddPetSubmit}>
-                <Field alias="name" type="text">Name</Field>
+            <Field alias="name" type="text">Name</Field>
 
-                <Field alias="birthdate" type="date">Birthdate</Field>
+            <Field alias="birthdate" type="date">Birthdate</Field>
 
-                <Field alias="weight" type="number">Weight (kg)</Field>
+            <Field alias="weight" type="number">Weight (kg)</Field>
 
-                <Field alias="image" type="url">Image</Field>
+            <Field alias="image" type="url">Image</Field>
 
-                <Button className="self-center px-2 mt-4" type="submit">Add Pet</Button>
-            </Form>
+            <Button className="self-center px-2 mt-4" type="submit">Add Pet</Button>
+        </Form>
 
         <p>{message}</p>
     </div>

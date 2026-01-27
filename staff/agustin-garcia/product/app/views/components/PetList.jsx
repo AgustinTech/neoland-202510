@@ -1,6 +1,11 @@
-const { useState, useEffect } = React
+import { useState, useEffect } from 'react'
 
-function PetList() {
+import { Button } from './commons/Button'
+
+import { logic } from '../../logic'
+
+
+export function PetList() {
     console.log('PetList -> call')
 
     const [petId, setPetId] = useState(null)
@@ -75,8 +80,8 @@ function PetList() {
                 <p className="text-center mb-4 font-bold">Delete Pet?</p>
 
                 <div className="flex justify-center gap-4">
-                    <button className="cursor-pointer text-2xl" onClick={handleCancelDeleteClick}>❌</button>
-                    <button className="cursor-pointer text-2xl" onClick={handleConfirmDeleteClick}>✅</button>
+                    <Button className="cursor-pointer text-2xl bg-white" onClick={handleCancelDeleteClick}>❌</Button>
+                    <Button className="cursor-pointer text-2xl bg-white" onClick={handleConfirmDeleteClick}>✅</Button>
                 </div>
             </div>
         </div>

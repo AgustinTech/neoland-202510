@@ -1,3 +1,5 @@
+import { data, User, Pet } from './data'
+
 class Logic {
     constructor() {
     }
@@ -243,4 +245,4 @@ class Logic {
 }
 // instance
 
-const logic = new Logic()
+export const logic = new Logic()

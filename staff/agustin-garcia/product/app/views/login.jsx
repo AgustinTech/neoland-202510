@@ -1,10 +1,17 @@
-const { useState } = React
+import { useState } from 'react'
 
-function Login({ onGoToHome, onGoToRegister }) {
+import { Form } from './components/commons/Form'
+import { Field } from './components/commons/Field'
+import { PasswordField } from './components/commons/PasswordField'
+import { Button } from './components/commons/Button'
+import { Links } from './components/commons/Links'
+
+import { logic } from '../logic'
+
+export function Login({ onGoToHome, onGoToRegister }) {
     console.log('Login -> call')
 
     const [message, setMessage] = useState('')
-    const [passwordType, setPasswordType] = useState('password')
 
     console.log('Login -> render')
 
@@ -23,7 +30,6 @@ function Login({ onGoToHome, onGoToRegister }) {
             form.reset()
 
             setMessage('')
-            setPasswordType('password')
 
             onGoToHome()
         } catch (error) {
