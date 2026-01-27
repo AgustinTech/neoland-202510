@@ -147,7 +147,26 @@ assert(teamYellow[4] === 'Sergio', 'teamYellow[4] is Sergio')
     animals.count = 5
 
     const animalWithE = animals.find(animal => animal.includes('e'))
-    
+
     assert(animalWithE === 'horse')
+
+}
+
+// CASE find bestFruit 
+{
+    const fruit = new Collection()
+    fruit[0] = 'kiwi'
+    fruit[1] = 'banana'
+    fruit[2] = 'apple'
+    fruit[3] = 'watermelon'
+    fruit[4] = 'pear'
+    fruit.count = 5
+
+    const bestFruit = fruit.find((fruit, index, collection) =>
+        fruit.includes('a') && fruit.length > 4 && index % 2 === 0
+    )
+
+    assert(bestFruit === 'apple', 'bestFruit is apple')
+
 
 }

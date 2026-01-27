@@ -126,7 +126,7 @@ class Collection {
         for (let i = 0; i < this.count; i++) {
             const element = this[i]
 
-            const matches = callback(element)
+            const matches = callback(element, i, this)
 
             if (matches) {
                 return element
