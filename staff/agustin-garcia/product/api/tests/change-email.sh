@@ -1,0 +1,1 @@
+curl -H 'Content-Type: application/json' -d '{"email": "ayrton@senna.com","newEmail": "senna@mclaren.com","newEmailRepeat": "senna@mclaren.com"}' http://localhost:8080/user/change-email -v
