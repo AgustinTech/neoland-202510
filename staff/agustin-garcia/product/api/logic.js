@@ -59,15 +59,20 @@ class Logic {
         return user.id
     }
 
-    changePassword(password, newPassword, newPasswordRepeat) {
+    changePassword(userId, password, newPassword, newPasswordRepeat) {
+
+        if (typeof userId !== 'string') throw new Error('invalid userId type')
+        if (!USER_ID_REGEX.test(userId)) throw new Error('invalid userId format')
 
         if (typeof password !== 'string') throw new Error('invalid current password type')
         if (typeof newPassword !== 'string') throw new Error('invalid newPassword type')
+        if (typeof newPasswordRepeat !== 'string') throw new Error('invalid newPasswordRepeat type')
 
         if (newPassword.length < 8) throw new Error('invalid newPassword length')
         if (newPassword !== newPasswordRepeat) throw new Error('newPasswordRepeat do not match')
 
-        const user = user.id
+        const user = data.findUserById(userId)
+        if (!user) throw new Error('user not found')
 
         if (user.password !== password)
             throw new Error('current password is incorrect')
@@ -76,7 +81,10 @@ class Logic {
     }
 
 
-    changeEmail(email, newEmail, newEmailRepeat) {
+    changeEmail(userId, email, newEmail, newEmailRepeat) {
+
+        if (typeof userId !== 'string') throw new Error('invalid userId type')
+        if (!USER_ID_REGEX.test(userId)) throw new Error('invalid userId format')
 
         if (typeof email !== 'string') throw new Error('invalid current email type')
         if (email.length < 6) throw new Error('invalid email length')
@@ -84,16 +92,18 @@ class Logic {
 
         if (typeof newEmail !== 'string') throw new Error('invalid newEmail type')
         if (newEmail.length < 6) throw new Error('invalid newEmail length')
-        if (!EMAIL_REGEX.test(email)) throw new Error('invalid email format')
+        if (!EMAIL_REGEX.test(newEmail)) throw new Error('invalid email format')
 
         if (newEmail !== newEmailRepeat) throw new Error('newEmailRepeat do not match')
+        if (typeof newEmailRepeat !== 'string') throw new Error('invalid newEmailRepeat type')
         if (newEmailRepeat.length < 6) throw new Error('invalid newEmailRepeat length')
-        if (!EMAIL_REGEX.test(email)) throw new Error('invalid email format')
+        if (!EMAIL_REGEX.test(newEmailRepeat)) throw new Error('invalid email format')
 
-        const user = user.id
+        const user = data.findUserById(userId)
 
-        if (user.email !== email)
-            throw new Error('old email does not match')
+        if (!user) throw new Error('user not found')
+
+        if (user.email !== email) throw new Error('old email does not match')
 
         user.email = newEmail
     }
@@ -141,20 +151,22 @@ class Logic {
     }
 
 
-    deletePet(petId) {
-        if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
-
-        const user = data.findUserById(data.getLoggedInUserId())
-        if (user === null) throw new Error('user does not exists')
+    removePet(userId, petId) {
+        if (typeof userId !== 'string') throw new Error('invalid userId type')
+        if (!USER_ID_REGEX.test(userId)) throw new Error('invalid userId format')
 
         if (typeof petId !== 'string') throw new Error("invalid pet-id type")
         if (!PET_ID_REGEX.test(petId)) throw new Error('invalid pet-id format')
 
+        const user = data.findUserById(userId)
+
+        if (!user) throw new Error('user does not exists')
+
         const pet = data.findPetById(petId)
 
-        if (pet === null) throw new Error('pet not found')
+        if (!pet) throw new Error('pet not found')
 
-        if (pet.userId !== data.getLoggedInUserId()) throw new Error('user not owner of pet')
+        if (pet.userId !== userId) throw new Error('user not owner of pet')
 
         const petIndex = data.pets.indexOf(pet)
 
@@ -230,14 +242,16 @@ class Logic {
         data.insertPet(pet)
     }
 
-    getPets() {
-        if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
+    getPets(userId) {
 
-        const user = data.findUserById(data.getLoggedInUserId())
-        if (user === null) throw new Error('user does not exists')
+        if (typeof userId !== 'string') throw new Error('invalid userId type')
+        if (!USER_ID_REGEX.test(userId)) throw new Error('invalid userId format')
 
+        const user = data.findUserById(userId)
 
-        const pets = data.findPetByUserId(data.getLoggedInUserId())
+        if (!user) throw new Error('user does not exists')
+
+        const pets = data.findPetByUserId(userId)
 
         return pets
     }

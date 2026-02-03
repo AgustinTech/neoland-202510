@@ -1,1 +1,2 @@
-curl -H 'Content-Type: application/json' -d '{"email": "ayrton@senna.com","newEmail": "senna@mclaren.com","newEmailRepeat": "senna@mclaren.com"}' http://localhost:8080/user/change-email -v
+curl -X PUT -H 'Authorization: Basic user-0' -H "Content-Type: application/json"  -d '{"email": "ayrton@senna.com","newEmail": "senna@ayrton.com","newEmailRepeat": "senna@ayrton.com"
+}' http://localhost:8080/users/email

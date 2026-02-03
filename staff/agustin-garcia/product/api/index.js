@@ -64,4 +64,67 @@ api.post('/pets', jsonBodyParser, (req, res) => {
     }
 
 })
+
+
+api.get('/pets', (req, res) => {
+    try {
+        const userId = req.headers.authorization.slice(6)
+
+        const pets = logic.getPets(userId)
+
+        res.send(pets)
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+
+})
+
+
+api.delete('/pets/:petId', (req, res) => {
+    try {
+        const userId = req.headers.authorization.slice(6)
+
+        const { petId } = req.params
+
+        logic.removePet(userId, petId)
+
+        res.status(204).send()
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+
+})
+
+
+api.put('/users/password', jsonBodyParser, (req, res) => {
+    try {
+        const userId = req.headers.authorization.slice(6)
+
+        const { password, newPassword, newPasswordRepeat } = req.body
+
+        logic.changePassword(userId,password, newPassword, newPasswordRepeat)
+
+        res.status(200).send('Password has been changed')
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+
+})
+
+api.put('/users/email',jsonBodyParser, (req, res) => {
+    try {
+        const userId = req.headers.authorization.slice(6)
+
+        const { email, newEmail, newEmailRepeat } = req.body
+
+        logic.changeEmail(userId,email, newEmail, newEmailRepeat)
+
+        res.status(200).send('Email has been changed')
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+
+})
+
+
 api.listen(8080, () => console.log('API listening on port 8080'))

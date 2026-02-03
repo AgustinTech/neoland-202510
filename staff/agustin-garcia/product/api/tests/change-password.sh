@@ -1,1 +1,2 @@
-curl -H 'Content-Type: application/json' -d '{"password": "123123123","newPassword": "147258369","newPasswordRepeat": "147258369"}' http://localhost:8080/user/change-password -v
+curl -X PUT -H 'Authorization: Basic user-0' -H "Content-Type: application/json"  -d '{"password": "123123123","newPassword": "147258369","newPasswordRepeat": "147258369"
+}' http://localhost:8080/users/password
