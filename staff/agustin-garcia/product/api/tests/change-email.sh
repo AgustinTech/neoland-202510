@@ -1,2 +1,2 @@
-curl -X PUT -H 'Authorization: Basic user-0' -H "Content-Type: application/json"  -d '{"email": "ayrton@senna.com","newEmail": "senna@ayrton.com","newEmailRepeat": "senna@ayrton.com"
+curl -X PATCH -H 'Authorization: Basic user-0' -H "Content-Type: application/json"  -d '{"email": "ayrton@senna.com","newEmail": "senna@ayrton.com","newEmailRepeat": "senna@ayrton.com"
 }' http://localhost:8080/users/email

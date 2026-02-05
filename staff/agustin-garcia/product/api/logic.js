@@ -105,6 +105,10 @@ class Logic {
 
         if (user.email !== email) throw new Error('old email does not match')
 
+        const otherUser = data.findUserByEmail(newEmail)
+
+        if (otherUser) throw new Error('newEmail belongs to another user')
+
         user.email = newEmail
     }
 
