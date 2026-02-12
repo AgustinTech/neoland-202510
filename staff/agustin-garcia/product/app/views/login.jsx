@@ -5,13 +5,14 @@ import { Field } from './components/commons/Field'
 import { PasswordField } from './components/commons/PasswordField'
 import { Button } from './components/commons/Button'
 import { Links } from './components/commons/Links'
+import { Feedback } from './components/commons/Feedback'
 
 import { logic } from '../logic'
 
 export function Login({ onGoToHome, onGoToRegister }) {
     console.log('Login -> call')
 
-    const [message, setMessage] = useState('')
+    const [feedback, setFeedback] = useState(null)
 
     console.log('Login -> render')
 
@@ -29,13 +30,13 @@ export function Login({ onGoToHome, onGoToRegister }) {
                 .then(() => {
                     form.reset()
 
-                    setMessage('')
+                    setFeedback(null)
 
                     onGoToHome()
                 })
-                .catch(error => setMessage(error.message))
+                .catch(error => setFeedback({message: error.message, level:'error'}))
         } catch (error) {
-            setMessage(error.message)
+            setFeedback({message: error.message, level:'error'})
         }
     }
 
@@ -60,6 +61,6 @@ export function Login({ onGoToHome, onGoToRegister }) {
 
         <Links onClick={handleRegisterClick}>Register</Links>
 
-        <p>{message}</p>
+        {feedback && <Feedback  feedback={feedback}/>}
     </div>
 }

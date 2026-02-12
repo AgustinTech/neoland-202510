@@ -31,7 +31,6 @@ class Logic {
             body: JSON.stringify({ name, email, username, password, passwordRepeat })
         })
             .then(res => {
-                debugger
                 const { status } = res
 
                 if (status === 201)
@@ -39,7 +38,6 @@ class Logic {
 
                 return res.json()
                     .then(body => {
-                        debugger
                         const { error, message } = body
 
                         throw new Error(message)
@@ -66,19 +64,16 @@ class Logic {
             body: JSON.stringify({ username, password })
         })
             .then(res => {
-                debugger
                 const { status } = res
 
                 if (status === 200)
                     return res.json()
                         .then(userId => {
-                            debugger
                             data.setLoggedInUserId(userId)
                         })
 
                 return res.json()
                     .then(body => {
-                        debugger
                         const { error, message } = body
 
                         throw new Error(message)
@@ -114,7 +109,6 @@ class Logic {
             body: JSON.stringify({ password, newPassword, newPasswordRepeat })
         })
             .then(res => {
-                debugger
                 const { status } = res
 
                 if (status === 204)
@@ -122,7 +116,6 @@ class Logic {
 
                 return res.json()
                     .then(body => {
-                        debugger
                         const { error, message } = body
 
                         throw new Error(message)
@@ -154,7 +147,6 @@ class Logic {
             body: JSON.stringify({ email, newEmail, newEmailRepeat })
         })
             .then(res => {
-                debugger
                 const { status } = res
 
                 if (status === 204)
@@ -162,14 +154,13 @@ class Logic {
 
                 return res.json()
                     .then(body => {
-                        debugger
                         const { error, message } = body
 
                         throw new Error(message)
                     })
             })
     }
-    
+
     getUsername() {
         for (let i = 0; i < data.users.length; i++) {
             const user = data.users[i]
@@ -212,7 +203,6 @@ class Logic {
             body: JSON.stringify({ name, birthdate, weight, image })
         })
             .then(res => {
-                debugger
                 const { status } = res
 
                 if (status === 201)
@@ -220,7 +210,6 @@ class Logic {
 
                 return res.json()
                     .then(body => {
-                        debugger
                         const { error, message } = body
 
                         throw new Error(message)
@@ -246,7 +235,6 @@ class Logic {
             }
         })
             .then(res => {
-                debugger
                 const { status } = res
 
                 if (status === 204)
@@ -254,7 +242,6 @@ class Logic {
 
                 return res.json()
                     .then(body => {
-                        debugger
                         const { error, message } = body
 
                         console.error(error, message)
@@ -342,20 +329,17 @@ class Logic {
             }
         })
             .then(res => {
-                debugger
                 const { status } = res
 
                 if (status === 200) {
                     return res.json()
                         .then(pets => {
-                            debugger
                             return pets
                         })
                 }
 
                 return res.json()
                     .then(body => {
-                        debugger
                         const { error, message } = body
 
                         throw new Error(message)

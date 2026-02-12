@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Form } from './commons/Form'
 import { Field } from './commons/Field'
 import { Button } from './commons/Button'
+import {Feedback} from './commons/Feedback'
 
 import { logic } from '../../logic'
 
@@ -10,7 +11,8 @@ import { logic } from '../../logic'
 export function ChangeEmail() {
     console.log('ChangeEmail -> call')
 
-    const [message, setMessage] = useState('')
+
+    const [feedback, setFeedback] = useState(null)
 
     const handleChangeEmailSubmit = event => {
         event.preventDefault()
@@ -26,11 +28,11 @@ export function ChangeEmail() {
                 .then(() => {
                     form.reset()
 
-                    setMessage('user e-mail successfully updated')
+                    setFeedback({ message:'user e-mail successfully updated', level:'success'})
                 })
-                .catch(error => setMessage(error.message))
+                .catch(error => setFeedback({ message: error.message, level:'error'}))
         } catch (error) {
-            setMessage(error.message)
+            setFeedback({ message: error.message, level:'error'})
         }
     }
 
@@ -47,7 +49,7 @@ export function ChangeEmail() {
                     </Button>
                 </Form>
 
-                <p>{message}</p>
+                {feedback && <Feedback  feedback={feedback}/>}
             </div>
         )
     }

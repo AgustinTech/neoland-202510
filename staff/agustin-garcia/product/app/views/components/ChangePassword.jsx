@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Form } from './commons/Form'
 import { PasswordField } from './commons/PasswordField'
 import { Button } from './commons/Button'
+import { Feedback } from './commons/Feedback'
 
 import { logic } from '../../logic'
 
@@ -10,7 +11,7 @@ import { logic } from '../../logic'
 export function ChangePassword() {
     console.log('ChangePassword -> call')
 
-    const [message, setMessage] = useState('')
+    const [feedback, setFeedback] = useState(null)
 
     const handleChangePasswordSubmit = event => {
         event.preventDefault()
@@ -26,27 +27,27 @@ export function ChangePassword() {
                 .then(() => {
                     form.reset()
 
-                    setMessage('user password successfully updated')
+                    setFeedback({ message: 'user password successfully updated', level: 'success' })
                 })
-                .catch(error => setMessage(error.message))
+                .catch(error => setFeedback({ message: error.message, level: 'error' }))
         } catch (error) {
-            setMessage(error.message)
+            setFeedback({ message: error.message, level: 'error' })
         }
     }
 
-        console.log('ChangePassword -> render')
-        return <div className="p-4">
+    console.log('ChangePassword -> render')
+    return <div className="p-4">
 
-            <Form onSubmit={handleChangePasswordSubmit}>
-                <PasswordField alias="password">Current Password</PasswordField>
+        <Form onSubmit={handleChangePasswordSubmit}>
+            <PasswordField alias="password">Current Password</PasswordField>
 
-                <PasswordField alias="newPassword">New Password</PasswordField>
+            <PasswordField alias="newPassword">New Password</PasswordField>
 
-                <PasswordField alias="newPasswordRepeat">New Password Repeat</PasswordField>
+            <PasswordField alias="newPasswordRepeat">New Password Repeat</PasswordField>
 
-                <Button className="self-center px-2 mt-4" type="submit">Change Password</Button>
-            </Form>
+            <Button className="self-center px-2 mt-4" type="submit">Change Password</Button>
+        </Form>
 
-            <p>{message}</p>
-        </div>
-    }
+        {feedback && <Feedback feedback={feedback} />}
+    </div>
+}
