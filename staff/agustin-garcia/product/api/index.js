@@ -1,4 +1,6 @@
 const express = require('express')
+const cors = require('cors')
+require('./populate')
 
 const { logic } = require('./logic')
 
@@ -6,13 +8,15 @@ const api = express()
 
 const jsonBodyParser = express.json()
 
+api.use(cors())
+
 const people = (
     { id: 'person-0', name: 'Bob', age: 33 },
     { id: 'person-1', name: 'Peter', age: 40 },
     { id: 'person-2', name: 'Wendy', age: 28 }
 )
 
-api.get('/', (req, res) => res.json({ hello: "World!" })
+api.get('/', (req, res) => res.json({ hello: 'Hello! from API ;)' })
 )
 
 api.get('/people', (req, res) => {
@@ -29,7 +33,7 @@ api.post('/users', jsonBodyParser, (req, res) => {
 
         logic.registerUser(name, email, username, password, passwordRepeat)
 
-        res.send()
+        res.status(201).send()
     } catch (error) {
         res.status(400).json({ error: error.constructor.name, message: error.message })
     }
@@ -42,7 +46,38 @@ api.post('/users/auth', jsonBodyParser, (req, res) => {
 
         const userId = logic.authenticateUser(username, password)
 
-        res.send(userId)
+        res.json(userId)
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+
+})
+
+
+api.patch('/users/password', jsonBodyParser, (req, res) => {
+    try {
+        const userId = req.headers.authorization.slice(6)
+
+        const { password, newPassword, newPasswordRepeat } = req.body
+
+        logic.changePassword(userId, password, newPassword, newPasswordRepeat)
+
+        res.status(204).send()
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+
+})
+
+api.patch('/users/email', jsonBodyParser, (req, res) => {
+    try {
+        const userId = req.headers.authorization.slice(6)
+
+        const { email, newEmail, newEmailRepeat } = req.body
+
+        logic.changeEmail(userId, email, newEmail, newEmailRepeat)
+
+        res.status(204).send()
     } catch (error) {
         res.status(400).json({ error: error.constructor.name, message: error.message })
     }
@@ -58,13 +93,12 @@ api.post('/pets', jsonBodyParser, (req, res) => {
 
         logic.addPet(userId, name, birthdate, weight, image)
 
-        res.send()
+        res.status(201).send()
     } catch (error) {
         res.status(400).json({ error: error.constructor.name, message: error.message })
     }
 
 })
-
 
 api.get('/pets', (req, res) => {
     try {
@@ -72,7 +106,7 @@ api.get('/pets', (req, res) => {
 
         const pets = logic.getPets(userId)
 
-        res.send(pets)
+        res.json(pets)
     } catch (error) {
         res.status(400).json({ error: error.constructor.name, message: error.message })
     }
@@ -96,35 +130,6 @@ api.delete('/pets/:petId', (req, res) => {
 })
 
 
-api.patch('/users/password', jsonBodyParser, (req, res) => {
-    try {
-        const userId = req.headers.authorization.slice(6)
-
-        const { password, newPassword, newPasswordRepeat } = req.body
-
-        logic.changePassword(userId,password, newPassword, newPasswordRepeat)
-
-        res.status(204).send()
-    } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
-    }
-
-})
-
-api.patch('/users/email',jsonBodyParser, (req, res) => {
-    try {
-        const userId = req.headers.authorization.slice(6)
-
-        const { email, newEmail, newEmailRepeat } = req.body
-
-        logic.changeEmail(userId,email, newEmail, newEmailRepeat)
-
-        res.status(204).send()
-    } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
-    }
-
-})
 
 
 api.listen(8080, () => console.log('API listening on port 8080'))

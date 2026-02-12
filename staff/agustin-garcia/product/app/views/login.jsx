@@ -25,17 +25,18 @@ export function Login({ onGoToHome, onGoToRegister }) {
 
 
         try {
-            logic.loginUser(username, password)
+            logic.authenticateUser(username, password)
+                .then(() => {
+                    form.reset()
 
-            form.reset()
+                    setMessage('')
 
-            setMessage('')
-
-            onGoToHome()
+                    onGoToHome()
+                })
+                .catch(error => setMessage(error.message))
         } catch (error) {
             setMessage(error.message)
         }
-
     }
 
     const handleRegisterClick = event => {

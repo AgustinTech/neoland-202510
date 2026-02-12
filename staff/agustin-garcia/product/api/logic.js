@@ -127,12 +127,10 @@ class Logic {
 
 
     addPet(userId, name, birthdate, weight, image) {
-
-        const user = data.findUserById(userId)
-
         if (typeof userId !== 'string') throw new Error('invalid userId type')
         if (!USER_ID_REGEX.test(userId)) throw new Error('invalid userId format')
 
+        const user = data.findUserById(userId)
         if (user === null) throw new Error('user does not exists')
 
         if (typeof name !== 'string') throw new Error('invalid name type')

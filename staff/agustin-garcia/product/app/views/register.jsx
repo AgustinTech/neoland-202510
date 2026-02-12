@@ -28,12 +28,14 @@ export function Register({ onGoToLogin }) {
 
         try {
             logic.registerUser(name, email, username, password, passwordRepeat)
+                .then(() => {
+                    form.reset()
 
-            form.reset()
+                    setMessage('')
 
-            setMessage('')
-
-            onGoToLogin()
+                    onGoToLogin()
+                })
+                .catch(error => setMessage(error.message))
         } catch (error) {
             setMessage(error.message)
         }
@@ -53,18 +55,18 @@ export function Register({ onGoToLogin }) {
 
         <h2 className="font-bold">Register</h2>
 
-        <Form  onSubmit={handleRegisterSubmit}>
+        <Form onSubmit={handleRegisterSubmit}>
             <Field alias="name" type="text">Name</Field>
 
-                <Field alias="email" type="email">E-mail</Field>
+            <Field alias="email" type="email">E-mail</Field>
 
-                <Field alias="username" type="text">Username</Field>
+            <Field alias="username" type="text">Username</Field>
 
-                <PasswordField alias="password">Password</PasswordField>
+            <PasswordField alias="password">Password</PasswordField>
 
-                <PasswordField alias="passwordRepeat">Repeat Password</PasswordField>
+            <PasswordField alias="passwordRepeat">Repeat Password</PasswordField>
 
-                <Button className="self-center px-2 mt-4" type="submit">Register</Button>
+            <Button className="self-center px-2 mt-4" type="submit">Register</Button>
         </Form>
 
         <Links onClick={handleLoginClick}>Login</Links>

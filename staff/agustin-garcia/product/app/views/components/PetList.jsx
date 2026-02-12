@@ -15,14 +15,18 @@ export function PetList() {
 
     useEffect(() => {
         console.log('PetList -> useEffect')
-        try {
-            const pets = logic.getPets()
 
-            setPets(pets)
+        try {
+            logic.getPets()
+                .then(pets => {
+                    setPets(pets)
+                })
+                .catch(error => setMessage(error.message))
         } catch (error) {
             setMessage(error.message)
         }
     }, [])
+
 
     const handleDeletePetClick = event => {
         event.preventDefault()
@@ -45,13 +49,15 @@ export function PetList() {
 
         try {
             logic.deletePet(petId)
-
-            const pets = logic.getPets()
-            setPets(pets)
-
-            setShowPanel(false)
-            setPetId(null)
-            setMessage('')
+                .then(() => {
+                    return logic.getPets()
+                })
+                .then(pets => {
+                    setPetId(null)
+                    setPets(pets)
+                    setShowPanel(false)
+                })
+                .catch(error => setMessage(error.message))
         } catch (error) {
             setMessage(error.message)
             setShowPanel(false)

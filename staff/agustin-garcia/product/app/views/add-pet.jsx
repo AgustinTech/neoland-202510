@@ -4,6 +4,7 @@ import { Links } from './components/commons/Links'
 import { Form } from './components/commons/Form'
 import { Field } from './components/commons/Field'
 import { Button } from './components/commons/Button'
+
 import { logic } from '../logic'
 
 
@@ -30,14 +31,15 @@ export function AddPet({ onGoToHome }) {
 
         try {
             logic.addPet(name, birthdate, weight, image)
+                .then(() => {
+                    form.reset()
 
-            form.reset()
-
-            onGoToHome()
+                    onGoToHome()
+                })
+                .catch(error => setMessage(error.message))
         } catch (error) {
             setMessage(error.message)
         }
-
     }
 
 

@@ -23,28 +23,31 @@ export function ChangeEmail() {
 
         try {
             logic.changeEmail(email, newEmail, newEmailRepeat)
+                .then(() => {
+                    form.reset()
 
-            setMessage('New Email change successful')
-            
-            form.reset()
+                    setMessage('user e-mail successfully updated')
+                })
+                .catch(error => setMessage(error.message))
         } catch (error) {
             setMessage(error.message)
         }
     }
 
-    console.log('ChangeEmail -> render')
-    return <div className="p-4">
+        console.log('ChangeEmail -> render')
 
-        <Form onSubmit={handleChangeEmailSubmit}>
-            <Field alias="email" type="email">Current Email</Field>
+        return (
+            <div className="p-4">
+                <Form onSubmit={handleChangeEmailSubmit}>
+                    <Field alias="email" type="email">Current Email</Field>
+                    <Field alias="newEmail" type="email">New Email</Field>
+                    <Field alias="newEmailRepeat" type="email">Repeat New Email</Field>
+                    <Button className="self-center px-2 mt-4" type="submit">
+                        Change Email
+                    </Button>
+                </Form>
 
-            <Field alias="newEmail" type="email">New Email</Field>
-
-            <Field alias="newEmailRepeat" type="email">Repeat New Email</Field>
-
-            <Button className="self-center px-2 mt-4" type="submit">Change Email</Button>
-        </Form>
-
-        <p>{message}</p>
-    </div>
-}
+                <p>{message}</p>
+            </div>
+        )
+    }

@@ -23,29 +23,30 @@ export function ChangePassword() {
 
         try {
             logic.changePassword(password, newPassword, newPasswordRepeat)
+                .then(() => {
+                    form.reset()
 
-            setMessage('New Password change successful')
-
-            form.reset()
+                    setMessage('user password successfully updated')
+                })
+                .catch(error => setMessage(error.message))
         } catch (error) {
             setMessage(error.message)
         }
     }
 
+        console.log('ChangePassword -> render')
+        return <div className="p-4">
 
-    console.log('ChangePassword -> render')
-    return <div className="p-4">
+            <Form onSubmit={handleChangePasswordSubmit}>
+                <PasswordField alias="password">Current Password</PasswordField>
 
-        <Form onSubmit={handleChangePasswordSubmit}>
-            <PasswordField alias="password">Current Password</PasswordField>
+                <PasswordField alias="newPassword">New Password</PasswordField>
 
-            <PasswordField alias="newPassword">New Password</PasswordField>
+                <PasswordField alias="newPasswordRepeat">New Password Repeat</PasswordField>
 
-            <PasswordField alias="newPasswordRepeat">New Password Repeat</PasswordField>
+                <Button className="self-center px-2 mt-4" type="submit">Change Password</Button>
+            </Form>
 
-            <Button className="self-center px-2 mt-4" type="submit">Change Password</Button>
-        </Form>
-
-        <p>{message}</p>
-    </div>
-}
+            <p>{message}</p>
+        </div>
+    }
