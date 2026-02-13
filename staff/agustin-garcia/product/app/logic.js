@@ -1,5 +1,7 @@
 import { data } from './data'
 
+const PET_ID_REGEX = /^\pet-[0-9]+$/
+
 class Logic {
     constructor() {
     }
@@ -348,11 +350,15 @@ class Logic {
     }
 
 
-    getPet() {
+    getPet(petId) {
         const userId = data.getLoggedInUserId()
         if (userId === null) throw new Error('user not logged in')
 
-        return fetch('http://localhost:8080/pets/', {
+        if (typeof petId !== 'string') throw new Error('invalid pet-id type')
+
+        if (!PET_ID_REGEX.test(petId)) throw new Error('ivalid pet-id format')
+
+        return fetch('http://localhost:8080/pets/' + petId, {
             method: 'GET',
             headers: {
                 Authorization: 'Basic ' + userId
@@ -363,9 +369,7 @@ class Logic {
 
                 if (status === 200) {
                     return res.json()
-                        .then(pets => {
-                            return pets
-                        })
+                        .then(pet => pet)
                 }
 
                 return res.json()

@@ -271,7 +271,7 @@ class Logic {
         if (typeof petId !== 'string') throw new Error('invalid petId type')
         if (!PET_ID_REGEX.test(petId)) throw new Error('invalid petId format')
 
-        const pet = data.findPetByUserId(petId)
+        const pet = data.findPetById(petId)
 
         if (!pet) throw new Error('user does not exists')
 

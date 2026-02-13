@@ -3,16 +3,15 @@ import { useState, useEffect } from 'react'
 import { Links } from './components/commons/Links'
 import { Button } from './components/commons/Button'
 import { PetList } from './components/PetList'
-import { Feedback
-    
- } from './components/commons/Feedback'
+import { Feedback } from './components/commons/Feedback'
+
 import { logic } from '../logic'
 
 
-export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile }) {
+export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile, onGoToPetDetail }) {
     console.log('Home -> call')
 
-    const [feedback, setFeedback] = useState(null) 
+    const [feedback, setFeedback] = useState(null)
 
     const handleAddPetClick = event => {
         event.preventDefault()
@@ -40,6 +39,8 @@ export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile }) {
         }
     }
 
+    const handleGoToPetDetail = petId => onGoToPetDetail(petId)
+
     console.log('Home -> render')
 
     return <div className="p-4">
@@ -49,11 +50,13 @@ export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile }) {
 
         <div className="flex">
             <Links onClick={handleAddPetClick}>+ Pet</Links>
+
             <Links onClick={handleProfileClick}>Profile</Links>
+
             <Button type="button" className='ml-auto ' onClick={handleLogoutClick}>Logout</Button>
         </div>
 
-        <PetList />
+        <PetList onGoToPetDetail={handleGoToPetDetail} />
 
         {feedback && <Feedback feedback={feedback} />}
     </div >

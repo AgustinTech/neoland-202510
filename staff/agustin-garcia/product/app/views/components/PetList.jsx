@@ -6,7 +6,7 @@ import { Feedback } from './commons/Feedback'
 import { logic } from '../../logic'
 
 
-export function PetList() {
+export function PetList({ onGoToPetDetail }) {
     console.log('PetList -> call')
 
     const [petId, setPetId] = useState(null)
@@ -66,22 +66,21 @@ export function PetList() {
         }
     }
 
-
-    const handleGoToPetClick = event => {
+    const handleGoToPetDetailClick = event => {
         event.preventDefault()
 
-        const li = event.target
+        const li = event.currentTarget
 
         const petId = li.id
 
-        console.log(petId)
+        onGoToPetDetail(petId)
     }
 
     console.log('PetList -> render')
 
     return <div>
         {
-            pets.map(pet => <li id={pet.id} className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full " onClick={handleGoToPetClick}>
+            pets.map(pet => <li id={pet.id} className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full " onClick={handleGoToPetDetailClick}>
 
                 <div className="flex items-center gap-4">
                     <img src={pet.image} className="rounded-full w-20 h-20 object-cover" />
