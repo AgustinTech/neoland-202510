@@ -346,6 +346,36 @@ class Logic {
                     })
             })
     }
+
+
+    getPet() {
+        const userId = data.getLoggedInUserId()
+        if (userId === null) throw new Error('user not logged in')
+
+        return fetch('http://localhost:8080/pets/', {
+            method: 'GET',
+            headers: {
+                Authorization: 'Basic ' + userId
+            }
+        })
+            .then(res => {
+                const { status } = res
+
+                if (status === 200) {
+                    return res.json()
+                        .then(pets => {
+                            return pets
+                        })
+                }
+
+                return res.json()
+                    .then(body => {
+                        const { error, message } = body
+
+                        throw new Error(message)
+                    })
+            })
+    }
 }
 // instance
 

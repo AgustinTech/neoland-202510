@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 
 import { Button } from './commons/Button'
+import { Feedback } from './commons/Feedback'
 
 import { logic } from '../../logic'
 
@@ -10,7 +11,7 @@ export function PetList() {
 
     const [petId, setPetId] = useState(null)
     const [pets, setPets] = useState([])
-    const [message, setMessage] = useState('')
+    const [feedback, setFeedback] = useState(null)
     const [showPanel, setShowPanel] = useState(false)
 
     useEffect(() => {
@@ -57,19 +58,30 @@ export function PetList() {
                     setPets(pets)
                     setShowPanel(false)
                 })
-                .catch(error => setMessage(error.message))
+                .catch(error => setFeedback({ message: error.message, level: 'error' }))
         } catch (error) {
-            setMessage(error.message)
+            setFeedback({ message: error.message, level: 'error' })
             setShowPanel(false)
             setPetId(null)
         }
+    }
+
+
+    const handleGoToPetClick = event => {
+        event.preventDefault()
+
+        const li = event.target
+
+        const petId = li.id
+
+        console.log(petId)
     }
 
     console.log('PetList -> render')
 
     return <div>
         {
-            pets.map(pet => <li key={pet.id} className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full ">
+            pets.map(pet => <li id={pet.id} className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full " onClick={handleGoToPetClick}>
 
                 <div className="flex items-center gap-4">
                     <img src={pet.image} className="rounded-full w-20 h-20 object-cover" />
@@ -93,6 +105,6 @@ export function PetList() {
         </div>
         }
 
-        <p>{message}</p>
+        {feedback && <Feedback feedback={feedback} />}
     </div>
 }

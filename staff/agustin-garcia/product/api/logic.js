@@ -257,6 +257,28 @@ class Logic {
 
         return pets
     }
+
+
+    getPet(userId, petId) {
+
+        if (typeof userId !== 'string') throw new Error('invalid userId type')
+        if (!USER_ID_REGEX.test(userId)) throw new Error('invalid userId format')
+
+        const user = data.findUserById(userId)
+
+        if (!user) throw new Error('user does not exists')
+
+        if (typeof petId !== 'string') throw new Error('invalid petId type')
+        if (!PET_ID_REGEX.test(petId)) throw new Error('invalid petId format')
+
+        const pet = data.findPetByUserId(petId)
+
+        if (!pet) throw new Error('user does not exists')
+
+        if (pet.userId !== userId) throw new Error('user not owner of pet')
+
+        return pet
+    }
 }
 // instance
 

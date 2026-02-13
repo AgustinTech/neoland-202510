@@ -3,13 +3,16 @@ import { useState, useEffect } from 'react'
 import { Links } from './components/commons/Links'
 import { Button } from './components/commons/Button'
 import { PetList } from './components/PetList'
+import { Feedback
+    
+ } from './components/commons/Feedback'
 import { logic } from '../logic'
 
 
 export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile }) {
     console.log('Home -> call')
 
-    const [message, setMessage] = useState('')
+    const [feedback, setFeedback] = useState(null) 
 
     const handleAddPetClick = event => {
         event.preventDefault()
@@ -29,7 +32,7 @@ export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile }) {
         try {
             logic.logoutUser()
 
-            setMessage('')
+            setFeedback(null)
 
             onGoToLogin()
         } catch (error) {
@@ -52,6 +55,6 @@ export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile }) {
 
         <PetList />
 
-        <p>{message}</p>
+        {feedback && <Feedback feedback={feedback} />}
     </div >
 }
