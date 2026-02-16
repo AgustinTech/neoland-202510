@@ -29,15 +29,12 @@ export function PetList({ onGoToPetDetail }) {
     }, [])
 
 
-    const handleDeletePetClick = event => {
-        event.preventDefault()
-
-        const pet = event.target
-        const petId = pet.id
-
+    const handleDeletePetClick = petId => { 
         setPetId(petId)
         setShowPanel(true)
-    }
+     }
+
+
 
     const handleCancelDeleteClick = event => {
         event.preventDefault()
@@ -66,30 +63,27 @@ export function PetList({ onGoToPetDetail }) {
         }
     }
 
-    const handleGoToPetDetailClick = event => {
-        event.preventDefault()
-
-        const li = event.currentTarget
-
-        const petId = li.id
-
-        onGoToPetDetail(petId)
-    }
+    const handleGoToPetDetailClick = petId => onGoToPetDetail(petId)
 
     console.log('PetList -> render')
 
     return <div>
         {
-            pets.map(pet => <li id={pet.id} className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full " onClick={handleGoToPetDetailClick}>
+            pets.map(pet =>
+                <li className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full " onClick={() => handleGoToPetDetailClick(pet.id)}>
 
-                <div className="flex items-center gap-4">
-                    <img src={pet.image} className="rounded-full w-20 h-20 object-cover" />
+                    <div className="flex items-center gap-4">
+                        <img src={pet.image} className="rounded-full w-20 h-20 object-cover" />
 
-                    <p className="font-bold">{pet.name}</p>
-                </div>
+                        <p className="font-bold">{pet.name}</p>
+                    </div>
 
-                <button className="justify-self-end cursor-pointer" id={pet.id} onClick={handleDeletePetClick}>🗑️</button>
-            </li>)
+                    <Button className="justify-self-end" onClick={event => {
+                        event.stopPropagation()
+
+                        handleDeletePetClick(pet.id)
+                    }}>🗑️</Button>
+                </li>)
         }
 
         {showPanel && < div className="w-full h-full fixed top-0 left-0 bg-black/75 flex justify-center items-center panel">
