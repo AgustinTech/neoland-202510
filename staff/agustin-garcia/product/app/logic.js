@@ -1,5 +1,6 @@
 import { data } from './data'
 
+const USER_ID_REGEX = /^\user-[0-9]+$/
 const PET_ID_REGEX = /^\pet-[0-9]+$/
 
 class Logic {
@@ -379,6 +380,19 @@ class Logic {
                         throw new Error(message)
                     })
             })
+    }
+
+
+    getUser(userId) {
+        if (typeof userId !== 'string') throw new Error('invalid userId type')
+        if (!USER_ID_REGEX.test(userId)) throw new Error('invalid userId format')
+
+        const user = data.findUserById(userId)
+        if (!user) throw new Error('user not found')
+
+        const { name, email, username } = user
+
+        return { name, email, username }
     }
 }
 // instance

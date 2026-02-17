@@ -146,6 +146,18 @@ api.get('/pets/:petId', (req, res) => {
 
 })
 
+api.get('/users/me', jsonBodyParser, (req, res) => {
+    try {
+        const userId = req.headers.authorization.slice(6)
+
+        const user = logic.getUser(userId)
+
+        res.json(user)
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+})
+
 
 
 api.listen(8080, () => console.log('API listening on port 8080'))
