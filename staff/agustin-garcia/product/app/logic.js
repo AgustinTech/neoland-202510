@@ -2,6 +2,7 @@ import { data } from './data'
 
 const USER_ID_REGEX = /^\user-[0-9]+$/
 const PET_ID_REGEX = /^\pet-[0-9]+$/
+const URL_REGEX = /(www|http:|https:)+[^\s]+[\w]/
 
 class Logic {
     constructor() {
@@ -334,12 +335,8 @@ class Logic {
             .then(res => {
                 const { status } = res
 
-                if (status === 200) {
+                if (status === 200)
                     return res.json()
-                        .then(pets => {
-                            return pets
-                        })
-                }
 
                 return res.json()
                     .then(body => {
@@ -368,10 +365,8 @@ class Logic {
             .then(res => {
                 const { status } = res
 
-                if (status === 200) {
+                if (status === 200)
                     return res.json()
-                        .then(pet => pet)
-                }
 
                 return res.json()
                     .then(body => {
@@ -383,17 +378,67 @@ class Logic {
     }
 
 
-    getUser(userId) {
-        if (typeof userId !== 'string') throw new Error('invalid userId type')
-        if (!USER_ID_REGEX.test(userId)) throw new Error('invalid userId format')
+    getLoggedInUser() {
+        const userId = data.getLoggedInUserId()
 
-        const user = data.findUserById(userId)
-        if (!user) throw new Error('user not found')
+        if (userId === null) throw new Error('user not logged in')
 
-        const { name, email, username } = user
+        return fetch('http://localhost:8080/users/me', {
+            method: 'GET',
+            headers: {
+                Authorization: 'Basic ' + userId
+            }
+        })
+            .then(res => {
+                const { status } = res
 
-        return { name, email, username }
+                if (status === 200)
+                    return res.json()
+
+                return res.json()
+                    .then(body => {
+                        const { error, message } = body
+
+                        throw new Error(message)
+                    })
+            })
     }
+
+
+    changeUserImage(image) {
+        const userId = data.getLoggedInUserId()
+        if (userId === null) throw new Error('user not logged in')
+
+        if (typeof image !== 'string') throw new Error('invalid image type')
+        if (!URL_REGEX.test(image)) throw new Error('invalid image format')
+
+        return fetch('http://localhost:8080/users/me/image', {
+            method: 'PATCH',
+            headers: {
+                Authorization: 'Basic ' + userId,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ image })
+        })
+
+            .then(res => {
+                const { status } = res
+
+                if (status === 204)
+                    return
+
+                return res.json()
+                    .then(body => {
+                        const { error, message } = body
+
+                        throw new Error(message)
+                    })
+            })
+
+    }
+
+
+
 }
 // instance
 

@@ -12,6 +12,23 @@ export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile, onGoToPetDetail
     console.log('Home -> call')
 
     const [feedback, setFeedback] = useState(null)
+    const [name, setName] = useState(null)
+    const [image, setImage] = useState('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm1yaDI2YzRvbDMweTl5aHl5OXJlZzNhdzN0eTBmdzVjYjRkdWF4aSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/kDs1ljYIdiV4SZXqcp/giphy.gif')
+
+    useEffect(() => {
+        try {
+            logic.getLoggedInUser()
+                .then(user => {
+                    setName(user.name)
+                    setImage(user.image || image)
+                })
+                .catch(error => setFeedback({ message: error.message, level: 'error' }))
+
+        } catch (error) {
+            setFeedback({ message: error.message, level: 'error' })
+        }
+
+    }, [])
 
     const handleAddPetClick = event => {
         event.preventDefault()
@@ -46,7 +63,7 @@ export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile, onGoToPetDetail
     return <div className="p-4">
         <h1 className="text-3xl font-bold cursor-pointer">MyPet</h1>
 
-        <h2>Welcome Home</h2>
+        <h2>Welcome {name}! <img className='rounded-full w-10 h-10 object-cover' src={image}></img></h2>
 
         <div className="flex">
             <Links onClick={handleAddPetClick}>+ Pet</Links>

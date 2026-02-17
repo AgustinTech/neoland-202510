@@ -1,7 +1,7 @@
 const { data, User, Pet } = require('./data')
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-const URL_REGEX = /http(s)?:\/\/(www.)?[a-zA-Z]+(\.[a-zA-Z]+)+(\/(\w|[-_%.#?=&+])+)+/g
+const URL_REGEX = /(www|http:|https:)+[^\s]+[\w]/
 const USER_ID_REGEX = /^\user-[0-9]+$/
 const PET_ID_REGEX = /^\pet-[0-9]+$/
 
@@ -36,7 +36,7 @@ class Logic {
 
         if (user !== null) throw new Error('user username already exists')
 
-        user = new User('user-' + data.usersCount, name, email, username, password, 'regular')
+        user = new User('user-' + data.usersCount, name, email, username, password, null, 'regular')
 
         data.insertUser(user)
     }
@@ -280,8 +280,33 @@ class Logic {
         return pet
     }
 
+    getUser(userId) {
+        if (typeof userId !== 'string') throw new Error('invalid userId type')
+        if (!USER_ID_REGEX.test(userId)) throw new Error('invalid userId format')
 
-    
+        const user = data.findUserById(userId)
+        if (!user) throw new Error('user not found')
+
+        const { name, email, username, image } = user
+
+        return { name, email, username, image }
+    }
+
+    changeUserImage(userId, image) {
+        if (typeof userId !== 'string') throw new Error('invalid userId type')
+        if (!USER_ID_REGEX.test(userId)) throw new Error('invalid userId format')
+
+        if (typeof image !== 'string') throw new Error('invalid image type')
+
+        if (!URL_REGEX.test(image)) throw new Error('invalid image format')
+
+        const user = data.findUserById(userId)
+
+        if (!user) throw new Error('user not found')
+
+        user.image = image
+    }
+
 }
 // instance
 

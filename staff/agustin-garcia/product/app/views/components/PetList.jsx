@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 
 import { Button } from './commons/Button'
 import { Feedback } from './commons/Feedback'
@@ -22,17 +22,17 @@ export function PetList({ onGoToPetDetail }) {
                 .then(pets => {
                     setPets(pets)
                 })
-                .catch(error => setMessage(error.message))
+                .catch(error =>  setFeedback({ message: error.message, level: 'error' }))
         } catch (error) {
-            setMessage(error.message)
+             setFeedback({ message: error.message, level: 'error' })
         }
     }, [])
 
 
-    const handleDeletePetClick = petId => { 
+    const handleDeletePetClick = petId => {
         setPetId(petId)
         setShowPanel(true)
-     }
+    }
 
 
 
@@ -70,7 +70,7 @@ export function PetList({ onGoToPetDetail }) {
     return <div>
         {
             pets.map(pet =>
-                <li className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full " onClick={() => handleGoToPetDetailClick(pet.id)}>
+                <li data-pet-id={pet.id} className="flex items-center justify-between gap-4 mb-2 border-2 border-gray-600 p-2 rounded-md max-w-sm w-full " onClick={() => handleGoToPetDetailClick(pet.id)}>
 
                     <div className="flex items-center gap-4">
                         <img src={pet.image} className="rounded-full w-20 h-20 object-cover" />
