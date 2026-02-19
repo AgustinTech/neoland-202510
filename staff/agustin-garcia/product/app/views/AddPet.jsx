@@ -59,7 +59,7 @@ export function AddPet({ onGoToHome }) {
 
             <Field alias="birthdate" type="date">Birthdate</Field>
 
-            <Field alias="weight" type="number">Weight (kg)</Field>
+            <Field alias="weight" type="number" step="0.1">Weight (kg)</Field>
 
             <Field alias="image" type="url">Image</Field>
 

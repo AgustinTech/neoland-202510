@@ -80,7 +80,7 @@ class Logic {
 
         const { name, email, username, image } = user
 
-        data.updateUser(new User(userId, name, email, username, password, image))
+        data.updateUser(new User(userId, name, email, username, newPassword, image))
     }
 
 
@@ -114,7 +114,7 @@ class Logic {
 
         const { name, username, password, image } = user
 
-        data.updateUser(new User(userId, name, email, username, password, image))
+        data.updateUser(new User(userId, name, newEmail, username, password, image))
     }
 
 

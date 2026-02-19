@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react'
 
 import { Links } from './components/commons/Links'
 import { Feedback } from './components/commons/Feedback'
+import { Button } from './components/commons/Button'
 
 import { logic } from '../logic'
 
-export function PetDetail({ onGoToHome, petId }) {
+export function PetDetail({ onGoToHome, petId, onGoToModifyPet }) {
     console.log('PetDetail -> call')
 
     const [feedback, setFeedback] = useState(null)
@@ -28,6 +29,9 @@ export function PetDetail({ onGoToHome, petId }) {
         onGoToHome()
     }
 
+    const handleGoToModifyPet = () => onGoToModifyPet()
+
+
     console.log('PetDetail -> render')
 
     return <div className='p-4'>
@@ -48,6 +52,9 @@ export function PetDetail({ onGoToHome, petId }) {
             <p>{pet.weight}Kg</p>
 
             <p>{pet.birthdate}</p>
+
+
+            <Button className='cursor-pointer' onClick={handleGoToModifyPet}>Modify</Button>
         </div>}
 
         {feedback && <Feedback feedback={feedback} />}

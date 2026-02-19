@@ -3,6 +3,7 @@ import { data } from './data'
 const USER_ID_REGEX = /^\user-[0-9]+$/
 const PET_ID_REGEX = /^\pet-[0-9]+$/
 const URL_REGEX = /(www|http:|https:)+[^\s]+[\w]/
+const ISODATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
 
 class Logic {
     constructor() {
@@ -188,15 +189,13 @@ class Logic {
 
         if (typeof birthdate !== 'string') throw new Error('invalid birthdate type')
 
-        const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/
-        if (!isoDateRegex.test(birthdate)) throw new Error('invalid birthdate format')
+        if (!ISODATE_REGEX.test(birthdate)) throw new Error('invalid birthdate format')
 
         if (typeof weight !== 'number' || isNaN(weight)) throw new Error('invalid weight type')
 
         if (typeof image !== 'string') throw new Error('invalid image type')
 
-        const urlRegex = /http(s)?:\/\/(www.)?[a-zA-Z]+(\.[a-zA-Z]+)+(\/(\w|[-_%.#?=&+])+)+/g
-        if (!urlRegex.test(image)) throw new Error('invalid image format')
+        if (!URL_REGEX.test(image)) throw new Error('invalid image format')
 
         return fetch('http://localhost:8080/pets', {
             method: 'POST',
@@ -229,8 +228,8 @@ class Logic {
 
         if (typeof petId !== 'string') throw new Error("invalid pet-id type")
 
-        const petIdRegex = /^\pet-[0-9]+$/
-        if (!petIdRegex.test(petId)) throw new Error('invalid pet-id format')
+
+        if (!PET_ID_REGEX.test(petId)) throw new Error('invalid pet-id format')
 
         return fetch('http://localhost:8080/pets/' + petId, {
             method: 'DELETE',
@@ -438,6 +437,48 @@ class Logic {
     }
 
 
+
+    modifyPet(petId, name, birthdate, weight, image) {
+        if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
+
+        if (typeof petId !== 'string') throw new Error('invalid pet-id type')
+        if (!PET_ID_REGEX.test(petId)) throw new Error('invalid pet-id format')
+
+        if (typeof name !== 'string') throw new Error('invalid name type')
+        if (name.length < 1) throw new Error('invalid name length')
+
+        if (typeof birthdate !== 'string') throw new Error('invalid birthdate type')
+
+        if (!ISODATE_REGEX.test(birthdate)) throw new Error('invalid birthdate format')
+
+        if (typeof weight !== 'number' || isNaN(weight)) throw new Error('invalid weight type')
+
+        if (typeof image !== 'string') throw new Error('invalid image type')
+
+        if (!URL_REGEX.test(image)) throw new Error('invalid image format')
+
+        return fetch('http://localhost:8080/pets/' + petId, {
+            method: 'PUT',
+            headers: {
+                Authorization: 'Basic ' + data.getLoggedInUserId(),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, birthdate, weight, image })
+        })
+            .then(res => {
+                const { status } = res
+
+                if (status === 204)
+                    return
+
+                return res.json()
+                    .then(body => {
+                        const { error, message } = body
+
+                        throw new Error(message)
+                    })
+            })
+    }
 
 }
 // instance
