@@ -5,6 +5,7 @@ import { Form } from './components/commons/Form'
 import { Field } from './components/commons/Field'
 import { Button } from './components/commons/Button'
 import { Feedback } from './components/commons/Feedback'
+import { Spinner } from './components/Spinner'
 
 import { logic } from '../logic'
 
@@ -71,7 +72,7 @@ export function ModifyPet({ onGoBack, petId }) {
             <Field alias="image" type="url" defaultValue={pet.image}>Image</Field>
 
             <Button className="self-center px-2 mt-4" type="submit">Modify Pet</Button>
-        </Form> : <img className='w-50 h-50 object-cover' src='https://loading.io/assets/mod/spinner/kakidog/lg.gif' />}
+         </Form> : <Spinner />}
 
         {feedback && <Feedback feedback={feedback} />}
     </div>

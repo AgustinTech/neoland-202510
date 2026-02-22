@@ -4,6 +4,7 @@ import { Links } from './components/commons/Links'
 import { Button } from './components/commons/Button'
 import { PetList } from './components/PetList'
 import { Feedback } from './components/commons/Feedback'
+import { Spinner } from './components/Spinner'
 
 import { logic } from '../logic'
 
@@ -16,18 +17,18 @@ export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile, onGoToPetDetail
     const [image, setImage] = useState('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbm1yaDI2YzRvbDMweTl5aHl5OXJlZzNhdzN0eTBmdzVjYjRkdWF4aSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/kDs1ljYIdiV4SZXqcp/giphy.gif')
 
     useEffect(() => {
-        try {
-            logic.getLoggedInUser()
-                .then(user => {
-                    setName(user.name)
-                    setImage(user.image || image)
-                })
-                .catch(error => setFeedback({ message: error.message, level: 'error' }))
-
-        } catch (error) {
-            setFeedback({ message: error.message, level: 'error' })
-        }
-
+        setTimeout(() => {
+            try {
+                logic.getLoggedInUser()
+                    .then(user => {
+                        setName(user.name)
+                        setImage(user.image || image)
+                    })
+                    .catch(error => setFeedback({ message: error.message, level: 'error' }))
+            } catch (error) {
+                setFeedback({ message: error.message, level: 'error' })
+            }
+        }, 1000)
     }, [])
 
     const handleAddPetClick = event => {
@@ -52,7 +53,7 @@ export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile, onGoToPetDetail
 
             onGoToLogin()
         } catch (error) {
-            setMessage('sorry, there was an error on logout, please, try it later')
+            setFeedback('sorry, there was an error on logout, please, try it later')
         }
     }
 
@@ -63,18 +64,20 @@ export function Home({ onGoToAddPet, onGoToLogin, onGoToProfile, onGoToPetDetail
     return <div className="p-4">
         <h1 className="text-3xl font-bold cursor-pointer">MyPet</h1>
 
-        <h2>Welcome {name}! <img className='rounded-full w-10 h-10 object-cover' src={image}></img></h2>
+        {name ? <>
+            <h2 className="font-bold flex gap-2 items-center">Hello, {name}! <img className="rounded-full w-10 h-10 object-cover" src={image} /></h2>
 
-        <div className="flex">
-            <Links onClick={handleAddPetClick}>+ Pet</Links>
+            <div className="flex justify-between">
+                <Links onClick={handleAddPetClick}>+ Pet</Links>
 
-            <Links onClick={handleProfileClick}>Profile</Links>
+                <Links onClick={handleProfileClick}>Profile</Links>
 
-            <Button type="button" className='ml-auto ' onClick={handleLogoutClick}>Logout</Button>
-        </div>
+                <Button type="button" onClick={handleLogoutClick}>Logout</Button>
+            </div>
 
-        <PetList onGoToPetDetail={handleGoToPetDetail} />
+            <PetList onGoToPetDetail={handleGoToPetDetail} />
 
-        {feedback && <Feedback feedback={feedback} />}
-    </div >
+            {feedback && <Feedback feedback={feedback} />}
+        </> : <Spinner />}
+    </div>
 }

@@ -88,7 +88,11 @@ class Logic {
 
 
     logoutUser() {
-        data.setLoggedInUserId(null)
+        data.removeLoggedInUserId()
+    }
+
+    isUserLoggedIn() {
+        return !!data.getLoggedInUserId()
     }
 
 
@@ -403,7 +407,6 @@ class Logic {
             })
     }
 
-
     changeUserImage(image) {
         const userId = data.getLoggedInUserId()
         if (userId === null) throw new Error('user not logged in')
@@ -439,6 +442,7 @@ class Logic {
 
 
     modifyPet(petId, name, birthdate, weight, image) {
+
         if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
 
         if (typeof petId !== 'string') throw new Error('invalid pet-id type')
