@@ -9,7 +9,7 @@ import { Feedback } from './components/commons/Feedback'
 
 import { logic } from '../logic'
 
-export function Login({ onGoToHome, onGoToRegister }) {
+export function Login({ onUserLoggedIn, onGoToRegister }) {
     console.log('Login -> call')
 
     const [feedback, setFeedback] = useState(null)
@@ -28,15 +28,11 @@ export function Login({ onGoToHome, onGoToRegister }) {
         try {
             logic.authenticateUser(username, password)
                 .then(() => {
-                    form.reset()
-
-                    setFeedback(null)
-
-                    onGoToHome()
+                    onUserLoggedIn()
                 })
-                .catch(error => setFeedback({message: error.message, level:'error'}))
+                .catch(error => setFeedback({ message: error.message, level: 'error' }))
         } catch (error) {
-            setFeedback({message: error.message, level:'error'})
+            setFeedback({ message: error.message, level: 'error' })
         }
     }
 
@@ -61,6 +57,6 @@ export function Login({ onGoToHome, onGoToRegister }) {
 
         <Links onClick={handleRegisterClick}>Register</Links>
 
-        {feedback && <Feedback  feedback={feedback}/>}
+        {feedback && <Feedback feedback={feedback} />}
     </div>
 }
