@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 
+import { useParams } from 'react-router'
+
 import { Links } from './components/commons/Links'
 import { Form } from './components/commons/Form'
 import { Field } from './components/commons/Field'
@@ -10,11 +12,13 @@ import { Spinner } from './components/Spinner'
 import { logic } from '../logic'
 
 
-export function ModifyPet({ onGoBack, petId }) {
+export function ModifyPet({ onGoBack }) {
     console.log('modifyPet -> call')
 
     const [feedback, setFeedback] = useState(null)
     const [pet, setPet] = useState(null)
+
+    const { petId } = useParams()
 
     useEffect(() => {
         try {
@@ -29,7 +33,7 @@ export function ModifyPet({ onGoBack, petId }) {
     const handleBackClick = event => {
         event.preventDefault()
 
-        onGoBack()
+        onGoBack(petId)
     }
 
     const handleModifyPetSubmit = event => {
