@@ -1,6 +1,6 @@
 // models
 
-class User {
+export class User {
     constructor(id, name, email, username, password, image, role) {
         this.id = id
         this.name = name
@@ -12,21 +12,8 @@ class User {
     }
 }
 
-class Owner {
 
-    constructor(passport, name, surname, address, phone, email) {
-        this.id = id
-        this.passport = passport
-        this.name = name
-        this.surname = surname
-        this.address = address
-        this.phone = phone
-        this.email = email
-        this.active = true
-    }
-}
-
-class Pet {
+export class Pet {
     constructor(id, userId, /* chip, */ name, /* gender, */ birthdate, weight, image, /* species, */ /*  race, */ /* colors */) {
         this.id = id
         this.userId = userId
@@ -41,17 +28,9 @@ class Pet {
         // this.colors = colors
     }
 }
-class Vaccine {
-    constructor(id, name, description) {
-        this.id = id
-        this.name = name
-        this.description = description
-    }
-}
-
 
 // manager
-class Data {
+export class Data {
     constructor() {
         this.users = []
         this.usersCount = 0
@@ -94,34 +73,6 @@ class Data {
         this.users[index] = updatedUser
     }
 
-    // owner 
-
-    insertOwner(owner) {
-        this.owners.push(owner)
-        this.ownersCount++
-    }
-
-    findOwnerById(ownerId) {
-        for (let i = 0; i < this.owners.length; i++) {
-            const owner = this.owners[i]
-
-            if (owner.id === ownerId)
-                return owner
-        }
-
-        return null
-    }
-
-    findOwnerByPassport(ownerPassport) {
-        for (let i = 0; i < this.owners.length; i++) {
-            const owner = this.owners[i]
-
-            if (owner.passport === ownerPassport)
-                return owner
-        }
-
-        return null
-    }
     // pets
     insertPet(pet) {
         this.pets.push(pet)
@@ -178,17 +129,6 @@ class Data {
         data.pets.splice(index, 1)
     }
 
-    // vaccine 
-    insertVaccine(vaccine) {
-        this.vaccines.push(vaccine)
-    }
-
 }
 // instance
-const data = new Data()
-
-module.exports = {
-    User,
-    Pet,
-    data
-}
+export const data = new Data()

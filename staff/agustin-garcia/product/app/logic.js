@@ -256,33 +256,6 @@ class Logic {
             })
     }
 
-    registerOwner(passport, name, surname, address, phone, email) {
-        if (typeof passport !== 'string') throw new Error('invalid passport type')
-        if (passport.length < 6) throw new Error('invalid passport lenght')
-
-        if (typeof name !== 'string') throw new Error('invalid name type')
-        if (name.length < 1) throw new Error('invalid name length')
-
-        if (typeof surname !== 'string') new Error('invalid surname type')
-        if (surname.length < 2) new Error('invalid surname length')
-
-        if (typeof address !== 'string') new Error('invalid address type')
-        if (address.length < 5) new Error('invalid address length')
-
-        if (typeof phone !== 'string') new Error('invalid phone type')
-        if (phone.length < 5) new Error('invalid phone length')
-
-        if (typeof email !== 'string') new Error('invalid email type')
-        if (email.length < 6) new Error('invalid email length')
-
-        let owner = data.findOwnerByPassport(passport)
-
-        if (owner == null) throw new Error('owner already exists')
-
-        owner = new Owner('owner-' + data.ownersCount, name, surname, address, phone, email)
-
-        data.insertOwner(owner)
-    }
 
     registerPet(id, userId, chip, name, gender, birthdate, species, race, colors) {
         if (typeof id !== 'string') throw new Error('invalid id type')

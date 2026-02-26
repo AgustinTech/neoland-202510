@@ -1,8 +1,9 @@
-const express = require('express')
-const cors = require('cors')
-require('./populate')
+import express from 'express'
+import cors from 'cors'
+import './populate.js'
 
-const { logic } = require('./logic')
+import { logic } from './logic.js'
+import { DuplicityError, ExistenceError, OwnershipError, SystemError, ValidationError, CredentialError } from './errors.js'
 
 const api = express()
 
@@ -10,24 +11,10 @@ const jsonBodyParser = express.json()
 
 api.use(cors())
 
-const people = (
-    { id: 'person-0', name: 'Bob', age: 33 },
-    { id: 'person-1', name: 'Peter', age: 40 },
-    { id: 'person-2', name: 'Wendy', age: 28 }
-)
-
 api.get('/', (req, res) => res.json({ hello: 'Hello! from API ;)' })
 )
 
-api.get('/people', (req, res) => {
-    const personId = req.query.id
-
-    const person = people.find(person => person.id === personId)
-
-    res.json(person)
-})
-
-api.post('/users', jsonBodyParser, (req, res) => {
+api.post('/users', jsonBodyParser, (req, res, next) => {
     try {
         const { name, email, username, password, passwordRepeat } = req.body
 
@@ -35,12 +22,12 @@ api.post('/users', jsonBodyParser, (req, res) => {
 
         res.status(201).send()
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        next(error)
     }
 
 })
 
-api.post('/users/auth', jsonBodyParser, (req, res) => {
+api.post('/users/auth', jsonBodyParser, (req, res, next) => {
     try {
         const { username, password } = req.body
 
@@ -48,13 +35,13 @@ api.post('/users/auth', jsonBodyParser, (req, res) => {
 
         res.json(userId)
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        next(error)
     }
 
 })
 
 
-api.patch('/users/password', jsonBodyParser, (req, res) => {
+api.patch('/users/password', jsonBodyParser, (req, res, next) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
@@ -64,12 +51,12 @@ api.patch('/users/password', jsonBodyParser, (req, res) => {
 
         res.status(204).send()
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        next(error)
     }
 
 })
 
-api.patch('/users/email', jsonBodyParser, (req, res) => {
+api.patch('/users/email', jsonBodyParser, (req, res, next) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
@@ -79,13 +66,13 @@ api.patch('/users/email', jsonBodyParser, (req, res) => {
 
         res.status(204).send()
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        next(error)
     }
 
 })
 
 
-api.post('/pets', jsonBodyParser, (req, res) => {
+api.post('/pets', jsonBodyParser, (req, res, next) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
@@ -95,12 +82,12 @@ api.post('/pets', jsonBodyParser, (req, res) => {
 
         res.status(201).send()
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        next(error)
     }
 
 })
 
-api.get('/pets', (req, res) => {
+api.get('/pets', (req, res, next) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
@@ -108,13 +95,13 @@ api.get('/pets', (req, res) => {
 
         res.json(pets)
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        next(error)
     }
 
 })
 
 
-api.delete('/pets/:petId', (req, res) => {
+api.delete('/pets/:petId', (req, res, next) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
@@ -124,13 +111,13 @@ api.delete('/pets/:petId', (req, res) => {
 
         res.status(204).send()
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        next(error)
     }
 
 })
 
 
-api.get('/pets/:petId', (req, res) => {
+api.get('/pets/:petId', (req, res, next) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
@@ -141,12 +128,12 @@ api.get('/pets/:petId', (req, res) => {
 
         res.json(pet)
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        next(error)
     }
 
 })
 
-api.get('/users/me', jsonBodyParser, (req, res) => {
+api.get('/users/me', jsonBodyParser, (req, res, next) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
@@ -154,11 +141,11 @@ api.get('/users/me', jsonBodyParser, (req, res) => {
 
         res.json(user)
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        next(error)
     }
 })
 
-api.patch('/users/me/image', jsonBodyParser, (req, res) => {
+api.patch('/users/me/image', jsonBodyParser, (req, res, next) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
@@ -168,12 +155,12 @@ api.patch('/users/me/image', jsonBodyParser, (req, res) => {
 
         res.status(204).send()
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        next(error)
     }
 })
 
 
-api.put('/pets/:petId', jsonBodyParser, (req, res) => {
+api.put('/pets/:petId', jsonBodyParser, (req, res, next) => {
     try {
         const userId = req.headers.authorization.slice(6)
 
@@ -185,8 +172,30 @@ api.put('/pets/:petId', jsonBodyParser, (req, res) => {
 
         res.status(204).send()
     } catch (error) {
-        res.status(400).json({ error: error.constructor.name, message: error.message })
+        next(error)
     }
+})
+
+api.use((error, req, res, next) => {
+    let status = 500
+    let errorName = error.constructor.name
+
+    const {message} = error
+
+    if (error instanceof ValidationError)
+        status = 400
+    else if (error instanceof DuplicityError)
+        status = 409
+    else if (error instanceof ExistenceError)
+        status = 404
+    else if (error instanceof CredentialError)
+        status = 401
+    else if (error instanceof OwnershipError)
+        status = 403
+    else 
+        errorName = SystemError.name
+
+    res.status(status).json({ error: errorName, message})
 })
 
 api.listen(8080, () => console.log('API listening on port 8080'))
