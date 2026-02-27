@@ -7,6 +7,7 @@ import { Button } from './components/commons/Button'
 import { Links } from './components/commons/Links'
 import { Feedback } from './components/commons/Feedback'
 
+import { CredentialError, ExistenceError, ValidationError } from '../errors'
 import { logic } from '../logic'
 
 export function Login({ onUserLoggedIn, onGoToRegister }) {
@@ -27,12 +28,20 @@ export function Login({ onUserLoggedIn, onGoToRegister }) {
 
         try {
             logic.authenticateUser(username, password)
-                .then(() => {
-                    onUserLoggedIn()
+                .then(() => onUserLoggedIn())
+                .catch(error => {
+                    if (error instanceof ValidationError)
+                        setFeedback({ message: error.message, level: 'warn' })
+                    else if (error instanceof ExistenceError || error instanceof CredentialError)
+                        setFeedback({ message: error.message, level: 'danger' })
+                    else
+                        setFeedback({ message: 'sorry, something failed. try again later', level: 'error' })
                 })
-                .catch(error => setFeedback({ message: error.message, level: 'error' }))
         } catch (error) {
-            setFeedback({ message: error.message, level: 'error' })
+            if (error instanceof ValidationError)
+                setFeedback({ message: error.message, level: 'warn' })
+            else
+                setFeedback({ message: 'sorry, something failed. try again later', level: 'error' })
         }
     }
 

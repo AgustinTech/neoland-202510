@@ -1,4 +1,5 @@
 import { data } from './data'
+import { SystemError, ValidationError, errorMap } from './errors'
 
 const USER_ID_REGEX = /^\user-[0-9]+$/
 const PET_ID_REGEX = /^\pet-[0-9]+$/
@@ -11,22 +12,22 @@ class Logic {
 
     registerUser(name, email, username, password, passwordRepeat) {
 
-        if (typeof name !== 'string') throw new Error('invalid name type')
-        if (name.length < 1) throw new Error('invalid name length')
+        if (typeof name !== 'string') throw new ValidationError('invalid name type')
+        if (name.length < 1) throw new ValidationError('invalid name length')
 
-        if (typeof email !== 'string') throw new Error('invalid email type')
-        if (email.length < 6) throw new Error('invalid email length')
+        if (typeof email !== 'string') throw new ValidationError('invalid email type')
+        if (email.length < 6) throw new ValidationError('invalid email length')
 
-        if (typeof username !== 'string') throw new Error('invalid username type')
-        if (username.length < 4) throw new Error('invalid username length')
+        if (typeof username !== 'string') throw new ValidationError('invalid username type')
+        if (username.length < 4) throw new ValidationError('invalid username length')
 
-        if (typeof password !== 'string') throw new Error('invalid password type')
-        if (password.length < 8) throw new Error('invalid password length')
+        if (typeof password !== 'string') throw new ValidationError('invalid password type')
+        if (password.length < 8) throw new ValidationError('invalid password length')
 
-        if (typeof passwordRepeat !== 'string') throw new Error('invalid passwordRepeat type')
-        if (passwordRepeat.length < 8) throw new Error('invalid passwordRepeat length')
+        if (typeof passwordRepeat !== 'string') throw new ValidationError('invalid passwordRepeat type')
+        if (passwordRepeat.length < 8) throw new ValidationError('invalid passwordRepeat length')
 
-        if (password !== passwordRepeat) throw new Error('passwords do not match')
+        if (password !== passwordRepeat) throw new ValidationError('passwords do not match')
 
         return fetch('http://localhost:8080/users', {
             method: 'POST',
@@ -35,6 +36,7 @@ class Logic {
             },
             body: JSON.stringify({ name, email, username, password, passwordRepeat })
         })
+            .catch(error => { throw new SystemError('connection error') })
             .then(res => {
                 const { status } = res
 
@@ -42,10 +44,13 @@ class Logic {
                     return
 
                 return res.json()
+                    .catch(error => { throw new SystemError('json error') })
                     .then(body => {
                         const { error, message } = body
 
-                        throw new Error(message)
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
                     })
             })
     }
@@ -53,12 +58,12 @@ class Logic {
 
     authenticateUser(username, password) {
 
-        if (typeof username !== 'string') throw new Error('invalid username type')
-        if (username.length < 3) throw new Error('invalid username length')
+        if (typeof username !== 'string') throw new ValidationError('invalid username type')
+        if (username.length < 3) throw new ValidationError('invalid username length')
 
-        if (typeof password !== 'string') throw new Error('invalid password type')
+        if (typeof password !== 'string') throw new ValidationError('invalid password type')
 
-        if (password.length < 8) throw new Error('invalid password length')
+        if (password.length < 8) throw new ValidationError('invalid password length')
 
 
         return fetch('http://localhost:8080/users/auth', {
@@ -68,6 +73,7 @@ class Logic {
             },
             body: JSON.stringify({ username, password })
         })
+            .catch(error => { throw new SystemError('connection error') })
             .then(res => {
                 const { status } = res
 
@@ -78,10 +84,13 @@ class Logic {
                         })
 
                 return res.json()
+                    .catch(error => { throw new SystemError('json error') })
                     .then(body => {
                         const { error, message } = body
 
-                        throw new Error(message)
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
                     })
             })
     }
@@ -95,57 +104,20 @@ class Logic {
         return !!data.getLoggedInUserId()
     }
 
-
-    changePassword(password, newPassword, newPasswordRepeat) {
-        const userId = data.getLoggedInUserId()
-
-        if (userId === null) throw new Error('user not logged in')
-
-        if (typeof password !== 'string') throw new Error('invalid current password type')
-
-        if (typeof newPassword !== 'string') throw new Error('invalid newPassword type')
-
-        if (newPassword.length < 8) throw new Error('invalid newPassword length')
-
-        if (newPassword !== newPasswordRepeat) throw new Error('newPasswordRepeat do not match')
-
-        return fetch('http://localhost:8080/users/password', {
-            method: 'PATCH',
-            headers: {
-                Authorization: 'Basic ' + userId,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ password, newPassword, newPasswordRepeat })
-        })
-            .then(res => {
-                const { status } = res
-
-                if (status === 204)
-                    return
-
-                return res.json()
-                    .then(body => {
-                        const { error, message } = body
-
-                        throw new Error(message)
-                    })
-            })
-    }
-
     changeEmail(email, newEmail, newEmailRepeat) {
         const userId = data.getLoggedInUserId()
 
-        if (userId === null) throw new Error('user not logged in')
+        if (userId === null) throw new ValidationError('user not logged in')
 
-        if (typeof email !== 'string') throw new Error('invalid current email type')
+        if (typeof email !== 'string') throw new ValidationError('invalid current email type')
 
-        if (email.length < 6) throw new Error('invalid email length')
+        if (email.length < 6) throw new ValidationError('invalid email length')
 
-        if (typeof newEmail !== 'string') throw new Error('invalid newEmail type')
+        if (typeof newEmail !== 'string') throw new ValidationError('invalid newEmail type')
 
-        if (newEmail.length < 6) throw new Error('invalid newEmail length')
+        if (newEmail.length < 6) throw new ValidationError('invalid newEmail length')
 
-        if (newEmail !== newEmailRepeat) throw new Error('newEmailRepeat do not match')
+        if (newEmail !== newEmailRepeat) throw new ValidationError('newEmailRepeat do not match')
 
         return fetch('http://localhost:8080/users/email', {
             method: 'PATCH',
@@ -155,6 +127,7 @@ class Logic {
             },
             body: JSON.stringify({ email, newEmail, newEmailRepeat })
         })
+            .catch(error => { throw new SystemError('connection error') })
             .then(res => {
                 const { status } = res
 
@@ -162,44 +135,137 @@ class Logic {
                     return
 
                 return res.json()
+                    .catch(error => { throw new SystemError('json error') })
                     .then(body => {
                         const { error, message } = body
 
-                        throw new Error(message)
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
                     })
             })
     }
 
-    getUsername() {
-        for (let i = 0; i < data.users.length; i++) {
-            const user = data.users[i]
+    changePassword(password, newPassword, newPasswordRepeat) {
+        const userId = data.getLoggedInUserId()
 
-            if (data.getLoggedInUserId() === user.id) {
-                return user.name
-            }
-        }
+        if (userId === null) throw new ValidationError('user not logged in')
 
-        throw new Error('user not found')
+        if (typeof password !== 'string') throw new ValidationError('invalid current password type')
+
+        if (typeof newPassword !== 'string') throw new ValidationError('invalid newPassword type')
+
+        if (newPassword.length < 8) throw new ValidationError('invalid newPassword length')
+
+        if (newPassword !== newPasswordRepeat) throw new ValidationError('newPasswordRepeat do not match')
+
+        return fetch('http://localhost:8080/users/password', {
+            method: 'PATCH',
+            headers: {
+                Authorization: 'Basic ' + userId,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password, newPassword, newPasswordRepeat })
+        })
+            .catch(error => { throw new SystemError('connection error') })
+            .then(res => {
+                const { status } = res
+
+                if (status === 204)
+                    return
+
+                return res.json()
+                    .catch(error => { throw new SystemError('json error') })
+                    .then(body => {
+                        const { error, message } = body
+
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
+                    })
+            })
     }
 
+
+    getLoggedInUser() {
+        const userId = data.getLoggedInUserId()
+
+        if (userId === null) throw new ValidationError('user not logged in')
+
+        return fetch('http://localhost:8080/users/me', {
+            method: 'GET',
+            headers: {
+                Authorization: 'Basic ' + userId
+            }
+        })
+            .then(res => {
+                const { status } = res
+
+                if (status === 200)
+                    return res.json()
+
+                return res.json()
+                    .then(body => {
+                        const { error, message } = body
+
+                        throw new constructor(message)
+                    })
+            })
+    }
+
+    changeUserImage(image) {
+        const userId = data.getLoggedInUserId()
+        if (userId === null) throw new ValidationError('user not logged in')
+
+        if (typeof image !== 'string') throw new ValidationError('invalid image type')
+        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image format')
+
+        return fetch('http://localhost:8080/users/me/image', {
+            method: 'PATCH',
+            headers: {
+                Authorization: 'Basic ' + userId,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ image })
+        })
+            .catch(error => { throw new SystemError('connection error') })
+            .then(res => {
+                const { status } = res
+
+                if (status === 204)
+                    return
+
+                return res.json()
+                    .catch(error => { throw new SystemError('json error') })
+
+                    .then(body => {
+                        const { error, message } = body
+
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
+                    })
+            })
+
+    }
 
     addPet(name, birthdate, weight, image) {
         const userId = data.getLoggedInUserId()
 
-        if (userId === null) throw new Error('user not logged in')
+        if (userId === null) throw new ValidationError('user not logged in')
 
-        if (typeof name !== 'string') throw new Error('invalid name type')
-        if (name.length < 1) throw new Error('invalid name length')
+        if (typeof name !== 'string') throw new ValidationError('invalid name type')
+        if (name.length < 1) throw new ValidationError('invalid name length')
 
-        if (typeof birthdate !== 'string') throw new Error('invalid birthdate type')
+        if (typeof birthdate !== 'string') throw new ValidationError('invalid birthdate type')
 
-        if (!ISODATE_REGEX.test(birthdate)) throw new Error('invalid birthdate format')
+        if (!ISODATE_REGEX.test(birthdate)) throw new ValidationError('invalid birthdate format')
 
-        if (typeof weight !== 'number' || isNaN(weight)) throw new Error('invalid weight type')
+        if (typeof weight !== 'number' || isNaN(weight)) throw new ValidationError('invalid weight type')
 
-        if (typeof image !== 'string') throw new Error('invalid image type')
+        if (typeof image !== 'string') throw new ValidationError('invalid image type')
 
-        if (!URL_REGEX.test(image)) throw new Error('invalid image format')
+        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image format')
 
         return fetch('http://localhost:8080/pets', {
             method: 'POST',
@@ -209,6 +275,7 @@ class Logic {
             },
             body: JSON.stringify({ name, birthdate, weight, image })
         })
+            .catch(error => { throw new SystemError('connection error') })
             .then(res => {
                 const { status } = res
 
@@ -216,24 +283,90 @@ class Logic {
                     return
 
                 return res.json()
+                    .catch(error => { throw new SystemError('json error') })
+
                     .then(body => {
                         const { error, message } = body
 
-                        throw new Error(message)
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
                     })
             })
     }
 
 
+    getPets() {
+        const userId = data.getLoggedInUserId()
+        if (userId === null) throw new ValidationError('user not logged in')
+
+        return fetch('http://localhost:8080/pets', {
+            method: 'GET',
+            headers: {
+                Authorization: 'Basic ' + userId
+            }
+        })
+            .catch(error => { throw new SystemError('connection error') })
+            .then(res => {
+                const { status } = res
+
+                if (status === 200)
+                    return res.json()
+
+                return res.json()
+                    .catch(error => { throw new SystemError('json error') })
+                    .then(body => {
+                        const { error, message } = body
+
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
+                    })
+            })
+    }
+
+    getPet(petId) {
+        const userId = data.getLoggedInUserId()
+        if (userId === null) throw new ValidationError('user not logged in')
+
+        if (typeof petId !== 'string') throw new ValidationError('invalid pet-id type')
+
+        if (!PET_ID_REGEX.test(petId)) throw new ValidationError('ivalid pet-id format')
+
+        return fetch('http://localhost:8080/pets/' + petId, {
+            method: 'GET',
+            headers: {
+                Authorization: 'Basic ' + userId
+            }
+        })
+            .catch(error => { throw new SystemError('connection error') })
+            .then(res => {
+                const { status } = res
+
+                if (status === 200)
+                    return res.json()
+
+                return res.json()
+                    .catch(error => { throw new SystemError('json error') })
+                    .then(body => {
+                        const { error, message } = body
+
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
+                    })
+            })
+    }
+
     deletePet(petId) {
         const userId = data.getLoggedInUserId()
 
-        if (userId === null) throw new Error('user not logged in')
+        if (userId === null) throw new ValidationError('user not logged in')
 
-        if (typeof petId !== 'string') throw new Error("invalid pet-id type")
+        if (typeof petId !== 'string') throw new ValidationError("invalid pet-id type")
 
 
-        if (!PET_ID_REGEX.test(petId)) throw new Error('invalid pet-id format')
+        if (!PET_ID_REGEX.test(petId)) throw new ValidationError('invalid pet-id format')
 
         return fetch('http://localhost:8080/pets/' + petId, {
             method: 'DELETE',
@@ -241,6 +374,7 @@ class Logic {
                 Authorization: 'Basic ' + userId
             }
         })
+            .catch(error => { throw new SystemError('connection error') })
             .then(res => {
                 const { status } = res
 
@@ -248,14 +382,16 @@ class Logic {
                     return
 
                 return res.json()
+                    .catch(error => { throw new SystemError('json error') })
                     .then(body => {
                         const { error, message } = body
 
-                        console.error(error, message)
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
                     })
             })
     }
-
 
     registerPet(id, userId, chip, name, gender, birthdate, species, race, colors) {
         if (typeof id !== 'string') throw new Error('invalid id type')
@@ -298,141 +434,26 @@ class Logic {
         data.insertPet(pet)
     }
 
-    getPets() {
-        const userId = data.getLoggedInUserId()
-        if (userId === null) throw new Error('user not logged in')
-
-        return fetch('http://localhost:8080/pets', {
-            method: 'GET',
-            headers: {
-                Authorization: 'Basic ' + userId
-            }
-        })
-            .then(res => {
-                const { status } = res
-
-                if (status === 200)
-                    return res.json()
-
-                return res.json()
-                    .then(body => {
-                        const { error, message } = body
-
-                        throw new Error(message)
-                    })
-            })
-    }
-
-
-    getPet(petId) {
-        const userId = data.getLoggedInUserId()
-        if (userId === null) throw new Error('user not logged in')
-
-        if (typeof petId !== 'string') throw new Error('invalid pet-id type')
-
-        if (!PET_ID_REGEX.test(petId)) throw new Error('ivalid pet-id format')
-
-        return fetch('http://localhost:8080/pets/' + petId, {
-            method: 'GET',
-            headers: {
-                Authorization: 'Basic ' + userId
-            }
-        })
-            .then(res => {
-                const { status } = res
-
-                if (status === 200)
-                    return res.json()
-
-                return res.json()
-                    .then(body => {
-                        const { error, message } = body
-
-                        throw new Error(message)
-                    })
-            })
-    }
-
-
-    getLoggedInUser() {
-        const userId = data.getLoggedInUserId()
-
-        if (userId === null) throw new Error('user not logged in')
-
-        return fetch('http://localhost:8080/users/me', {
-            method: 'GET',
-            headers: {
-                Authorization: 'Basic ' + userId
-            }
-        })
-            .then(res => {
-                const { status } = res
-
-                if (status === 200)
-                    return res.json()
-
-                return res.json()
-                    .then(body => {
-                        const { error, message } = body
-
-                        throw new Error(message)
-                    })
-            })
-    }
-
-    changeUserImage(image) {
-        const userId = data.getLoggedInUserId()
-        if (userId === null) throw new Error('user not logged in')
-
-        if (typeof image !== 'string') throw new Error('invalid image type')
-        if (!URL_REGEX.test(image)) throw new Error('invalid image format')
-
-        return fetch('http://localhost:8080/users/me/image', {
-            method: 'PATCH',
-            headers: {
-                Authorization: 'Basic ' + userId,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ image })
-        })
-
-            .then(res => {
-                const { status } = res
-
-                if (status === 204)
-                    return
-
-                return res.json()
-                    .then(body => {
-                        const { error, message } = body
-
-                        throw new Error(message)
-                    })
-            })
-
-    }
-
-
 
     modifyPet(petId, name, birthdate, weight, image) {
 
-        if (data.getLoggedInUserId() === null) throw new Error('user not logged in')
+        if (data.getLoggedInUserId() === null) throw new ValidationError('user not logged in')
 
-        if (typeof petId !== 'string') throw new Error('invalid pet-id type')
-        if (!PET_ID_REGEX.test(petId)) throw new Error('invalid pet-id format')
+        if (typeof petId !== 'string') throw new ValidationError('invalid pet-id type')
+        if (!PET_ID_REGEX.test(petId)) throw new ValidationError('invalid pet-id format')
 
-        if (typeof name !== 'string') throw new Error('invalid name type')
-        if (name.length < 1) throw new Error('invalid name length')
+        if (typeof name !== 'string') throw new ValidationError('invalid name type')
+        if (name.length < 1) throw new ValidationError('invalid name length')
 
-        if (typeof birthdate !== 'string') throw new Error('invalid birthdate type')
+        if (typeof birthdate !== 'string') throw new ValidationError('invalid birthdate type')
 
-        if (!ISODATE_REGEX.test(birthdate)) throw new Error('invalid birthdate format')
+        if (!ISODATE_REGEX.test(birthdate)) throw new ValidationError('invalid birthdate format')
 
-        if (typeof weight !== 'number' || isNaN(weight)) throw new Error('invalid weight type')
+        if (typeof weight !== 'number' || isNaN(weight)) throw new ValidationError('invalid weight type')
 
-        if (typeof image !== 'string') throw new Error('invalid image type')
+        if (typeof image !== 'string') throw new ValidationError('invalid image type')
 
-        if (!URL_REGEX.test(image)) throw new Error('invalid image format')
+        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image format')
 
         return fetch('http://localhost:8080/pets/' + petId, {
             method: 'PUT',
@@ -442,6 +463,7 @@ class Logic {
             },
             body: JSON.stringify({ name, birthdate, weight, image })
         })
+            .catch(error => { throw new SystemError('connection error') })
             .then(res => {
                 const { status } = res
 
@@ -449,10 +471,13 @@ class Logic {
                     return
 
                 return res.json()
+                    .catch(error => { throw new SystemError('json error') })
                     .then(body => {
                         const { error, message } = body
 
-                        throw new Error(message)
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
                     })
             })
     }
