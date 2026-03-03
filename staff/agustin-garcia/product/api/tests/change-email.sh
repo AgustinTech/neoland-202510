@@ -1,2 +1,2 @@
-curl -X PATCH -H 'Authorization: Basic user-0' -H "Content-Type: application/json"  -d '{"email": "ayrton@senna.com","newEmail": "senna@ayrton.com","newEmailRepeat": "senna@ayrton.com"
+curl -X PATCH -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyLTQiLCJpYXQiOjE3NzI1NTU4NzJ9.pjOnc0DqV2tPaQpVCjOc2PReQ6FWev6ChOTxnCFeJ48' -H "Content-Type: application/json"  -d '{"email": "ayrton@senna.com","newEmail": "senna@ayrton.com","newEmailRepeat": "senna@ayrton.com"
 }' http://localhost:8080/users/email
