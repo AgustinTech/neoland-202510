@@ -11,7 +11,6 @@ class Logic {
     }
 
     registerUser(name, email, username, password, passwordRepeat) {
-
         if (typeof name !== 'string') throw new ValidationError('invalid name type')
         if (name.length < 1) throw new ValidationError('invalid name length')
 
@@ -79,8 +78,8 @@ class Logic {
 
                 if (status === 200)
                     return res.json()
-                        .then(userId => {
-                            data.setLoggedInUserId(userId)
+                        .then(({ token }) => {
+                            data.setLoggedToken(token)
                         })
 
                 return res.json()
@@ -97,17 +96,16 @@ class Logic {
 
 
     logoutUser() {
-        data.removeLoggedInUserId()
+        data.removeLoggedInToken()
     }
 
     isUserLoggedIn() {
-        return !!data.getLoggedInUserId()
+        return !!data.getLoggedInToken()
     }
 
     changeEmail(email, newEmail, newEmailRepeat) {
-        const userId = data.getLoggedInUserId()
 
-        if (userId === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedInToken() === null) throw new ValidationError('user not logged in')
 
         if (typeof email !== 'string') throw new ValidationError('invalid current email type')
 
@@ -122,7 +120,7 @@ class Logic {
         return fetch('http://localhost:8080/users/email', {
             method: 'PATCH',
             headers: {
-                Authorization: 'Basic ' + userId,
+                Authorization: 'Bearer ' + data.getLoggedInToken(),
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ email, newEmail, newEmailRepeat })
@@ -147,9 +145,8 @@ class Logic {
     }
 
     changePassword(password, newPassword, newPasswordRepeat) {
-        const userId = data.getLoggedInUserId()
 
-        if (userId === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedInToken() === null) throw new ValidationError('user not logged in')
 
         if (typeof password !== 'string') throw new ValidationError('invalid current password type')
 
@@ -162,7 +159,7 @@ class Logic {
         return fetch('http://localhost:8080/users/password', {
             method: 'PATCH',
             headers: {
-                Authorization: 'Basic ' + userId,
+                Authorization: 'Bearer ' + data.getLoggedInToken(),
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ password, newPassword, newPasswordRepeat })
@@ -188,14 +185,12 @@ class Logic {
 
 
     getLoggedInUser() {
-        const userId = data.getLoggedInUserId()
-
-        if (userId === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedInToken() === null) throw new ValidationError('user not logged in')
 
         return fetch('http://localhost:8080/users/me', {
             method: 'GET',
             headers: {
-                Authorization: 'Basic ' + userId
+                Authorization: 'Bearer ' + data.getLoggedInToken()
             }
         })
             .then(res => {
@@ -214,8 +209,7 @@ class Logic {
     }
 
     changeUserImage(image) {
-        const userId = data.getLoggedInUserId()
-        if (userId === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedInToken() === null) throw new ValidationError('user not logged in')
 
         if (typeof image !== 'string') throw new ValidationError('invalid image type')
         if (!URL_REGEX.test(image)) throw new ValidationError('invalid image format')
@@ -223,7 +217,7 @@ class Logic {
         return fetch('http://localhost:8080/users/me/image', {
             method: 'PATCH',
             headers: {
-                Authorization: 'Basic ' + userId,
+                Authorization: 'Bearer ' + data.getLoggedInToken(),
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ image })
@@ -250,9 +244,8 @@ class Logic {
     }
 
     addPet(name, birthdate, weight, image) {
-        const userId = data.getLoggedInUserId()
 
-        if (userId === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedInToken() === null) throw new ValidationError('user not logged in')
 
         if (typeof name !== 'string') throw new ValidationError('invalid name type')
         if (name.length < 1) throw new ValidationError('invalid name length')
@@ -270,7 +263,7 @@ class Logic {
         return fetch('http://localhost:8080/pets', {
             method: 'POST',
             headers: {
-                Authorization: 'Basic ' + userId,
+                Authorization: 'Bearer ' + data.getLoggedInToken(),
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ name, birthdate, weight, image })
@@ -297,13 +290,12 @@ class Logic {
 
 
     getPets() {
-        const userId = data.getLoggedInUserId()
-        if (userId === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedInToken() === null) throw new ValidationError('user not logged in')
 
         return fetch('http://localhost:8080/pets', {
             method: 'GET',
             headers: {
-                Authorization: 'Basic ' + userId
+                Authorization: 'Bearer ' + data.getLoggedInToken()
             }
         })
             .catch(error => { throw new SystemError('connection error') })
@@ -326,8 +318,7 @@ class Logic {
     }
 
     getPet(petId) {
-        const userId = data.getLoggedInUserId()
-        if (userId === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedInToken() === null) throw new ValidationError('user not logged in')
 
         if (typeof petId !== 'string') throw new ValidationError('invalid pet-id type')
 
@@ -336,7 +327,7 @@ class Logic {
         return fetch('http://localhost:8080/pets/' + petId, {
             method: 'GET',
             headers: {
-                Authorization: 'Basic ' + userId
+                Authorization: 'Bearer ' + data.getLoggedInToken()
             }
         })
             .catch(error => { throw new SystemError('connection error') })
@@ -359,9 +350,8 @@ class Logic {
     }
 
     deletePet(petId) {
-        const userId = data.getLoggedInUserId()
 
-        if (userId === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedInToken() === null) throw new ValidationError('user not logged in')
 
         if (typeof petId !== 'string') throw new ValidationError("invalid pet-id type")
 
@@ -371,7 +361,7 @@ class Logic {
         return fetch('http://localhost:8080/pets/' + petId, {
             method: 'DELETE',
             headers: {
-                Authorization: 'Basic ' + userId
+                Authorization: 'Bearer ' + data.getLoggedInToken()
             }
         })
             .catch(error => { throw new SystemError('connection error') })
@@ -429,7 +419,7 @@ class Logic {
 
         if (pet !== null) throw new Error('pet already exists')
 
-        pet = new Pet('pet-' + data.petsCount, userId, chip, name, gender, birthdate, species, race, colors)
+        pet = new Pet('pet-' + data.petsCount, data.getLoggedInToken(), chip, name, gender, birthdate, species, race, colors)
 
         data.insertPet(pet)
     }
@@ -437,7 +427,7 @@ class Logic {
 
     modifyPet(petId, name, birthdate, weight, image) {
 
-        if (data.getLoggedInUserId() === null) throw new ValidationError('user not logged in')
+        if (data.getLoggedInToken() === null) throw new ValidationError('user not logged in')
 
         if (typeof petId !== 'string') throw new ValidationError('invalid pet-id type')
         if (!PET_ID_REGEX.test(petId)) throw new ValidationError('invalid pet-id format')
@@ -458,7 +448,7 @@ class Logic {
         return fetch('http://localhost:8080/pets/' + petId, {
             method: 'PUT',
             headers: {
-                Authorization: 'Basic ' + data.getLoggedInUserId(),
+                Authorization: 'Bearer ' + data.getLoggedInToken(),
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ name, birthdate, weight, image })

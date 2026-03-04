@@ -123,7 +123,7 @@ class Logic {
         for (let i = 0; i < data.users.length; i++) {
             const user = data.users[i]
 
-            if (data.getLoggedInUserId() === user.id) {
+            if (data.getLoggedInToken() === user.id) {
                 return user.name
             }
         }
@@ -181,6 +181,7 @@ class Logic {
 
         const pet = new Pet('pet-' + data.petsCount, userId, name, birthdate, weight, image)
 
+        data.insertPet(pet)
     }
 
 

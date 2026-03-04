@@ -1,14 +1,14 @@
 class Data {
-    setLoggedInUserId(userId) {
-        sessionStorage.userId = userId
+    setLoggedToken(token) {
+        sessionStorage.token = token
     }
 
-    getLoggedInUserId() {
-        return sessionStorage.userId
+    getLoggedInToken() {
+        return sessionStorage.token
     }
 
-    removeLoggedInUserId() {
-        delete sessionStorage.userId
+    removeLoggedInToken() {
+        delete sessionStorage.token
     }
 }
 
