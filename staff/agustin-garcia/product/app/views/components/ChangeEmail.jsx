@@ -1,18 +1,11 @@
-import { useState } from 'react'
-
 import { Form } from './commons/Form'
 import { Field } from './commons/Field'
 import { Button } from './commons/Button'
-import {Feedback} from './commons/Feedback'
 
 import { logic } from '../../logic'
 
-
-export function ChangeEmail() {
+export function ChangeEmail({onError, onSuccess}) {
     console.log('ChangeEmail -> call')
-
-
-    const [feedback, setFeedback] = useState(null)
 
     const handleChangeEmailSubmit = event => {
         event.preventDefault()
@@ -28,28 +21,26 @@ export function ChangeEmail() {
                 .then(() => {
                     form.reset()
 
-                    setFeedback({ message:'user e-mail successfully updated', level:'success'})
+                    onSuccess('user password successfully updated')
                 })
-                .catch(error => setFeedback({ message: error.message, level:'error'}))
+                .catch(error => onError(error))
         } catch (error) {
-            setFeedback({ message: error.message, level:'error'})
+            onError(error)
         }
     }
 
-        console.log('ChangeEmail -> render')
+    console.log('ChangeEmail -> render')
 
-        return (
-            <div className="p-4">
-                <Form onSubmit={handleChangeEmailSubmit}>
-                    <Field alias="email" type="email">Current Email</Field>
-                    <Field alias="newEmail" type="email">New Email</Field>
-                    <Field alias="newEmailRepeat" type="email">Repeat New Email</Field>
-                    <Button className="self-center px-2 mt-4" type="submit">
-                        Change Email
-                    </Button>
-                </Form>
-
-                {feedback && <Feedback  feedback={feedback}/>}
-            </div>
-        )
-    }
+    return (
+        <div className="p-4">
+            <Form onSubmit={handleChangeEmailSubmit}>
+                <Field alias="email" type="email">Current Email</Field>
+                <Field alias="newEmail" type="email">New Email</Field>
+                <Field alias="newEmailRepeat" type="email">Repeat New Email</Field>
+                <Button className="self-center px-2 mt-4" type="submit">
+                    Change Email
+                </Button>
+            </Form>
+        </div>
+    )
+}

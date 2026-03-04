@@ -5,7 +5,7 @@ import { ChangePassword } from './components/ChangePassword'
 import { ChangeEmail } from './components/ChangeEmail'
 import { ChangeUserImage } from './components/ChangeUserImage'
 
-export function Profile({ onGoToHome }) {
+export function Profile({ onGoToHome, onError, onSuccess, onClear }) {
     console.log('Profile -> call')
 
     const [view, setView] = useState('profile')
@@ -18,21 +18,21 @@ export function Profile({ onGoToHome }) {
 
     const handleImageClick = event => {
         event.preventDefault()
-
+        onClear()
         setView('change-image')
     }
 
 
     const handleChangePasswordClick = event => {
         event.preventDefault()
-
+        onClear()
         setView('change-password')
     }
 
 
     const handleChangeEmailClick = event => {
         event.preventDefault()
-
+        onClear()
         setView('change-email')
     }
 
@@ -54,11 +54,11 @@ export function Profile({ onGoToHome }) {
             <Links onClick={handleImageClick}>Change Image</Links>
         </ul>
 
-        {view === 'change-password' && <ChangePassword />}
+        {view === 'change-password' && <ChangePassword  onError={onError} onSuccess={onSuccess} />}
 
-        {view === 'change-email' && <ChangeEmail />}
+        {view === 'change-email' && <ChangeEmail  onError={onError} onSuccess={onSuccess} />}
 
-        {view === 'change-image' && <ChangeUserImage />}
+        {view === 'change-image' && <ChangeUserImage  onError={onError} onSuccess={onSuccess} />}
 
     </div>
 }

@@ -46,9 +46,9 @@ api.post('/users/auth', (req, res, next) => {
 
         const userId = logic.authenticateUser(username, password)
 
-        const token = jwt.sign({ sub: userId }, JWT_SECRET)
+        const token = jwt.sign({ sub: userId }, JWT_SECRET, { expiresIn: '1h' })
 
-        res.json({token})
+        res.json({ token })
     } catch (error) {
         next(error)
     }
@@ -225,6 +225,10 @@ api.use((error, req, res, next) => {
     else if (error instanceof JsonWebTokenError) {
         status = 401
         errorName = AuthError.name
+    } else if (error instanceof SyntaxError && error.message.includes('token')) {
+        status = 401
+        errorName = AuthError.name
+        message = 'invalid json payload in token'
     } else
         errorName = SystemError.name
 

@@ -1,17 +1,13 @@
-import { useState } from 'react'
-
 import { Form } from './commons/Form'
 import { PasswordField } from './commons/PasswordField'
 import { Button } from './commons/Button'
-import { Feedback } from './commons/Feedback'
 
 import { logic } from '../../logic'
 
 
-export function ChangePassword() {
+export function ChangePassword({onError, onSuccess}) {
     console.log('ChangePassword -> call')
 
-    const [feedback, setFeedback] = useState(null)
 
     const handleChangePasswordSubmit = event => {
         event.preventDefault()
@@ -27,11 +23,11 @@ export function ChangePassword() {
                 .then(() => {
                     form.reset()
 
-                    setFeedback({ message: 'user password successfully updated', level: 'success' })
+                    onSuccess('user password successfully updated')
                 })
-                .catch(error => setFeedback({ message: error.message, level: 'error' }))
+                .catch(error => onError(error))
         } catch (error) {
-            setFeedback({ message: error.message, level: 'error' })
+            onError(error)
         }
     }
 
@@ -47,7 +43,5 @@ export function ChangePassword() {
 
             <Button className="self-center px-2 mt-4" type="submit">Change Password</Button>
         </Form>
-
-        {feedback && <Feedback feedback={feedback} />}
     </div>
 }
