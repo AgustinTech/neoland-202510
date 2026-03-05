@@ -19,7 +19,7 @@ export function Login({ onUserLoggedIn, onGoToRegister, onError }) {
 
 
         try {
-            logic.authenticateUser(username, password)
+            logic.loginUser(username, password)
                 .then(() => onUserLoggedIn())
                 .catch(error => onError(error))
         } catch (error) {

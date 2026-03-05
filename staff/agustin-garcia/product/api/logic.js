@@ -1,34 +1,18 @@
 import { data, User, Pet } from './data.js'
-import { ValidationError, DuplicityError, ExistenceError, CredentialError, OwnershipError } from './errors.js'
-
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-const URL_REGEX = /(www|http:|https:)+[^\s]+[\w]/
-const USER_ID_REGEX = /^\user-[0-9]+$/
-const ISODATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
-const PET_ID_REGEX = /^\pet-[0-9]+$/
+import { DuplicityError, ExistenceError, CredentialError, OwnershipError } from './errors.js'
+import { validate } from "./validate.js"
 
 class Logic {
     constructor() {
     }
 
     registerUser(name, email, username, password, passwordRepeat) {
-
-        if (typeof name !== 'string') throw new ValidationError('invalid name type')
-        if (name.length < 1) throw new ValidationError('invalid name length')
-
-        if (typeof email !== 'string') throw new ValidationError('invalid email type')
-        if (email.length < 6) throw new ValidationError('invalid email length')
-        if (!EMAIL_REGEX.test(email)) throw new ValidationError('invalid email format')
-
-        if (typeof username !== 'string') throw new ValidationError('invalid username type')
-        if (username.length < 4) throw new ValidationError('invalid username length')
-
-        if (typeof password !== 'string') throw new ValidationError('invalid password type')
-        if (password.length < 8) throw new ValidationError('invalid password length')
-
-        if (typeof passwordRepeat !== 'string') throw new ValidationError('invalid passwordRepeat type')
-        if (passwordRepeat.length < 8) throw new ValidationError('invalid passwordRepeat length')
-        if (password !== passwordRepeat) throw new ValidationError('passwords do not match')
+        validate.name(name)
+        validate.email(email)
+        validate.username(username)
+        validate.password(password)
+        validate.password(passwordRepeat, 'passwordRepeat')
+        validate.match(password, passwordRepeat, 'password', 'passwordRepeat')
 
         let user = data.findUserByEmail(email)
 
@@ -45,12 +29,8 @@ class Logic {
 
 
     authenticateUser(username, password) {
-
-        if (typeof username !== 'string') throw new ValidationError('invalid username type')
-        if (username.length < 3) throw new ValidationError('invalid username length')
-
-        if (typeof password !== 'string') throw new ValidationError('invalid password type')
-        if (password.length < 8) throw new ValidationError('invalid password length')
+        validate.username(username)
+        validate.password(password)
 
         const user = data.findUserByUsername(username)
 
@@ -63,15 +43,11 @@ class Logic {
 
     changePassword(userId, password, newPassword, newPasswordRepeat) {
 
-        if (typeof userId !== 'string') throw new ValidationError('invalid userId type')
-        if (!USER_ID_REGEX.test(userId)) throw new ValidationError('invalid userId format')
-
-        if (typeof password !== 'string') throw new ValidationError('invalid current password type')
-        if (typeof newPassword !== 'string') throw new ValidationError('invalid newPassword type')
-        if (typeof newPasswordRepeat !== 'string') throw new ValidationError('invalid newPasswordRepeat type')
-
-        if (newPassword.length < 8) throw new ValidationError('invalid newPassword length')
-        if (newPassword !== newPasswordRepeat) throw new ValidationError('newPasswordRepeat do not match')
+        validate.userId(userId)
+        validate.password(password)
+        validate.password(newPassword, 'newPassword')
+        validate.password(newPasswordRepeat, 'newPasswordRepeat')
+        validate.match(newPassword, newPasswordRepeat, 'newPassword', 'newPasswordRepeat')
 
         const user = data.findUserById(userId)
         if (!user) throw new ExistenceError('user not found')
@@ -86,22 +62,11 @@ class Logic {
 
 
     changeEmail(userId, email, newEmail, newEmailRepeat) {
-
-        if (typeof userId !== 'string') throw new ValidationError('invalid userId type')
-        if (!USER_ID_REGEX.test(userId)) throw new ValidationError('invalid userId format')
-
-        if (typeof email !== 'string') throw new ValidationError('invalid current email type')
-        if (email.length < 6) throw new ValidationError('invalid email length')
-        if (!EMAIL_REGEX.test(email)) throw new ValidationError('invalid email format')
-
-        if (typeof newEmail !== 'string') throw new ValidationError('invalid newEmail type')
-        if (newEmail.length < 6) throw new ValidationError('invalid newEmail length')
-        if (!EMAIL_REGEX.test(newEmail)) throw new ValidationError('invalid email format')
-
-        if (newEmail !== newEmailRepeat) throw new ValidationError('newEmailRepeat do not match')
-        if (typeof newEmailRepeat !== 'string') throw new ValidationError('invalid newEmailRepeat type')
-        if (newEmailRepeat.length < 6) throw new ValidationError('invalid newEmailRepeat length')
-        if (!EMAIL_REGEX.test(newEmailRepeat)) throw new ValidationError('invalid email format')
+        validate.userId(userId)
+        validate.email(email)
+        validate.email(newEmail, 'newEmail')
+        validate.email(newEmailRepeat, 'newEmailRepeat')
+        validate.match(newEmail, newEmailRepeat, 'newEmail', 'newEmailRepeat')
 
         const user = data.findUserById(userId)
 
@@ -119,21 +84,8 @@ class Logic {
     }
 
 
-    getUsername() {
-        for (let i = 0; i < data.users.length; i++) {
-            const user = data.users[i]
-
-            if (data.getLoggedInToken() === user.id) {
-                return user.name
-            }
-        }
-
-        throw new ExistenceError('user not found')
-    }
-
     getUser(userId) {
-        if (typeof userId !== 'string') throw new ValidationError('invalid userId type')
-        if (!USER_ID_REGEX.test(userId)) throw new ValidationError('invalid userId format')
+        validate.userId(userId)
 
         const user = data.findUserById(userId)
         if (!user) throw new ExistenceError('user not found')
@@ -143,11 +95,8 @@ class Logic {
         return { name, email, username, image }
     }
     changeUserImage(userId, image) {
-        if (typeof userId !== 'string') throw new ValidationError('invalid userId type')
-        if (!USER_ID_REGEX.test(userId)) throw new ValidationError('invalid userId format')
-
-        if (typeof image !== 'string') throw new ValidationError('invalid image type')
-        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image format')
+        validate.userId(userId)
+        validate.url(image, 'image')
 
         const user = data.findUserById(userId)
 
@@ -159,22 +108,11 @@ class Logic {
     }
 
     addPet(userId, name, birthdate, weight, image) {
-        if (typeof userId !== 'string') throw new ValidationError('invalid userId type')
-        if (!USER_ID_REGEX.test(userId)) throw new ValidationError('invalid userId format')
-
-        if (typeof name !== 'string') throw new ValidationError('invalid name type')
-        if (name.length < 1) throw new ValidationError('invalid name length')
-
-        if (typeof birthdate !== 'string') throw new ValidationError('invalid birthdate type')
-
-        const isoDateRegex = /^\d{4}-\d{2}-\d{2}$/
-        if (!isoDateRegex.test(birthdate)) throw new ValidationError('invalid birthdate format')
-
-        if (typeof weight !== 'number' || isNaN(weight)) throw new ValidationError('invalid weight type')
-
-        if (typeof image !== 'string') throw new ValidationError('invalid image type')
-
-        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image format')
+        validate.userId(userId)
+        validate.name(name)
+        validate.date(birthdate, 'birthdate')
+        validate.number(weight, 'weight')
+        validate.url(image, 'image')
 
         const user = data.findUserById(userId)
         if (user === null) throw new ExistenceError('user does not exists')
@@ -185,12 +123,21 @@ class Logic {
     }
 
 
-    removePet(userId, petId) {
-        if (typeof userId !== 'string') throw new ValidationError('invalid userId type')
-        if (!USER_ID_REGEX.test(userId)) throw new ValidationError('invalid userId format')
+    getPets(userId) {
+        validate.userId(userId)
 
-        if (typeof petId !== 'string') throw new ValidationError("invalid pet-id type")
-        if (!PET_ID_REGEX.test(petId)) throw new ValidationError('invalid pet-id format')
+        const user = data.findUserById(userId)
+
+        if (!user) throw new ExistenceError('user does not exists')
+
+        const pets = data.findPetsByUserId(userId)
+
+        return pets
+    }
+
+    removePet(userId, petId) {
+        validate.userId(userId)
+        validate.petId(petId)
 
         const user = data.findUserById(userId)
 
@@ -205,75 +152,9 @@ class Logic {
         data.deletePet(petId)
     }
 
-
-
-    registerPet(id, userId, chip, name, gender, birthdate, species, race, colors) {
-        if (typeof id !== 'string') throw new ValidationError('invalid id type')
-        if (id.length < 5) throw new ValidationError('invalid id length')
-
-        if (typeof userId !== 'string') throw new ValidationError('invalid userId type')
-        if (userId.length < 7) throw new ValidationError('invalid userId length')
-
-        if (typeof chip !== 'string') throw new ValidationError('invalid chip type')
-        if (chip.length < 5) throw new ValidationError('invalid chip length')
-
-        if (typeof name !== 'stirng') throw new ValidationError('invalid name type')
-        if (name.length < 2) throw new ValidationError('invalid name length')
-
-        if (typeof gender !== 'string') throw new ValidationError('invalid gender type')
-        if (gender !== 'female' && gender !== 'male') throw new ValidationError('invalid gender value')
-
-        if (typeof birthdate !== 'number') throw new ValidationError('invalid birthdate type')
-        if (birthdate < 1900) throw new ValidationError('invalid birthdate value')
-
-        if (typeof species !== 'string') throw new ValidationError('invalid species type')
-        if (species.length < 3) throw new ValidationError('invalid species length')
-
-        if (typeof race !== 'string') throw new ValidationError('invalid race type')
-        if (race.length < 3) throw new ValidationError('invalid race length')
-
-        if (typeof colors !== 'string') throw new ValidationError('invalid colors type')
-        if (colors.length < 1) throw new ValidationError('invalid colors length')
-
-        const owner = data.findOwnerByPassport(passport)
-
-        if (owner === null) throw new ExistenceError('owner of pet not found')
-
-        let pet = data.findPetByPassport(passport)
-
-        if (pet !== null) throw new DuplicityError('pet already exists')
-
-        pet = new Pet('pet-' + data.petsCount, userId, chip, name, gender, birthdate, species, race, colors)
-
-        data.insertPet(pet)
-    }
-
-    getPets(userId) {
-
-        if (typeof userId !== 'string') throw new ValidationError('invalid userId type')
-        if (!USER_ID_REGEX.test(userId)) throw new ValidationError('invalid userId format')
-
-        const user = data.findUserById(userId)
-
-        if (!user) throw new ExistenceError('user does not exists')
-
-        const pets = data.findPetsByUserId(userId)
-
-        return pets
-    }
-
-
     getPet(userId, petId) {
-
-        if (typeof userId !== 'string') throw new ValidationError('invalid userId type')
-        if (!USER_ID_REGEX.test(userId)) throw new ValidationError('invalid userId format')
-
-        const user = data.findUserById(userId)
-
-        if (!user) throw new ExistenceError('user does not exists')
-
-        if (typeof petId !== 'string') throw new ValidationError('invalid petId type')
-        if (!PET_ID_REGEX.test(petId)) throw new ValidationError('invalid petId format')
+        validate.userId(userId)
+        validate.petId(petId)
 
         const pet = data.findPetById(petId)
 
@@ -286,22 +167,12 @@ class Logic {
 
 
     modifyPet(userId, petId, name, birthdate, weight, image) {
-        if (typeof userId !== 'string') throw new ValidationError('invalid userId type')
-        if (!USER_ID_REGEX.test(userId)) throw new ValidationError('invalid userId format')
-
-        if (typeof petId !== 'string') throw new ValidationError('invalid pet-id type')
-        if (!PET_ID_REGEX.test(petId)) throw new ValidationError('invalid pet-id format')
-
-        if (typeof name !== 'string') throw new ValidationError('invalid name type')
-        if (name.length < 1) throw new ValidationError('invalid name length')
-
-        if (typeof birthdate !== 'string') throw new ValidationError('invalid birthdate type')
-        if (!ISODATE_REGEX.test(birthdate)) throw new ValidationError('invalid birthdate format')
-
-        if (typeof weight !== 'number' || isNaN(weight)) throw new ValidationError('invalid weight type')
-
-        if (typeof image !== 'string') throw new ValidationError('invalid image type')
-        if (!URL_REGEX.test(image)) throw new ValidationError('invalid image format')
+        validate.userId(userId)
+        validate.petId(petId)
+        validate.name(name)
+        validate.date(birthdate, 'birthdate')
+        validate.number(weight, 'weight')
+        validate.url(image, 'image')
 
         const user = data.findUserById(userId)
         if (!user) throw new ExistenceError('user not found')
