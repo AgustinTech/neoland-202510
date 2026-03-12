@@ -53,9 +53,9 @@ export function PetList({ onGoToPetDetail, onError }) {
                     setPets(pets)
                     setShowPanel(false)
                 })
-                .catch(error => setFeedback({ message: error.message, level: 'error' }))
+                .catch(error => onError(error))
         } catch (error) {
-            setFeedback({ message: error.message, level: 'error' })
+            onError(error)
             setShowPanel(false)
             setPetId(null)
         }

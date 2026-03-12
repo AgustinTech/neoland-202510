@@ -11,7 +11,6 @@ import { logic } from '../logic'
 export function PetDetail({ onGoToHome, onGoToModifyPet }) {
     console.log('PetDetail -> call')
 
-    const [feedback, setFeedback] = useState(null)
     const [pet, setPet] = useState(null)
 
     const { petId } = useParams()
@@ -20,9 +19,9 @@ export function PetDetail({ onGoToHome, onGoToModifyPet }) {
         try {
             logic.getPet(petId)
                 .then(pet => setPet(pet))
-                .catch(error => setFeedback({ message: error.message, level: 'error' }))
+                .catch(error => onError(error))
         } catch (error) {
-            setFeedback({ message: error.message, level: 'error' })
+           onError(error)
         }
     }, [])
 

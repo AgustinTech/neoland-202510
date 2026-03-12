@@ -1,2 +1,2 @@
-curl -X PATCH -H 'Authorization: Basic user-0' -H "Content-Type: application/json"  -d '{"password": "123123123","newPassword": "147258369","newPasswordRepeat": "147258369"
+curl -X PATCH -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWIzMjJmNjE3ZGUwNmZlMjZkNWE0YzgiLCJpYXQiOjE3NzMzNDc2OTMsImV4cCI6MTc3MzM1MTI5M30.xrHXVWY9uiw_tepCTQyKnhy56YsEcZdUxroyj7MCBkc' -H "Content-Type: application/json"  -d '{"password": "123123123","newPassword": "147258369","newPasswordRepeat": "147258369"
 }' http://localhost:8080/users/password

@@ -1,3 +1,8 @@
+import { Error } from 'mongoose'
+import { UserModel, PetModel, database } from './models.js'
+
+import { SystemError } from './errors.js'
+
 // models
 
 export class User {
@@ -31,46 +36,56 @@ export class Pet {
 
 // manager
 export class Data {
-    constructor() {
-        this.users = []
-        this.usersCount = 0
-        this.owners = []
-        this.ownersCount = 0
-        this.pets = []
-        this.petsCount = 0
-        this.vaccines = []
-        this.loggedInUserId = null
-    }
-
-
     // users
     insertUser(user) {
-        this.users.push(user)
-        this.usersCount++
+        const userModel = new UserModel(user)
+
+        return userModel.save()
+            .catch(error => { throw new SystemError(error.message) })
+            .then(UserModel => { })
     }
 
     findUserByEmail(email) {
-        const user = this.users.find(user => user.email === email)
+        return UserModel.findOne({ email })
+            .catch(error => { throw new SystemError(error.message) })
+            .then(userModel => {
+                if (!userModel) return null
 
-        return user || null
+                const { id, name, email, username, password } = userModel
+
+                return new User(id, name, email, username, password)
+            })
+
     }
 
     findUserByUsername(username) {
-        const user = this.users.find(user => user.username === username)
+        return UserModel.findOne({ username })
+            .catch(error => { throw new SystemError(error.message) })
+            .then(userModel => {
+                if (!userModel) return null
 
-        return user || null
+                const { id, name, email, username, password } = userModel
+
+                return new User(id, name, email, username, password)
+            })
     }
 
     findUserById(userId) {
-        const user = this.users.find(user => user.id === userId)
+        return UserModel.findById(userId)
+            .catch(error => { throw new SystemError(error.message) })
+            .then(userModel => {
+                if (!userModel) return null
 
-        return user || null
+                const { id, name, email, username, password, image, role } = userModel
+
+                return new User(id, name, email, username, password, image, role)
+            })
     }
 
-    updateUser(updatedUser) {
-        const index = this.users.findIndex(user => user.id === updatedUser.id)
-
-        this.users[index] = updatedUser
+    updateUser(user) {
+        return UserModel.updateOne({ _id: user.id }, user)
+            .catch(error => { throw new SystemError(error.message) })
+            .then(userModel => { })
     }
 
     // pets

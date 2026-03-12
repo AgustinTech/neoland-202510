@@ -46,7 +46,7 @@ export function Home({ onGoToAddPet, onUserLoggedOut, onGoToProfile, onGoToPetDe
 
             onUserLoggedOut()
         } catch (error) {
-            setFeedback('sorry, there was an error on logout, please, try it later')
+           onError(error)
         }
     }
 

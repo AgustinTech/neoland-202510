@@ -282,10 +282,10 @@ class Logic {
     getPet(petId) {
         if (data.getToken() === null) throw new ValidationError('user not logged in')
 
-        validate.petId(petId)
+        validate.id(petId, 'petId')
 
 
-        return fetch('http://localhost:8080/pets/' + petId, {
+        return fetch(`http://localhost:8080/pets/${petId}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`
@@ -313,9 +313,9 @@ class Logic {
     deletePet(petId) {
         if (data.getToken() === null) throw new ValidationError('user not logged in')
 
-        validate.petId(petId)
+        validate.id(petId, 'petId')
 
-        return fetch('http://localhost:8080/pets/' + petId, {
+        return fetch(`http://localhost:8080/pets/${petId}`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`
@@ -343,13 +343,13 @@ class Logic {
     modifyPet(petId, name, birthdate, weight, image) {
         if (data.getToken() === null) throw new ValidationError('user not logged in')
 
-        validate.petId(petId)
+        validate.id(petId, 'petId')
         validate.name(name)
         validate.date(birthdate, 'birthdate')
         validate.number(weight, 'weight')
         validate.url(image, 'image')
 
-        return fetch('http://localhost:8080/pets/' + petId, {
+        return fetch(`http://localhost:8080/pets/${petId}`, {
             method: 'PUT',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`,
