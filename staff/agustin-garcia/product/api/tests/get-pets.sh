@@ -1,1 +1,1 @@
-curlx  -H 'Authorization: Basic user-0'  http://localhost:8080/pets -v
+curlx  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2OWI0NWM2N2U0MmViNWJiYzkwMTFlZTAiLCJpYXQiOjE3NzM0MzE1NjksImV4cCI6MTc3MzQzNTE2OX0.9voqH1p8dE-eG5knNyr0PYuVGBG9PlN6tH5ihHMnHl8'  http://localhost:8080/pets -v

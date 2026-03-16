@@ -5,7 +5,7 @@ import { SystemError } from './errors.js'
 
 // models
 
-export class User {
+export class UserData {
     constructor(id, name, email, username, password, image, role) {
         this.id = id
         this.name = name
@@ -18,19 +18,15 @@ export class User {
 }
 
 
-export class Pet {
-    constructor(id, userId, /* chip, */ name, /* gender, */ birthdate, weight, image, /* species, */ /*  race, */ /* colors */) {
+export class PetData {
+    constructor(id, ownerId, name, birthdate, weight, image) {
         this.id = id
-        this.userId = userId
-        // this.chip = chip
+        this.ownerId = ownerId
         this.name = name
-        // this.gender = gender
         this.birthdate = birthdate
         this.weight = weight
         this.image = image
-        // this.species = species
-        // this.race = race
-        // this.colors = colors
+
     }
 }
 
@@ -53,7 +49,7 @@ export class Data {
 
                 const { id, name, email, username, password } = userModel
 
-                return new User(id, name, email, username, password)
+                return new UserData(id, name, email, username, password)
             })
 
     }
@@ -66,7 +62,7 @@ export class Data {
 
                 const { id, name, email, username, password } = userModel
 
-                return new User(id, name, email, username, password)
+                return new UserData(id, name, email, username, password)
             })
     }
 
@@ -78,7 +74,7 @@ export class Data {
 
                 const { id, name, email, username, password, image, role } = userModel
 
-                return new User(id, name, email, username, password, image, role)
+                return new UserData(id, name, email, username, password, image, role)
             })
     }
 
@@ -90,21 +86,13 @@ export class Data {
 
     // pets
     insertPet(pet) {
-        this.pets.push(pet)
-        this.petsCount++
-    }
+        const { ownerId, name, birthdate, weight, image } = pet
 
-    findPetsByOwnerPassport(passport) {
-        const foundPets = []
+        const petModel = new PetModel({ owner: ownerId, name, birthdate, weight, image })
 
-        for (let i = 0; i < this.pets.length; i++) {
-            const pet = this.pets[i]
-
-            if (pet.ownerId === passport)
-                foundPets.push(pet)
-        }
-
-        return foundPets
+        return petModel.save()
+            .catch(error => { throw new SystemError(error.message) })
+            .then(petModel => { })
     }
 
 
@@ -114,22 +102,13 @@ export class Data {
         return pet || null
     }
 
-
     findPetsByUserId(userId) {
-        const foundPets = this.pets.filter(pet => pet.userId === userId)
+        return PetModel.find({ owner: userId })
+            .then(petModels => petModels.map(petModel => {
+                const { id, owner, name, birthdate, weight, image } = petModel
 
-        return foundPets
-    }
-
-    findPetByPassport(passport) {
-        for (let i = 0; i < this.pets.length; i++) {
-            const pet = this.pets[i]
-
-            if (pet.passport === passport)
-                return pet
-        }
-
-        return null
+                return new PetData(id, owner.toString(), name, birthdate, weight, image)
+            }))
     }
 
     updatePet(updatedPet) {
