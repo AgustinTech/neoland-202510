@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 
 import { Links } from './components/commons/Links'
-import { Feedback } from './components/commons/Feedback'
 import { Button } from './components/commons/Button'
+import { Spinner } from './components/Spinner'
 
 import { logic } from '../logic'
 
-export function PetDetail({ onGoToHome, onGoToModifyPet }) {
+export function PetDetail({ onGoToHome, onGoToModifyPet, onError }) {
     console.log('PetDetail -> call')
 
     const [pet, setPet] = useState(null)
@@ -47,18 +47,25 @@ export function PetDetail({ onGoToHome, onGoToModifyPet }) {
         </div>
 
 
-        {pet && <div className='flex flex-col items-center gap-4'>
-            <img src={pet.image} className='rounded-full w-40 h-40 object-cover' />
+        {pet ? (() => {
 
-            <p>{pet.name}</p>
+            const zuluDate = new Date(pet.birthdate)
+            const locaDateString = zuluDate.toLocaleDateString()
 
-            <p>{pet.weight}Kg</p>
+            return < div className='flex flex-col items-center gap-4' >
+                <img src={pet.image} className='rounded-full w-40 h-40 object-cover' />
 
-            <p>{pet.birthdate}</p>
+                <p>{pet.name}</p>
+
+                <p>{pet.weight}Kg</p>
+
+                <p>{locaDateString}</p>
 
 
-            <Button className='cursor-pointer' onClick={handleGoToModifyPet}>Modify</Button>
-        </div>}
 
-    </div>
+                <Button className='cursor-pointer' onClick={handleGoToModifyPet}>Modify</Button>
+            </div>
+
+        })() : <Spinner />}
+    </div >
 }

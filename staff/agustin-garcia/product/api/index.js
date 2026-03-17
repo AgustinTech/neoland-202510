@@ -99,20 +99,41 @@ database.connect('mongodb://localhost:27017/product')
 
         })
 
-        api.get('/users/me', (req, res, next) => {
+
+
+        api.patch('/users/name', (req, res, next) => {
             try {
                 const token = req.headers.authorization.slice(7)
 
                 const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-                logic.getUser(userId)
-                    .then(user => res.json(user))
-                    .catch(error => next(error))
+                const { name } = req.body
 
+                logic.changeName(userId, name)
+                    .then(() => res.status(204).send())
+                    .catch(error => next(error))
+            } catch (error) {
+                next(error)
+            }
+
+        })
+
+        api.patch('/users/username', (req, res, next) => {
+            try {
+                const token = req.headers.authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+
+                const { username } = req.body
+
+                logic.changeUsername(userId, username)
+                    .then(() => res.status(204).send())
+                    .catch(error => next(error))
             } catch (error) {
                 next(error)
             }
         })
+
 
         api.patch('/users/me/image', (req, res, next) => {
             try {
@@ -130,6 +151,23 @@ database.connect('mongodb://localhost:27017/product')
                 next(error)
             }
         })
+
+
+        api.get('/users/me', (req, res, next) => {
+            try {
+                const token = req.headers.authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+
+                logic.getUser(userId)
+                    .then(user => res.json(user))
+                    .catch(error => next(error))
+
+            } catch (error) {
+                next(error)
+            }
+        })
+
 
 
 

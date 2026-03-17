@@ -91,7 +91,7 @@ export function App() {
 
             <Route path="/profile" element={loggedIn ? <Profile onGoToHome={handleGoToHome} onError={handleError} onSuccess={handleSuccess} onClear={handleClear} /> : <Navigate to="/login" />} />
 
-            <Route path="/pets/:petId/detail" element={loggedIn ? <PetDetail onGoToHome={handleGoToHome} onGoToModifyPet={handleGoToModifyPet} /> : <Navigate to="/login" />} />
+            <Route path="/pets/:petId/detail" element={loggedIn ? <PetDetail onGoToHome={handleGoToHome} onGoToModifyPet={handleGoToModifyPet} onError={handleError} /> : <Navigate to="/login" />} />
 
             <Route path="/pets/:petId/edit" element={loggedIn ? <ModifyPet onGoBack={handleGoToPetDetail} onError={handleError} onSuccess={handleSuccess} /> : <Navigate to="/login" />} />
         </Routes>

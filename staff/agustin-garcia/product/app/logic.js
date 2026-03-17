@@ -1,6 +1,7 @@
 import { data } from './data'
 import { validate } from './validate'
 import { SystemError, ValidationError, errorMap } from './errors'
+import { AuthError } from '../api/errors'
 
 class Logic {
     constructor() {
@@ -156,24 +157,66 @@ class Logic {
     }
 
 
-    getLoggedInUser() {
-        if (data.getToken() === null) throw new ValidationError('user not logged in')
+    changeName(name) {
+        if (data.getToken() === null) throw new AuthError('user not logged in')
 
-        return fetch('http://localhost:8080/users/me', {
-            method: 'GET',
+        validate.name(name)
+
+        return fetch('http://localhost:8080/users/name', {
+            method: 'PATCH',
             headers: {
-                Authorization: `Bearer ${data.getToken()}`
-            }
+                Authorization: `Bearer ${data.getToken()}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name })
         })
+            .catch(error => { throw new SystemError('connection error') })
             .then(res => {
                 const { status } = res
 
-                if (status === 200)
-                    return res.json()
+                if (status === 204)
+                    return
 
                 return res.json()
+                    .catch(error => { throw new SystemError('json error') })
                     .then(body => {
                         const { error, message } = body
+
+                        const constructor = errorMap[error] || SystemError
+
+                        throw new constructor(message)
+                    })
+            })
+    }
+
+
+
+    changeUsername(username) {
+        if (data.getToken() === null) throw new AuthError('user not logged in')
+
+        validate.name(username)
+
+        return fetch('http://localhost:8080/users/username', {
+            method: 'PATCH',
+            headers: {
+                Authorization: `Bearer ${data.getToken()}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username })
+        })
+            .catch(error => { throw new SystemError('connection error') })
+            .then(res => {
+                const { status } = res
+
+                if (status === 204)
+                    return
+
+                return res.json()
+                    .catch(error => { throw new SystemError('json error') })
+                    .then(body => {
+                        const { error, message } = body
+
+                        const constructor = errorMap[error] || SystemError
 
                         throw new constructor(message)
                     })
@@ -213,6 +256,32 @@ class Logic {
             })
 
     }
+
+    getLoggedInUser() {
+        if (data.getToken() === null) throw new ValidationError('user not logged in')
+
+        return fetch('http://localhost:8080/users/me', {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${data.getToken()}`
+            }
+        })
+            .then(res => {
+                const { status } = res
+
+                if (status === 200)
+                    return res.json()
+
+                return res.json()
+                    .then(body => {
+                        const { error, message } = body
+
+                        throw new constructor(message)
+                    })
+            })
+    }
+
+
 
     addPet(name, birthdate, weight, image) {
         if (data.getToken() === null) throw new ValidationError('user not logged in')

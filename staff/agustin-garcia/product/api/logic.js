@@ -3,7 +3,7 @@ import { DuplicityError, ExistenceError, CredentialError, OwnershipError } from 
 import { validate } from "./validate.js"
 
 class User {
-    constructor(id, name, email, username,) {
+    constructor(id, name, email, username, image, role) {
         this.id = id
         this.name = name
         this.email = email
@@ -35,18 +35,18 @@ class Logic {
         validate.match(password, passwordRepeat, 'password', 'passwordRepeat')
 
         return data.findUserByEmail(email)
-            .then(user => {
-                if (user !== null) throw new DuplicityError('user email already exists')
+            .then(userData => {
+                if (userData !== null) throw new DuplicityError('user email already exists')
 
-                return user = data.findUserByUsername(username)
+                return userData = data.findUserByUsername(username)
             })
-            .then(user => {
-                if (user !== null) throw new DuplicityError('user username already exists')
+            .then(userData => {
+                if (userData !== null) throw new DuplicityError('user username already exists')
 
-                user = new UserData(null, name, email, username, password, null, 'regular')
+                userData = new UserData(null, name, email, username, password, null, 'regular')
 
 
-                return data.insertUser(user)
+                return data.insertUser(userData)
             })
     }
 
@@ -56,12 +56,12 @@ class Logic {
         validate.password(password)
 
         return data.findUserByUsername(username)
-            .then(user => {
-                if (!user) throw new ExistenceError('user does not exist')
+            .then(userData => {
+                if (!userData) throw new ExistenceError('user does not exist')
 
-                if (user.password !== password) throw new CredentialError('incorrect password')
+                if (userData.password !== password) throw new CredentialError('incorrect password')
 
-                return user.id
+                return userData.id
             })
     }
 
@@ -73,13 +73,13 @@ class Logic {
         validate.match(newPassword, newPasswordRepeat, 'newPassword', 'newPasswordRepeat')
 
         return data.findUserById(userId)
-            .then(user => {
-                if (!user) throw new ExistenceError('user not found')
+            .then(userData => {
+                if (!userData) throw new ExistenceError('user not found')
 
-                if (user.password !== password) throw new CredentialError('incorrect password')
+                if (userData.password !== password) throw new CredentialError('incorrect password')
 
 
-                const { name, email, username, image, role } = user
+                const { name, email, username, image, role } = userData
 
                 data.updateUser(new UserData(userId, name, email, username, newPassword, image, role))
             })
@@ -94,17 +94,17 @@ class Logic {
         validate.match(newEmail, newEmailRepeat, 'newEmail', 'newEmailRepeat')
 
         return data.findUserById(userId)
-            .then(user => {
-                if (!user) throw new ExistenceError('user not found')
+            .then(userData => {
+                if (!userData) throw new ExistenceError('user not found')
 
-                if (user.email !== email) throw new OwnershipError('old email do not belong to user')
+                if (userData.email !== email) throw new OwnershipError('old email do not belong to user')
 
                 return data.findUserByEmail(newEmail)
-                    .then(otherUser => {
+                    .then(otherUserData => {
 
-                        if (otherUser) throw new OwnershipError('newEmail belongs to another user')
+                        if (otherUserData) throw new OwnershipError('newEmail belongs to another user')
 
-                        const { name, username, password, image, role } = user
+                        const { name, username, password, image, role } = userData
 
                         return data.updateUser(new UserData(userId, name, newEmail, username, password, image, role))
                     }
@@ -115,34 +115,64 @@ class Logic {
     }
 
 
-    getUser(userId) {
+    changeName(userId, name) {
         validate.id(userId, 'userId')
+        validate.name(name)
 
         return data.findUserById(userId)
-            .then(user => {
-                if (!user) throw new ExistenceError('user not found')
+            .then(userData => {
+                if (!userData) throw new ExistenceError('user not found')
 
-                const { name, email, username, image } = user
+                const { email, username, password, image, role } = userData
 
-                return { name, email, username, image }
+                data.updateUser(new UserData(userId, name, email, username, password, image, role))
             })
-
     }
+
+    changeUsername(userId, username) {
+        validate.id(userId, 'userId')
+        validate.name(username)
+
+        return data.findUserById(userId)
+            .then(userData => {
+                if (!userData) throw new ExistenceError('user not found')
+
+                const { name, email, password, image, role } = userData
+
+                data.updateUser(new UserData(userId, name, email, username, password, image, role))
+            })
+    }
+
     changeUserImage(userId, image) {
         validate.id(userId, 'userId')
         validate.url(image, 'image')
 
         return data.findUserById(userId)
-            .then(user => {
-                if (!user) throw new ExistenceError('user not found')
+            .then(userData => {
+                if (!userData) throw new ExistenceError('user not found')
 
-                const { name, email, username, password, role } = user
+                const { name, email, username, password, role } = userData
 
                 return data.updateUser(new UserData(userId, name, email, username, password, image, role))
             })
 
 
     }
+
+    getUser(userId) {
+        validate.id(userId, 'userId')
+
+        return data.findUserById(userId)
+            .then(userData => {
+                if (!userData) throw new ExistenceError('user not found')
+
+                const { name, email, username, image } = userData
+
+                return { name, email, username, image }
+            })
+
+    }
+
 
     addPet(userId, name, birthdate, weight, image) {
         validate.id(userId, 'userId')
@@ -167,8 +197,8 @@ class Logic {
         validate.id(userId, 'userId')
 
         return data.findUserById(userId)
-            .then(user => {
-                if (!user) throw new Error('user not found')
+            .then(userData => {
+                if (!userData) throw new Error('user not found')
 
                 return data.findPetsByUserId(userId)
             })
@@ -185,15 +215,15 @@ class Logic {
         validate.id(petId, 'petId')
 
         return data.findUserById(userId)
-            .then(user => {
-                if (!user) throw new ExistenceError('user does not exists')
+            .then(userData => {
+                if (!userData) throw new ExistenceError('user does not exists')
 
                 return data.findPetById(petId)
             })
-            .then(pet => {
-                if (!pet) throw new ExistenceError('pet not found')
+            .then(petData => {
+                if (!petData) throw new ExistenceError('pet not found')
 
-                if (pet.ownerId !== userId) throw new OwnershipError('user not owner of pet')
+                if (petData.ownerId !== userId) throw new OwnershipError('user not owner of pet')
 
                 return data.deletePet(petId)
             })
@@ -204,15 +234,15 @@ class Logic {
         validate.id(petId, 'petId')
 
         return data.findUserById(userId)
-            .then(user => {
-                if (!user) throw new ExistenceError('user not found')
+            .then(userData => {
+                if (!userData) throw new ExistenceError('user not found')
 
                 return data.findPetById(petId)
             })
-            .then(pet => {
-                if (!pet) return null
+            .then(petData => {
+                if (!petData) return null
 
-                if (pet.ownerId !== userId)
+                if (petData.ownerId !== userId)
                     throw new OwnershipError('user not owner of pet')
 
                 const { id, ownerId, name, birthdate, weight, image } = petData
@@ -230,15 +260,15 @@ class Logic {
         validate.url(image, 'image');
 
         return data.findUserById(userId)
-            .then(user => {
-                if (user === null) throw new ExistenceError('user does not exists');
+            .then(userData => {
+                if (userData === null) throw new ExistenceError('user does not exists');
 
                 return data.findPetById(petId);
             })
-            .then(pet => {
-                if (pet === null) throw new ExistenceError('pet does not exists');
+            .then(petData => {
+                if (petData === null) throw new ExistenceError('pet does not exists');
 
-                if (pet.ownerId !== userId) throw new OwnershipError('user not owner of pet');
+                if (petData.ownerId !== userId) throw new OwnershipError('user not owner of pet');
 
                 data.updatePet(new PetData(id, ownerId, name, birthdate, weight, image));
             })
