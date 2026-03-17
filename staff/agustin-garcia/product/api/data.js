@@ -1,5 +1,4 @@
-import { Error } from 'mongoose'
-import { UserModel, PetModel, database } from './models.js'
+import { UserModel, PetModel } from './models.js'
 
 import { SystemError } from './errors.js'
 
@@ -97,13 +96,20 @@ export class Data {
 
 
     findPetById(petId) {
-        const pet = this.pets.find(pet => pet.id === petId)
+        return PetModel.findById(petId)
+            .catch(error => { throw new SystemError(error.message) })
+            .then(petModel => {
+                if (!petModel) return null
 
-        return pet || null
+                const { id, owner, name, birthdate, weight, image } = petModel
+
+                return new PetData(id, owner.toString(), name, birthdate, weight, image)
+            })
     }
 
     findPetsByUserId(userId) {
         return PetModel.find({ owner: userId })
+            .catch(error => { throw new SystemError(error.message) })
             .then(petModels => petModels.map(petModel => {
                 const { id, owner, name, birthdate, weight, image } = petModel
 
@@ -111,16 +117,18 @@ export class Data {
             }))
     }
 
-    updatePet(updatedPet) {
-        const index = this.pets.findIndex(pet => pet.id === updatedPet.id)
+    updatePet(pet) {
+        const { id, ownerId, name, birthdate, weight, image } = pet
 
-        this.pets[index] = updatedPet
+        return PetModel.updateOne({ _id: id }, { $set: { owner: ownerId, name, birthdate, weight, image } })
+            .catch(error => { throw new SystemError(error.message) })
+            .then(result => { })
     }
 
     deletePet(petId) {
-        const index = this.pets.findIndex(pet => pet.id === petId)
-
-        data.pets.splice(index, 1)
+        return PetModel.deleteOne({ _id: petId })
+            .catch(error => { throw new SystemError(error.message) })
+            .then(result => { })
     }
 
 }

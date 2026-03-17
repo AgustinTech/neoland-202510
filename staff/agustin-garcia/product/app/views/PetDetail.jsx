@@ -21,7 +21,7 @@ export function PetDetail({ onGoToHome, onGoToModifyPet }) {
                 .then(pet => setPet(pet))
                 .catch(error => onError(error))
         } catch (error) {
-           onError(error)
+            onError(error)
         }
     }, [])
 
@@ -60,6 +60,5 @@ export function PetDetail({ onGoToHome, onGoToModifyPet }) {
             <Button className='cursor-pointer' onClick={handleGoToModifyPet}>Modify</Button>
         </div>}
 
-        {feedback && <Feedback feedback={feedback} />}
     </div>
 }

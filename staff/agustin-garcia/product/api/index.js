@@ -176,6 +176,8 @@ database.connect('mongodb://localhost:27017/product')
                 const { petId } = req.params
 
                 logic.removePet(userId, petId)
+                    .then(() => res.status(204).send())
+                    .catch(error => next(error))
 
                 res.status(204).send()
             } catch (error) {
@@ -193,10 +195,9 @@ database.connect('mongodb://localhost:27017/product')
 
                 const { petId } = req.params
 
-                const pet = logic.getPet(userId, petId)
-
-
-                res.json(pet)
+                logic.getPet(userId, petId)
+                    .then(pet => res.json(pet))
+                    .catch(error => next(error))
             } catch (error) {
                 next(error)
             }
@@ -215,8 +216,9 @@ database.connect('mongodb://localhost:27017/product')
                 const { name, birthdate, weight, image } = req.body
 
                 logic.modifyPet(userId, petId, name, birthdate, weight, image)
+                    .then(() => res.status(204).send())
+                    .catch(error => next(error))
 
-                res.status(204).send()
             } catch (error) {
                 next(error)
             }
