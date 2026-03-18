@@ -61,9 +61,9 @@ class Logic {
 
                 if (status === 200)
                     return res.json()
-                        .then(({ token }) => {
-                            data.setToken(token)
-                        })
+                        .catch(error => { throw new SystemError('json error') })
+                        .then(({ token }) => { data.setToken(token) })
+                        .catch(error => { throw new SystemError('json error') })
 
                 return res.json()
                     .catch(error => { throw new SystemError('json error') })
@@ -271,6 +271,8 @@ class Logic {
 
                 if (status === 200)
                     return res.json()
+                        .catch(error => { throw new SystemError('json error') })
+                        .then(user => user)
 
                 return res.json()
                     .then(body => {
@@ -335,6 +337,8 @@ class Logic {
 
                 if (status === 200)
                     return res.json()
+                        .catch(error => { throw new SystemError('json error') })
+                        .then(pets => pets)
 
                 return res.json()
                     .catch(error => { throw new SystemError('json error') })
@@ -366,6 +370,9 @@ class Logic {
 
                 if (status === 200)
                     return res.json()
+                        .catch(error => { throw new SystemError('json error') })
+                        .then(pet => pet)
+
 
                 return res.json()
                     .catch(error => { throw new SystemError('json error') })

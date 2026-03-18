@@ -146,7 +146,6 @@ database.connect('mongodb://localhost:27017/product')
                 logic.changeUserImage(userId, image)
                     .then(() => res.status(204).send())
                     .catch(error => next(error))
-
             } catch (error) {
                 next(error)
             }
@@ -162,7 +161,6 @@ database.connect('mongodb://localhost:27017/product')
                 logic.getUser(userId)
                     .then(user => res.json(user))
                     .catch(error => next(error))
-
             } catch (error) {
                 next(error)
             }
@@ -252,7 +250,6 @@ database.connect('mongodb://localhost:27017/product')
                 logic.modifyPet(userId, petId, name, birthdate, weight, image)
                     .then(() => res.status(204).send())
                     .catch(error => next(error))
-
             } catch (error) {
                 next(error)
             }
