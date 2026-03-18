@@ -2,11 +2,15 @@ import { Form } from './commons/Form'
 import { Field } from './commons/Field'
 import { Button } from './commons/Button'
 
+import { useContext } from '../../context'
+
 import { logic } from '../../logic'
 import { useEffect, useState } from 'react'
 
-export function ChangeName({ onError, onSuccess }) {
+export function ChangeName({ }) {
     console.log('ChangeName -> call')
+
+    const { onSuccess, onError } = useContext()
 
     const [name, setName] = useState('')
 
@@ -49,5 +53,5 @@ export function ChangeName({ onError, onSuccess }) {
                 </Button>
             </Form>
         </div>
-    )   
+    )
 }

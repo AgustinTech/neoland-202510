@@ -4,10 +4,14 @@ import { PasswordField } from './components/commons/PasswordField'
 import { Button } from './components/commons/Button'
 import { Links } from './components/commons/Links'
 
+import { useContext } from '../context'
+
 import { logic } from '../logic'
 
-export function Login({ onUserLoggedIn, onGoToRegister, onError }) {
+export function Login({ onUserLoggedIn, onGoToRegister }) {
     console.log('Login -> call')
+
+    const { onError } = useContext()
 
     const handleLoginSubmit = event => {
         event.preventDefault()
@@ -27,27 +31,27 @@ export function Login({ onUserLoggedIn, onGoToRegister, onError }) {
         }
     }
 
-        const handleRegisterClick = event => {
-            event.preventDefault()
+    const handleRegisterClick = event => {
+        event.preventDefault()
 
-            onGoToRegister()
-        }
-
-        console.log('Login -> render')
-
-        return <div className="p-4">
-            <h1 className="text-3xl font-bold cursor-pointer">MyPet</h1>
-
-            <h2 className="font-bold">Login </h2>
-
-            <Form onSubmit={handleLoginSubmit}>
-                <Field alias="username" type="text">Username</Field>
-
-                <PasswordField alias="password">Password</PasswordField>
-
-                <Button className="self-center px-2 mt-4" type="submit">Login</Button>
-            </Form>
-
-            <Links onClick={handleRegisterClick}>Register</Links>
-        </div>
+        onGoToRegister()
     }
+
+    console.log('Login -> render')
+
+    return <div className="p-4">
+        <h1 className="text-3xl font-bold cursor-pointer">MyPet</h1>
+
+        <h2 className="font-bold">Login </h2>
+
+        <Form onSubmit={handleLoginSubmit}>
+            <Field alias="username" type="text">Username</Field>
+
+            <PasswordField alias="password">Password</PasswordField>
+
+            <Button className="self-center px-2 mt-4" type="submit">Login</Button>
+        </Form>
+
+        <Links onClick={handleRegisterClick}>Register</Links>
+    </div>
+}

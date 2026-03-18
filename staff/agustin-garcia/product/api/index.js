@@ -182,8 +182,6 @@ database.connect('mongodb://localhost:27017/product')
                 logic.addPet(userId, name, birthdate, weight, image)
                     .then(() => res.status(204).send())
                     .catch(error => next(error))
-
-                res.status(201).send()
             } catch (error) {
                 next(error)
             }
@@ -216,8 +214,6 @@ database.connect('mongodb://localhost:27017/product')
                 logic.removePet(userId, petId)
                     .then(() => res.status(204).send())
                     .catch(error => next(error))
-
-                res.status(204).send()
             } catch (error) {
                 next(error)
             }

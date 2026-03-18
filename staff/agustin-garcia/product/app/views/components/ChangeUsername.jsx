@@ -2,11 +2,15 @@ import { Form } from './commons/Form'
 import { Field } from './commons/Field'
 import { Button } from './commons/Button'
 
+import { useContext } from '../../context'
+
 import { logic } from '../../logic'
 import { useEffect, useState } from 'react'
 
-export function ChangeUsername({ onError, onSuccess }) {
+export function ChangeUsername({ }) {
     console.log('ChangeUsername -> call')
+
+    const { onSuccess, onError } = useContext()
 
     const [username, setUsername] = useState('')
 

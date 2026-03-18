@@ -4,9 +4,13 @@ import { Field } from './components/commons/Field'
 import { Button } from './components/commons/Button'
 import { logic } from '../logic'
 
+import { useContext } from '../context'
 
-export function AddPet({ onGoToHome, onError }) {
+
+export function AddPet({ onGoToHome }) {
     console.log('AddPet -> call')
+
+        const { onError } = useContext()
 
     const handleBackHomeClick = event => {
         event.preventDefault()

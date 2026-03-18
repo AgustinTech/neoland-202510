@@ -2,12 +2,15 @@ import { Form } from './commons/Form'
 import { PasswordField } from './commons/PasswordField'
 import { Button } from './commons/Button'
 
+import { useContext } from '../../context'
+
 import { logic } from '../../logic'
 
 
-export function ChangePassword({onError, onSuccess}) {
+export function ChangePassword({ }) {
     console.log('ChangePassword -> call')
 
+    const { onSuccess, onError } = useContext()
 
     const handleChangePasswordSubmit = event => {
         event.preventDefault()

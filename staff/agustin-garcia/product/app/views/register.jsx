@@ -4,11 +4,15 @@ import { PasswordField } from './components/commons/PasswordField'
 import { Button } from './components/commons/Button'
 import { Links } from './components/commons/Links'
 
+import { useContext } from '../context'
+
 import { logic } from '../logic'
 
 
-export function Register({ onGoToLogin, onError }) {
+export function Register({ onGoToLogin }) {
     console.log('Register -> call')
+
+    const { onError } = useContext()
 
     const handleRegisterSubmit = event => {
         event.preventDefault()
@@ -34,33 +38,33 @@ export function Register({ onGoToLogin, onError }) {
         }
     }
 
-        const handleLoginClick = event => {
-            event.preventDefault()
+    const handleLoginClick = event => {
+        event.preventDefault()
 
-            onGoToLogin()
-        }
+        onGoToLogin()
+    }
 
-        console.log('Register -> render')
+    console.log('Register -> render')
 
-        return <div className="p-4">
-            <h1 className="text-3xl font-bold cursor-pointer">MyPet</h1>
+    return <div className="p-4">
+        <h1 className="text-3xl font-bold cursor-pointer">MyPet</h1>
 
-            <h2 className="font-bold">Register</h2>
+        <h2 className="font-bold">Register</h2>
 
-            <Form onSubmit={handleRegisterSubmit}>
-                <Field alias="name" type="text">Name</Field>
+        <Form onSubmit={handleRegisterSubmit}>
+            <Field alias="name" type="text">Name</Field>
 
-                <Field alias="email" type="email">E-mail</Field>
+            <Field alias="email" type="email">E-mail</Field>
 
-                <Field alias="username" type="text">Username</Field>
+            <Field alias="username" type="text">Username</Field>
 
-                <PasswordField alias="password">Password</PasswordField>
+            <PasswordField alias="password">Password</PasswordField>
 
-                <PasswordField alias="passwordRepeat">Repeat Password</PasswordField>
+            <PasswordField alias="passwordRepeat">Repeat Password</PasswordField>
 
-                <Button className="self-center px-2 mt-4" type="submit">Register</Button>
-            </Form>
+            <Button className="self-center px-2 mt-4" type="submit">Register</Button>
+        </Form>
 
-            <Links onClick={handleLoginClick}>Login</Links>
-        </div >
+        <Links onClick={handleLoginClick}>Login</Links>
+    </div >
 }

@@ -7,12 +7,15 @@ import { Form } from './components/commons/Form'
 import { Field } from './components/commons/Field'
 import { Button } from './components/commons/Button'
 import { Spinner } from './components/Spinner'
+import { useContext } from '../context'
 
 import { logic } from '../logic'
 
 
-export function ModifyPet({ onGoBack, onError, onSuccess }) {
+export function ModifyPet({ onGoBack }) {
     console.log('modifyPet -> call')
+
+    const { onSuccess, onError } = useContext()
 
     const [pet, setPet] = useState(null)
 
