@@ -3,17 +3,17 @@ import cors from 'cors'
 import morganBody from 'morgan-body'
 import jwt from 'jsonwebtoken'
 
-import { logic } from './logic.js'
+import { logic } from './logic/index.js'
 import { DuplicityError, ExistenceError, OwnershipError, SystemError, ValidationError, CredentialError, AuthError } from 'com'
 
-import { database } from './models.js'
+import { database } from './models/index.js'
 
 database.connect(process.env.DB_URL)
     .then(() => {
         console.log('DB connected')
 
         const { JsonWebTokenError } = jwt
-        
+
         const api = express()
 
         const jsonBodyParser = express.json()

@@ -1,9 +1,5 @@
-import { ValidationError } from "./errors.js"
-
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-const URL_REGEX = /(www|http:|https:)+[^\s]+[\w]/
-const ISODATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
-const ID_REGEX = /^[0-9a-fA-F]{24}$/
+import { ValidationError } from './errors.js'
+import { EMAIL_REGEX, URL_REGEX, ISODATE_REGEX, ID_REGEX } from './regex.js'
 
 class Validate {
     name(name) {

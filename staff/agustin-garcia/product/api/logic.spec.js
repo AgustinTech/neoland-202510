@@ -1,10 +1,10 @@
 import { expect } from 'chai'
 import bcrypt from 'bcryptjs'
 
-import { database } from './models.js'
+import { database } from './models/index.js'
 
-import { logic, User, Pet } from './logic.js'
-import { data, UserData, PetData } from './data.js'
+import { logic, User, Pet } from './logic/index.js'
+import { data, UserData, PetData } from './data/index.js'
 import { CredentialError, DuplicityError, ExistenceError, OwnershipError } from 'com'
 
 describe('logic', () => {
@@ -221,11 +221,11 @@ describe('logic', () => {
         })
     })
 
-    describe('changeUserImage', () => {
+    describe('changeImage', () => {
         it('succeeds on existing user', () => {
             return data.insertUser(new UserData(null, 'Mi Ke', 'mi@ke.com', 'mike', hashed, null, 'regular'))
                 .then(() => data.findUserByEmail('mi@ke.com'))
-                .then(userData => logic.changeUserImage(userData.id, 'https://image.com/123'))
+                .then(userData => logic.changeImage(userData.id, 'https://image.com/123'))
                 .then(() => data.findUserByEmail('mi@ke.com'))
                 .then(userData => {
                     expect(userData.name).to.equal('Mi Ke')
@@ -240,7 +240,7 @@ describe('logic', () => {
         it('fails on non-existing user', () => {
             let caught = null
 
-            return logic.changeUserImage('012345678901234567890123', 'https://image.com/123')
+            return logic.changeImage('012345678901234567890123', 'https://image.com/123')
                 .catch(error => caught = error)
                 .finally(() => {
                     expect(caught).to.be.instanceOf(ExistenceError)
@@ -249,11 +249,11 @@ describe('logic', () => {
         })
     })
 
-    describe('changeUsername', () => {
+    describe('changeName', () => {
         it('succeeds on existing user', () => {
             return data.insertUser(new UserData(null, 'Mi Ke', 'mi@ke.com', 'mike', hashed, null, 'regular'))
                 .then(() => data.findUserByEmail('mi@ke.com'))
-                .then(userData => logic.changeUsername(userData.id, 'Mi Ke 2'))
+                .then(userData => logic.changeName(userData.id, 'Mi Ke 2'))
                 .then(() => data.findUserByEmail('mi@ke.com'))
                 .then(userData => {
                     expect(userData.name).to.equal('Mi Ke 2')
