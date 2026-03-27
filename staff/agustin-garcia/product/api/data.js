@@ -1,6 +1,6 @@
 import { UserModel, PetModel } from './models.js'
 
-import { SystemError } from './errors.js'
+import { SystemError } from 'com'
 
 // models
 
@@ -48,7 +48,7 @@ export class Data {
 
                 const { id, name, email, username, password } = userModel
 
-                return new UserData(id, name, email, username, password)
+                return new UserData(id, name, email, username, password, image, role)
             })
 
     }
@@ -59,9 +59,9 @@ export class Data {
             .then(userModel => {
                 if (!userModel) return null
 
-                const { id, name, email, username, password } = userModel
+                const { id, name, email, username, password, image, role } = userModel
 
-                return new UserData(id, name, email, username, password)
+                return new UserData(id, name, email, username, password, image, role)
             })
     }
 
@@ -77,10 +77,16 @@ export class Data {
             })
     }
 
-    updateUser(user) {
-        return UserModel.updateOne({ _id: user.id }, user)
+    updateUser(userData) {
+        return UserModel.updateOne({ _id: userData.id }, { $set: userData })
             .catch(error => { throw new SystemError(error.message) })
             .then(userModel => { })
+    }
+
+    deleteAllUsers() {
+        return UserModel.deleteMany()
+            .catch(error => { throw new SystemError(error.message) })
+            .then(result => { })
     }
 
     // pets
@@ -117,16 +123,21 @@ export class Data {
             }))
     }
 
-    updatePet(pet) {
-        const { id, ownerId, name, birthdate, weight, image } = pet
-
-        return PetModel.updateOne({ _id: id }, { $set: { owner: ownerId, name, birthdate, weight, image } })
+    updatePet(petData) {
+        return PetModel.updateOne({ _id: petData.id }, { $set: petData })
             .catch(error => { throw new SystemError(error.message) })
             .then(result => { })
     }
 
+
     deletePet(petId) {
         return PetModel.deleteOne({ _id: petId })
+            .catch(error => { throw new SystemError(error.message) })
+            .then(result => { })
+    }
+
+    deleteAllPets() {
+        return PetModel.deleteMany()
             .catch(error => { throw new SystemError(error.message) })
             .then(result => { })
     }

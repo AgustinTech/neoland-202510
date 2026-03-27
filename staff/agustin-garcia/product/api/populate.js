@@ -1,9 +1,11 @@
+import bcrypt from 'bcryptjs'
 import { UserModel, PetModel, database } from './models.js'
 
 database.connect('mongodb://localhost:27017/product')
-    .then(() => {
-        const wendy = new UserModel({ name: 'Wendy Darling', email: 'wendy@darling.com', username: 'wendydarling', password: '123123123' })
-        const pepitogrillo = new UserModel({ name: 'Pepito Grillo ', email: 'pepito@grillo.com', username: 'pepitogrillo', password: '123123123' })
+    .then(() => bcrypt.hash('123123123', 10))
+    .then(hash => {
+        const wendy = new UserModel({ name: 'Wendy Darling', email: 'wendy@darling.com', username: 'wendydarling', password: hash })
+        const pepitogrillo = new UserModel({ name: 'Pepito Grillo', email: 'pepito@grillo.com', username: 'pepitogrillo', password: hash })
 
         return Promise.all([wendy.save(), pepitogrillo.save()])
             .then(([wendy, pepitogrillo]) => {
@@ -15,7 +17,9 @@ database.connect('mongodb://localhost:27017/product')
 
                 const tommy = new PetModel({ owner: pepitogrillo.id, name: 'Tommy', birthdate: new Date('2022-06-08'), weight: 6, image: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGU2dmlncDd4NmE1dXdodHN6czY2MDdtNXl2a2Q2a3hhdmEzNzJ4MCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/OHRF8LZis06OiPDJby/giphy.gif' })
 
-                return Promise.all([tor.save(), rocky.save(), tommy.save()])
+                const mongito = new PetModel({ owner: pepitogrillo.id, name: 'Mongito', birthdate: new Date('2023-07-01'), weight: 4, image: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTk0bG5uOGdmYmg2NDhqY2dyOGZidHFyeG9tbGJ5b29sMDYzM3FkdCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/sWBzg2D15WwQjHcxbt/giphy.gif' })
+
+                return Promise.all([tor.save(), rocky.save(), tommy.save(),mongito.save()])
             })
             .then(([tor, rocky]) => console.log(tor, rocky))
 

@@ -4,18 +4,16 @@ import morganBody from 'morgan-body'
 import jwt from 'jsonwebtoken'
 
 import { logic } from './logic.js'
-import { DuplicityError, ExistenceError, OwnershipError, SystemError, ValidationError, CredentialError, AuthError } from './errors.js'
+import { DuplicityError, ExistenceError, OwnershipError, SystemError, ValidationError, CredentialError, AuthError } from 'com'
 
 import { database } from './models.js'
 
-database.connect('mongodb://localhost:27017/product')
+database.connect(process.env.DB_URL)
     .then(() => {
         console.log('DB connected')
 
         const { JsonWebTokenError } = jwt
-
-        const JWT_SECRET = 'a superman le puede la criptonita'
-
+        
         const api = express()
 
         const jsonBodyParser = express.json()
@@ -51,7 +49,7 @@ database.connect('mongodb://localhost:27017/product')
 
                 logic.authenticateUser(username, password)
                     .then(userId => {
-                        const token = jwt.sign({ sub: userId }, JWT_SECRET, { expiresIn: '1h' })
+                        const token = jwt.sign({ sub: userId }, process.env.JWT_SECRET, { expiresIn: '1h' })
 
                         res.json({ token })
                     }
@@ -68,7 +66,7 @@ database.connect('mongodb://localhost:27017/product')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 const { password, newPassword, newPasswordRepeat } = req.body
 
@@ -86,7 +84,7 @@ database.connect('mongodb://localhost:27017/product')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 const { email, newEmail, newEmailRepeat } = req.body
 
@@ -105,7 +103,7 @@ database.connect('mongodb://localhost:27017/product')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 const { name } = req.body
 
@@ -122,7 +120,7 @@ database.connect('mongodb://localhost:27017/product')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 const { username } = req.body
 
@@ -139,7 +137,7 @@ database.connect('mongodb://localhost:27017/product')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 const { image } = req.body
 
@@ -156,7 +154,7 @@ database.connect('mongodb://localhost:27017/product')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 logic.getUser(userId)
                     .then(user => res.json(user))
@@ -173,7 +171,7 @@ database.connect('mongodb://localhost:27017/product')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 const { name, birthdate, weight, image } = req.body
 
@@ -190,7 +188,7 @@ database.connect('mongodb://localhost:27017/product')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 logic.getPets(userId)
                     .then(pets => res.json(pets))
@@ -205,7 +203,7 @@ database.connect('mongodb://localhost:27017/product')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 const { petId } = req.params
 
@@ -223,7 +221,7 @@ database.connect('mongodb://localhost:27017/product')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 const { petId } = req.params
 
@@ -241,7 +239,7 @@ database.connect('mongodb://localhost:27017/product')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 const { petId } = req.params
 
@@ -284,6 +282,6 @@ database.connect('mongodb://localhost:27017/product')
             res.status(status).json({ error: errorName, message })
         })
 
-        api.listen(8080, () => console.log('API listening on port 8080'))
+        api.listen(process.env.PORT, () => console.log(`API listening on port ${process.env.PORT}`))
     })
     .catch(error => console.error(error))

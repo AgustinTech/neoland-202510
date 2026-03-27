@@ -1,17 +1,20 @@
-import { data, UserData, PetData } from './data.js'
-import { DuplicityError, ExistenceError, CredentialError, OwnershipError } from './errors.js'
-import { validate } from "./validate.js"
+import bcrypt from 'bcryptjs'
 
-class User {
+import { data, UserData, PetData } from './data.js'
+import { validate, DuplicityError, ExistenceError, CredentialError, OwnershipError, SystemError } from 'com'
+
+export class User {
     constructor(id, name, email, username, image, role) {
         this.id = id
         this.name = name
         this.email = email
         this.username = username
+        this.image = image
+        this.role = role
     }
 }
 
-class Pet {
+export class Pet {
     constructor(id, ownerId, name, birthdate, weight, image) {
         this.id = id
         this.ownerId = ownerId
@@ -43,8 +46,11 @@ class Logic {
             .then(userData => {
                 if (userData !== null) throw new DuplicityError('user username already exists')
 
-                userData = new UserData(null, name, email, username, password, null, 'regular')
-
+                return bcrypt.hash(password, 10)
+                    .catch(error => { throw new SystemError(error.message) })
+            })
+            .then(hash => {
+                const userData = new UserData(null, name, email, username, hash, null, 'regular')
 
                 return data.insertUser(userData)
             })
@@ -59,9 +65,13 @@ class Logic {
             .then(userData => {
                 if (!userData) throw new ExistenceError('user does not exist')
 
-                if (userData.password !== password) throw new CredentialError('incorrect password')
+                return bcrypt.compare(password, userData.password)
+                    .catch(error => { throw new SystemError(error.message) })
+                    .then(match => {
+                        if (!match) throw new CredentialError('incorrect password')
 
-                return userData.id
+                        return userData.id
+                    })
             })
     }
 
@@ -76,12 +86,19 @@ class Logic {
             .then(userData => {
                 if (!userData) throw new ExistenceError('user not found')
 
-                if (userData.password !== password) throw new CredentialError('incorrect password')
+                return bcrypt.compare(password, userData.password)
+                    .catch(error => { throw new SystemError(error.message) })
+                    .then(match => {
+                        if (!match) throw new CredentialError('incorrect password')
 
+                        return bcrypt.hash(newPassword, 10)
+                            .catch(error => { throw new SystemError(error.message) })
+                            .then(newHash => {
+                                const { name, email, username, image, role } = userData
 
-                const { name, email, username, image, role } = userData
-
-                data.updateUser(new UserData(userId, name, email, username, newPassword, image, role))
+                                return data.updateUser(new UserData(userId, name, email, username, newHash, image, role))
+                            })
+                    })
             })
     }
 
@@ -198,7 +215,7 @@ class Logic {
 
         return data.findUserById(userId)
             .then(userData => {
-                if (!userData) throw new Error('user not found')
+                if (!userData) throw new ExistenceError('user not found')
 
                 return data.findPetsByUserId(userId)
             })
@@ -270,7 +287,7 @@ class Logic {
 
                 if (petData.ownerId !== userId) throw new OwnershipError('user not owner of pet');
 
-                data.updatePet(new PetData(id, ownerId, name, birthdate, weight, image));
+                return data.updatePet(new PetData(petId, userId, name, birthdate, weight, image))
             })
     }
 }

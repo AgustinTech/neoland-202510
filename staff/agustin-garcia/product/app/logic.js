@@ -1,7 +1,5 @@
 import { data } from './data'
-import { validate } from './validate'
-import { SystemError, ValidationError, errorMap } from './errors'
-import { AuthError } from '../api/errors'
+import { validate, SystemError, AuthError, errorMap } from 'com'
 
 class Logic {
     constructor() {
@@ -17,7 +15,7 @@ class Logic {
 
         if (password !== passwordRepeat) throw new ValidationError('passwords do not match')
 
-        return fetch('http://localhost:8080/users', {
+        return fetch(`${import.meta.env.VITE_API_URL}/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -48,7 +46,7 @@ class Logic {
         validate.username(username)
         validate.password(password)
 
-        return fetch('http://localhost:8080/users/auth', {
+        return fetch(`${import.meta.env.VITE_API_URL}/users/auth`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -94,7 +92,7 @@ class Logic {
         validate.email(newEmailRepeat, 'newEmailRepeat')
         validate.match(newEmail, newEmailRepeat, 'newEmail', 'newEmailRepeat')
 
-        return fetch('http://localhost:8080/users/email', {
+        return fetch(`${import.meta.env.VITE_API_URL}/users/email`, {
             method: 'PATCH',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`,
@@ -129,7 +127,7 @@ class Logic {
         validate.password(newPasswordRepeat, 'newPasswordRepeat')
         validate.match(newPassword, newPasswordRepeat, 'newPassword', 'newPasswordRepeat')
 
-        return fetch('http://localhost:8080/users/password', {
+        return fetch(`${import.meta.env.VITE_API_URL}/users/password`, {
             method: 'PATCH',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`,
@@ -162,7 +160,7 @@ class Logic {
 
         validate.name(name)
 
-        return fetch('http://localhost:8080/users/name', {
+        return fetch(`${import.meta.env.VITE_API_URL}/users/name`, {
             method: 'PATCH',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`,
@@ -196,7 +194,7 @@ class Logic {
 
         validate.name(username)
 
-        return fetch('http://localhost:8080/users/username', {
+        return fetch(`${import.meta.env.VITE_API_URL}/users/username`, {
             method: 'PATCH',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`,
@@ -228,7 +226,7 @@ class Logic {
 
         validate.url(image, 'image')
 
-        return fetch('http://localhost:8080/users/me/image', {
+        return fetch(`${import.meta.env.VITE_API_URL}/users/me/image`, {
             method: 'PATCH',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`,
@@ -260,7 +258,7 @@ class Logic {
     getLoggedInUser() {
         if (data.getToken() === null) throw new ValidationError('user not logged in')
 
-        return fetch('http://localhost:8080/users/me', {
+        return fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`
@@ -293,7 +291,7 @@ class Logic {
         validate.number(weight, 'weight')
         validate.url(image, 'image')
 
-        return fetch('http://localhost:8080/pets', {
+        return fetch(`${import.meta.env.VITE_API_URL}/pets`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`,
@@ -325,7 +323,7 @@ class Logic {
     getPets() {
         if (data.getToken() === null) throw new ValidationError('user not logged in')
 
-        return fetch('http://localhost:8080/pets', {
+        return fetch(`${import.meta.env.VITE_API_URL}/pets`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`
@@ -358,7 +356,7 @@ class Logic {
         validate.id(petId, 'petId')
 
 
-        return fetch(`http://localhost:8080/pets/${petId}`, {
+        return fetch(`${import.meta.env.VITE_API_URL}/pets/${petId}`, {
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`
@@ -391,7 +389,7 @@ class Logic {
 
         validate.id(petId, 'petId')
 
-        return fetch(`http://localhost:8080/pets/${petId}`, {
+        return fetch(`${import.meta.env.VITE_API_URL}/pets/${petId}`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`
@@ -425,7 +423,7 @@ class Logic {
         validate.number(weight, 'weight')
         validate.url(image, 'image')
 
-        return fetch(`http://localhost:8080/pets/${petId}`, {
+        return fetch(`${import.meta.env.VITE_API_URL}/pets/${petId}`, {
             method: 'PUT',
             headers: {
                 Authorization: `Bearer ${data.getToken()}`,
