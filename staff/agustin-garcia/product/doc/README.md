@@ -37,6 +37,46 @@ Veterinary (User)
 
 [Figma](https://www.figma.com/design/hW8r55sxGmzpsjpJHY8L1G/MyPet?node-id=22-17&t=jqEvl7SFXKwi0ZCq-0)
 
-## Technical
+## Technical Description
 
-//TODO
+### Blocks
+
+- App (React)
+- API (Expess)
+- DB (Mongo)
+
+### Packages
+
+- api (handlers, logic, data)
+- app (components, logic, data)
+- com (errors, validate, regex)
+- doc (readme, images)
+
+### Data Model
+
+UserData
+- id (unique, string)
+- name (required, string)
+- email (required, unique, string)
+- username (required, unique, string)
+- pasword (required, hashed, string)
+- image (string)
+- role (required, string, regular | administrator)
+
+PetData
+- id (unique, string)
+- owner (UserData.id, string)
+- name (required, string)
+- birthdate (required, date)
+- weight (required, number)
+- image (required, string)
+
+### Techs
+
+- HTML / JavaScript / CSS / Tailwind / React / React Router
+- Node / Express / Mongo / Mongoose / BCrypt / JWT / curl / Mocha / Chai / Morgan
+- Git / Markdown / VSCode / Sublime Merge
+
+## Tracking
+
+[PR](https://github.com/b00tc4mp/neoland-202510/pull/18)

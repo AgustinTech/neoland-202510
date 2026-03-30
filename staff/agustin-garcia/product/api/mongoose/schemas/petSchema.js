@@ -5,7 +5,8 @@ const { Schema, ObjectId } = mongoose
 
 export const petSchema = new Schema({
     owner: {
-        type: ObjectId
+        type: ObjectId,
+        ref: 'User'
     },
 
     name: {
